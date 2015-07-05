@@ -1,0 +1,19 @@
+{
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"ConvertToUTF8",
+		"Emmet",
+		"Jedi - Python autocompletion",
+		"Markdown Preview",
+		"Package Control",
+		"Pretty JSON",
+		"Pylinter",
+		"Python PEP8 Autoformat",
+		"SideBarEnhancements",
+		"Theme - Flatland",
+		"Theme - Primer"
+	]
+}
