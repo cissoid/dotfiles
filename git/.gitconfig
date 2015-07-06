@@ -1,0 +1,13 @@
+[user]
+	name = Cissoid
+	email = wxh@wxh.me
+[alias]
+	st = status
+	co = checkout
+	ci = commit
+[color]
+	status = auto
+	branch = auto
+	diff = auto
+	ui = true
+	pager = true
