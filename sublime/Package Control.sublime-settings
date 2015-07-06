@@ -4,15 +4,22 @@
 	],
 	"installed_packages":
 	[
+		"AutoFileName",
 		"ConvertToUTF8",
+		"CTags",
+		"DocBlockr",
 		"Emmet",
+		"GitGutter",
 		"Jedi - Python autocompletion",
 		"Markdown Preview",
 		"Package Control",
+		"PlainTasks",
 		"Pretty JSON",
 		"Pylinter",
 		"Python PEP8 Autoformat",
 		"SideBarEnhancements",
+		"SublimeAStyleFormatter",
+		"SublimeCodeIntel",
 		"Theme - Flatland",
 		"Theme - Primer"
 	]
