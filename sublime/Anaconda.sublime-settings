@@ -1,0 +1,7 @@
+{
+    "suppress_word_completions": true,
+    "suppress_explicit_completions": true,
+    "complete_parameters": false,
+    "anaconda_gutter_theme": "bright",
+    "anaconda_linter_mark_style": "none"    
+}
