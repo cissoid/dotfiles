@@ -5,6 +5,7 @@
 	st = status
 	co = checkout
 	ci = commit
+	glog = log --all --graph --oneline --decorate
 [color]
 	status = auto
 	branch = auto
