@@ -1,10 +1,10 @@
 {
-    // When versbose is 'true', various messages will be written to the console.
-    // values: true or false
-    "verbose": true,
-    // Set to true to use graphical error icons
     "use_icons": true,
     "disable_outline": true,
-    // Status messages stay as long as cursor is on an error line
     "message_stay": true,
+    "python_path": [
+    	"D:\\Work\\project",
+    	"D:\\Work\\project\\bncommon",
+    	"D:\\Work\\project\\pybase"
+    ]
 }

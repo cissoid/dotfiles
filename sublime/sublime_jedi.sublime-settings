@@ -1,0 +1,11 @@
+{
+
+    // additional python package path list
+     "python_package_paths": [
+     	"C:\\Python27\\Lib",
+     	"C:\\Python27\\Lib\\site-packages",
+     	"D:\\Work\\project",
+     	"D:\\Work\\project\\pybase",
+     	"D:\\Work\\project\\bncommon"
+     ],
+}

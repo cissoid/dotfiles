@@ -1,11 +1,16 @@
 {
-	"color_scheme": "Packages/Theme - Flatland/Flatland Monokai.tmTheme",
+	"color_scheme": "Packages/Color Scheme - Default/Monokai.tmTheme",
 	"default_line_ending": "unix",
 	"font_face": "Consolas",
-	"font_size": 12,
+	"font_size": 11,
 	"ignored_packages":
 	[
 		"Vintage"
+	],
+	"rulers":
+	[
+		80,
+		120
 	],
 	"theme": "Primer Dark.sublime-theme"
 }
