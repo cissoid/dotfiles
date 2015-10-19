@@ -19,3 +19,9 @@
 [submodule "vim/bundle/vim-indent-guides"]
 	path = vim/bundle/vim-indent-guides
 	url = git@github.com:nathanaelkane/vim-indent-guides.git
+[submodule "vim/themes/solarized"]
+	path = vim/themes/solarized
+	url = git@github.com:altercation/vim-colors-solarized.git
+[submodule "vim/bundle/vim-signature"]
+	path = vim/bundle/vim-signature
+	url = git@github.com:kshenoy/vim-signature.git
