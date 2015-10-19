@@ -4,3 +4,6 @@
 [submodule "vim/themes/solarized"]
 	path = vim/themes/solarized
 	url = git@github.com:altercation/vim-colors-solarized.git
+[submodule "vim/bundle/Vundle.vim"]
+	path = vim/bundle/Vundle.vim
+	url = https://github.com/VundleVim/Vundle.vim.git
