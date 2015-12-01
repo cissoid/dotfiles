@@ -13,6 +13,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'taglist.vim'
 Plugin 'tomasr/molokai'
+Plugin 'DirDiff.vim'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.

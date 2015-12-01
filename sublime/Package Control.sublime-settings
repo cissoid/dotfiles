@@ -1,4 +1,6 @@
 {
+	"bootstrapped": true,
+	"debug": true,
 	"in_process_packages":
 	[
 	],
@@ -11,6 +13,8 @@
 		"Emmet",
 		"HTML-CSS-JS Prettify",
 		"Markdown Preview",
+		"MarkdownEditing",
+		"MarkdownTOC",
 		"Package Control",
 		"PlainTasks",
 		"Pretty JSON",
@@ -20,7 +24,7 @@
 		"SqlBeautifier",
 		"SublimeGit",
 		"SublimeREPL",
-		"Sublimerge Pro",
+		"Table Editor",
 		"TabsExtra",
 		"Theme - Flatland",
 		"Theme - Primer"
