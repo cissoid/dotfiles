@@ -13,7 +13,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'taglist.vim'
 Plugin 'tomasr/molokai'
-Plugin 'dirdiff.vim'
+Plugin 'DirDiff.vim'
 Plugin 'DrawIt.vim'
 
 " The following are examples of different formats supported.
