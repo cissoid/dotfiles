@@ -1,3 +1,5 @@
 {
-	"term_truecolor": "auto"
+	"common": {
+		"term_truecolor": "auto"
+	}
 }

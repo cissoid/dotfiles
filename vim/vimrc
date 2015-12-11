@@ -1,3 +1,6 @@
+" ================
+" Vundle settings
+" ================
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -9,7 +12,6 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-
 Plugin 'scrooloose/nerdtree'
 Plugin 'taglist.vim'
 Plugin 'tomasr/molokai'
@@ -18,8 +20,6 @@ Plugin 'DrawIt.vim'
 Plugin 'scrooloose/syntastic'
 " Plugin 'bling/vim-airline'
 " Plugin 'powerline/powerline'
-
-" Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -51,27 +51,26 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
-"
-colorscheme molokai
-" always show status line.
-set laststatus=2
-" 
-set t_Co=256
 
-" powerline setting
+" ================
+" powerline settings
+" ================
 python from powerline.vim import setup as powerline_setup
 python powerline_setup()
 python del powerline_setup
 
-" settings for syntastic.
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-
-"
-" let g:airline#extensions#tabline#enabled = 1
+" ================
+" custom settings
+" ================
+colorscheme molokai
+" show line number.
+set number
+set cursorline
+" always show tab line.
+set showtabline=2
+" always show status line.
+set laststatus=2
+" don't show default mode line.
+set noshowmode
+" colorful!
+set t_Co=256
