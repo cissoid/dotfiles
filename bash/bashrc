@@ -1,0 +1,19 @@
+# .bashrc
+export LANG=en_US.utf8
+export LC_TYPES=en_US.utf8
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# User specific aliases and functions
+if [ -f `which powerline-daemon` ]; then
+    powerline-daemon -q
+    POWERLINE_BASH_CONTINUATION=1
+    POWERLINE_BASH_SELECT=1
+    . /usr/lib/python2.6/site-packages/powerline/bindings/bash/powerline.sh
+fi
+
+alias cd.="cd ."
+alias cd..="cd .."

@@ -74,3 +74,4 @@ set laststatus=2
 set noshowmode
 " colorful!
 set t_Co=256
+set ignorecase
