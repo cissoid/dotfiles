@@ -16,8 +16,9 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'taglist.vim'
 Plugin 'tomasr/molokai'
 Plugin 'DirDiff.vim'
-Plugin 'DrawIt.vim'
+" Plugin 'DrawIt.vim'
 Plugin 'scrooloose/syntastic'
+Plugin 'fatih/vim-go'
 " Plugin 'bling/vim-airline'
 " Plugin 'powerline/powerline'
 
@@ -74,4 +75,5 @@ set laststatus=2
 set noshowmode
 " colorful!
 set t_Co=256
+" search ignore case.
 set ignorecase
