@@ -77,3 +77,8 @@ set noshowmode
 set t_Co=256
 " search ignore case.
 set ignorecase
+" convert tab to 4 spaces.
+set tabstop=4
+set softtabstop=4
+set expandtab
+set autoindent
