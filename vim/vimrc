@@ -1,5 +1,5 @@
 " ================
-" Vundle settings
+" vundle settings
 " ================
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -12,12 +12,13 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'dirdiff.vim'
 Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/syntastic'
 Plugin 'taglist.vim'
 Plugin 'tomasr/molokai'
-Plugin 'DirDiff.vim'
 " Plugin 'DrawIt.vim'
-Plugin 'scrooloose/syntastic'
 Plugin 'fatih/vim-go'
 " Plugin 'bling/vim-airline'
 " Plugin 'powerline/powerline'
@@ -42,7 +43,7 @@ Plugin 'fatih/vim-go'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
-"filetype plugin on
+filetype plugin on
 "
 " Brief help
 " :PluginList       - lists configured plugins
@@ -52,6 +53,9 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
+" ================
+" end vundle settings
+" ================
 
 " ================
 " powerline settings
@@ -59,26 +63,97 @@ filetype plugin indent on    " required
 python from powerline.vim import setup as powerline_setup
 python powerline_setup()
 python del powerline_setup
+" ================
+" end powerline settings
+" ================
+
+" ================
+" syntastic settings, this MUST set after powerline settings.
+" ================
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+" ================
+" end syntastic settings.
+" ================
 
 " ================
 " custom settings
 " ================
 colorscheme molokai
-" show line number.
-set number
-set cursorline
+syntax enable
+" colorful!
+set t_Co=256
+
+" number of visual spaces for tab.
+set tabstop=4
+" number of actual spaces for tab.
+set softtabstop=4
+" make << or >> step 4 spaces.
+set shiftwidth=4
+" convert tab to spaces.
+set expandtab
+
 " always show tab line.
 set showtabline=2
 " always show status line.
 set laststatus=2
-" don't show default mode line.
+" don't show default mode line(above status line).
 set noshowmode
-" colorful!
-set t_Co=256
+" show line number.
+set number
+" show command in bottom bar, no use for powerline.
+set showcmd
+" highlight current line.
+set cursorline
+" show a menu for filename autocomplete.
+set wildmenu
+" lazy redraw.
+set lazyredraw
+" show the matching part of the pair for [] {} and ()
+set showmatch
+
+" highlight matches.
+set hlsearch
 " search ignore case.
 set ignorecase
-" convert tab to 4 spaces.
-set tabstop=4
-set softtabstop=4
-set expandtab
+" instant search.
+set incsearch
+" auto indent when go to next line.
 set autoindent
+set ruler
+
+" enable fold
+set foldenable
+" fold based on indent level.
+set foldmethod=indent
+" 10 fold when open file.
+set foldlevelstart=10
+set foldlevel=99
+" 10 nest fold max.
+set foldnestmax=10
+
+" enable all Python syntax highlighting features
+let python_highlight_all = 1
+
+" autocmd FileType text setlocal textwidth=78
+
+" ================
+" keymap settings
+" ================
+" move vertically by visual line
+nnoremap j gj
+nnoremap k gk
+" space = toggle folding.
+nnoremap <space> za
+" highlight last inserted text
+nnoremap gV `[v`]
+" ctrl+n = open new tab.
+nnoremap <C-n> :tabnew<cr>
+
+inoremap jj <esc>
