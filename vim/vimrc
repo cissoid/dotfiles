@@ -1,5 +1,5 @@
 " ================
-" vundle settings
+" vundle settings {{{
 " ================
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -16,6 +16,9 @@ Plugin 'dirdiff.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/syntastic'
+Plugin 'sjl/gundo.vim'
+Plugin 'rking/ag.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'taglist.vim'
 Plugin 'tomasr/molokai'
 " Plugin 'DrawIt.vim'
@@ -54,21 +57,21 @@ filetype plugin on
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 " ================
-" end vundle settings
+" }}} end vundle settings
 " ================
 
 " ================
-" powerline settings
+" powerline settings {{{
 " ================
 python from powerline.vim import setup as powerline_setup
 python powerline_setup()
 python del powerline_setup
 " ================
-" end powerline settings
+" }}} end powerline settings
 " ================
 
 " ================
-" syntastic settings, this MUST set after powerline settings.
+" syntastic settings, this MUST set after powerline settings. {{{
 " ================
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -79,17 +82,35 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 " ================
-" end syntastic settings.
+" }}} end syntastic settings.
 " ================
 
 " ================
-" custom settings
+" ctrlp settings {{{
 " ================
+" show window in bottom, and sort from top to bottom.
+let g:ctrlp_match_window = 'bottom,order:ttb'
+" open match file in new buffer.
+let g:ctrlp_switch_buffer = 0
+" support change working directory.
+let g:ctrlp_working_path_mode = 0
+" use ag to speed up.
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+" ================
+" }}} end ctrlp settings
+" ================
+
+" ================
+" custom settings {{{
+" ================
+" color setting {{{
 colorscheme molokai
 syntax enable
 " colorful!
 set t_Co=256
+" }}}
 
+" tab & space setting {{{
 " number of visual spaces for tab.
 set tabstop=4
 " number of actual spaces for tab.
@@ -98,6 +119,7 @@ set softtabstop=4
 set shiftwidth=4
 " convert tab to spaces.
 set expandtab
+" }}}
 
 " always show tab line.
 set showtabline=2
@@ -128,6 +150,7 @@ set incsearch
 set autoindent
 set ruler
 
+" folding setting {{{
 " enable fold
 set foldenable
 " fold based on indent level.
@@ -137,23 +160,42 @@ set foldlevelstart=10
 set foldlevel=99
 " 10 nest fold max.
 set foldnestmax=10
+" }}} 
 
 " enable all Python syntax highlighting features
 let python_highlight_all = 1
 
 " autocmd FileType text setlocal textwidth=78
+" ================
+" }}} end custom settings
+" ================
 
 " ================
-" keymap settings
+" keymap settings {{{
 " ================
+" let mapleader=","
+
+" nmap {{{
 " move vertically by visual line
 nnoremap j gj
 nnoremap k gk
 " space = toggle folding.
-nnoremap <space> za
+nnoremap <SPACE> za
 " highlight last inserted text
 nnoremap gV `[v`]
+"
+nnoremap <LEADER>u :GundoToggle<CR>
+nnoremap <LEADER>s :mksession<CR>
+nnoremap <LEADER>a :Ag 
 " ctrl+n = open new tab.
-nnoremap <C-n> :tabnew<cr>
+nnoremap <C-n> :tabnew<CR>
+" }}}
 
-inoremap jj <esc>
+inoremap jj <ESC>
+" ================
+" }}} end keymap settings
+" ================
+
+" fold this file by marker.
+set modelines=1
+" vim:foldmethod=marker:foldlevel=0
