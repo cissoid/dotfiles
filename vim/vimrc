@@ -16,10 +16,13 @@ Plugin 'dirdiff.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/syntastic'
+Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'sjl/gundo.vim'
 Plugin 'rking/ag.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'taglist.vim'
+Plugin 'tpope/vim-fugitive'
 Plugin 'tomasr/molokai'
 " Plugin 'DrawIt.vim'
 Plugin 'fatih/vim-go'
@@ -86,6 +89,14 @@ let g:syntastic_check_on_wq = 0
 " ================
 
 " ================
+" nerdtree settings {{{
+" ================
+let NERDTreeIgnore = ['\.pyc$', '\~$']
+" ================
+" }}} end nerdtree settings
+" ================
+
+" ================
 " ctrlp settings {{{
 " ================
 " show window in bottom, and sort from top to bottom.
@@ -98,6 +109,14 @@ let g:ctrlp_working_path_mode = 0
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 " ================
 " }}} end ctrlp settings
+" ================
+
+" ================
+" ycm settings {{{
+" ================
+let g:ycm_autoclose_preview_window_after_completion = 1
+" ================
+" }}} end ycm settings
 " ================
 
 " ================
@@ -196,6 +215,9 @@ inoremap jj <ESC>
 " }}} end keymap settings
 " ================
 
+" imap {{{
 " fold this file by marker.
+" }}}
+
 set modelines=1
 " vim:foldmethod=marker:foldlevel=0
