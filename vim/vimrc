@@ -64,18 +64,16 @@ filetype plugin on
 " ================
 
 " ================
-" powerline settings {{{
+" plugin settings {{{
 " ================
+
+" powerline settings {{{
 python from powerline.vim import setup as powerline_setup
 python powerline_setup()
 python del powerline_setup
-" ================
-" }}} end powerline settings
-" ================
+" }}}
 
-" ================
 " syntastic settings, this MUST set after powerline settings. {{{
-" ================
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -84,21 +82,13 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-" ================
-" }}} end syntastic settings.
-" ================
+" }}}
 
-" ================
 " nerdtree settings {{{
-" ================
 let NERDTreeIgnore = ['\.pyc$', '\~$']
-" ================
-" }}} end nerdtree settings
-" ================
+" }}}
 
-" ================
 " ctrlp settings {{{
-" ================
 " show window in bottom, and sort from top to bottom.
 let g:ctrlp_match_window = 'bottom,order:ttb'
 " open match file in new buffer.
@@ -106,17 +96,18 @@ let g:ctrlp_switch_buffer = 0
 " support change working directory.
 let g:ctrlp_working_path_mode = 0
 " use ag to speed up.
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-" ================
-" }}} end ctrlp settings
-" ================
+if executable('ag')
+    let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+    let g:ctrlp_use_caching = 0
+endif
+" }}}
+
+" ycm settings {{{
+let g:ycm_autoclose_preview_window_after_completion = 1
+" }}}
 
 " ================
-" ycm settings {{{
-" ================
-let g:ycm_autoclose_preview_window_after_completion = 1
-" ================
-" }}} end ycm settings
+" }}} end plugin settings
 " ================
 
 " ================
@@ -129,17 +120,7 @@ syntax enable
 set t_Co=256
 " }}}
 
-" tab & space setting {{{
-" number of visual spaces for tab.
-set tabstop=4
-" number of actual spaces for tab.
-set softtabstop=4
-" make << or >> step 4 spaces.
-set shiftwidth=4
-" convert tab to spaces.
-set expandtab
-" }}}
-
+" ui setting {{{
 " always show tab line.
 set showtabline=2
 " always show status line.
@@ -158,16 +139,34 @@ set wildmenu
 set lazyredraw
 " show the matching part of the pair for [] {} and ()
 set showmatch
+" set text width
+set textwidth=80
+" highlight the long text
+set colorcolumn=+1
+set ruler
+" }}}
 
+" tab & space setting. {{{
+" number of visual spaces for tab.
+set tabstop=4
+" number of actual spaces for tab.
+set softtabstop=4
+" make << or >> step 4 spaces.
+set shiftwidth=4
+" convert tab to spaces.
+set expandtab
+" auto indent.
+set autoindent
+" }}}
+
+" search setting. {{{
 " highlight matches.
 set hlsearch
 " search ignore case.
 set ignorecase
-" instant search.
+" incremantal search.
 set incsearch
-" auto indent when go to next line.
-set autoindent
-set ruler
+" }}}
 
 " folding setting {{{
 " enable fold
@@ -183,8 +182,6 @@ set foldnestmax=10
 
 " enable all Python syntax highlighting features
 let python_highlight_all = 1
-
-" autocmd FileType text setlocal textwidth=78
 " ================
 " }}} end custom settings
 " ================
@@ -195,6 +192,11 @@ let python_highlight_all = 1
 " let mapleader=","
 
 " nmap {{{
+" hard mode
+nnoremap <LEFT> <NOP>
+nnoremap <RIGHT> <NOP>
+nnoremap <UP> <NOP>
+nnoremap <DOWN> <NOP>
 " move vertically by visual line
 nnoremap j gj
 nnoremap k gk
@@ -202,22 +204,45 @@ nnoremap k gk
 nnoremap <SPACE> za
 " highlight last inserted text
 nnoremap gV `[v`]
+" actually it map to Ctrl+/. See
+" http://stackoverflow.com/questions/9051837/how-to-map-c-to-toggle-comments-in-vim.
+" nmap <C-_> <Plug>NERDCommenterToggle
 "
 nnoremap <LEADER>u :GundoToggle<CR>
 nnoremap <LEADER>s :mksession<CR>
 nnoremap <LEADER>a :Ag 
-" ctrl+n = open new tab.
+nnoremap <LEADER>ev :vsplit $MYVIMRC<CR>
+" reopen .vimrc after source, otherwise filetype specific settinsg will not
+" work.
+nnoremap <LEADER>sv :source $MYVIMRC<CR>:q<CR>:vsplit $MYVIMRC<CR>
 nnoremap <C-n> :tabnew<CR>
 " }}}
 
-inoremap jj <ESC>
+" imap {{{
+" hard mode
+inoremap <LEFT> <NOP>
+inoremap <RIGHT> <NOP>
+inoremap <UP> <NOP>
+inoremap <DOWN> <NOP>
+inoremap <ESC> <NOP>
+inoremap jk <ESC>
+" }}}
 " ================
 " }}} end keymap settings
 " ================
 
-" imap {{{
-" fold this file by marker.
+" ================
+" filetype specific settings. {{{
+" ================
+augroup filetype_vim
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker foldlevel=0
+augroup END
+" ================
 " }}}
+" ================
 
-set modelines=1
-" vim:foldmethod=marker:foldlevel=0
+" comment this because augroup seems better, modelines should use in specific
+" file, IMO.
+" set modelines=1
+" vim:foldmethod=marker foldlevel=0
