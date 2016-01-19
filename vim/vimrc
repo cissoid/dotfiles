@@ -18,14 +18,21 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/syntastic'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'sjl/gundo.vim'
-Plugin 'rking/ag.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'taglist.vim'
+Plugin 'majutsushi/tagbar'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-surround'
+Plugin 'easymotion/vim-easymotion'
+" Theme plugin
 Plugin 'tomasr/molokai'
+Plugin 'altercation/vim-colors-solarized'
+" Unused
+" Plugin 'nathanaelkane/vim-indent-guides'
+" Plugin 'taglist.vim'
+" Plugin 'rking/ag.vim'
 " Plugin 'DrawIt.vim'
-Plugin 'fatih/vim-go'
+" Plugin 'fatih/vim-go'
 " Plugin 'bling/vim-airline'
 " Plugin 'powerline/powerline'
 
@@ -88,6 +95,11 @@ let g:syntastic_check_on_wq = 0
 let NERDTreeIgnore = ['\.pyc$', '\~$']
 " }}}
 
+" nerdcommenter settings {{{
+" Add extra space after comment character.
+let NERDSpaceDelims=1
+" }}}
+
 " ctrlp settings {{{
 " show window in bottom, and sort from top to bottom.
 let g:ctrlp_match_window = 'bottom,order:ttb'
@@ -106,6 +118,10 @@ endif
 let g:ycm_autoclose_preview_window_after_completion = 1
 " }}}
 
+" vim-indent-guides settings {{{
+" let g:indent_guides_start_level = 0
+" }}}
+
 " ================
 " }}} end plugin settings
 " ================
@@ -114,10 +130,13 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 " custom settings {{{
 " ================
 " color setting {{{
-colorscheme molokai
 syntax enable
 " colorful!
 set t_Co=256
+colorscheme molokai
+" set background=dark
+" let g:solarized_termcolors=256
+" colorscheme solarized
 " }}}
 
 " ui setting {{{
@@ -237,6 +256,12 @@ inoremap jk <ESC>
 augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker foldlevel=0
+augroup END
+
+augroup filetype_python
+    autocmd!
+    autocmd FileType python setlocal autoread
+    autocmd BufWritePost *.py silent !autopep8 -i %
 augroup END
 " ================
 " }}}
