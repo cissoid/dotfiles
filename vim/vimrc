@@ -20,6 +20,7 @@ Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'sjl/gundo.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'SirVer/ultisnips'
 Plugin 'majutsushi/tagbar'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
@@ -115,7 +116,16 @@ endif
 " }}}
 
 " ycm settings {{{
+" let g:ycm_min_num_of_chars_for_completion = 1
+let g:ycm_complete_in_comments = 1
+let g:ycm_complete_in_strings = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
+" }}}
+
+" ultisnips settings {{{
+" let g:UltiSnipsExpandTrigger = "<C-y>"
 " }}}
 
 " vim-indent-guides settings {{{
@@ -228,12 +238,14 @@ nnoremap gV `[v`]
 " nmap <C-_> <Plug>NERDCommenterToggle
 "
 nnoremap <LEADER>u :GundoToggle<CR>
+nnoremap <LEADER>n :NERDTreeTabsToggle<CR>
+nnoremap <LEADER>t :TagbarToggle<CR>
 nnoremap <LEADER>s :mksession<CR>
 nnoremap <LEADER>a :Ag 
 nnoremap <LEADER>ev :vsplit $MYVIMRC<CR>
 " reopen .vimrc after source, otherwise filetype specific settinsg will not
 " work.
-nnoremap <LEADER>sv :source $MYVIMRC<CR>:q<CR>:vsplit $MYVIMRC<CR>
+nnoremap <LEADER>sv :source $MYVIMRC<CR>:q<CR>
 nnoremap <C-n> :tabnew<CR>
 " }}}
 
@@ -261,11 +273,17 @@ augroup END
 augroup filetype_python
     autocmd!
     autocmd FileType python setlocal autoread
-    autocmd BufWritePost *.py silent !autopep8 -i %
+    autocmd FileType python setlocal formatprg=autopep8\ -
+    autocmd BufWritePost *.py call ReformatPython("%")
 augroup END
 " ================
 " }}}
 " ================
+
+" Custom function
+function! ReformatPython(path)
+    execute "silent !autopep8 -i " . expand(a:path)
+endfunction
 
 " comment this because augroup seems better, modelines should use in specific
 " file, IMO.
