@@ -1,4 +1,13 @@
 " ================
+" base settings {{{
+" ================
+" set encoding
+set encoding=utf-8
+" ================
+" }}} end base settings
+" ================
+
+" ================
 " vundle settings {{{
 " ================
 set nocompatible              " be iMproved, required

@@ -1,24 +1,42 @@
 # .bashrc
-export LANG=en_US.utf8
-export LC_TYPES=en_US.utf8
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-# User specific aliases and functions
-if [ -f `which powerline-daemon` ]; then
-    flock -xn /tmp/powerline-daemon.lock powerline-daemon -q
-    POWERLINE_BASH_CONTINUATION=1
-    POWERLINE_BASH_SELECT=1
-    # it seems not work...
-    # python_site_path=`/usr/bin/python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()"`
-    python_site_path=`/usr/bin/pip show powerline-status | grep Location | awk '{print $2}'`
-    . ${python_site_path}/powerline/bindings/bash/powerline.sh
-fi
+# set environment variables
+export TERM=xterm-256color
+export LC_ALL=en_US.UTF-8
+export LC_TYPES=en_US.UTF-8
+export LANG=en_US.UTF-8
+export POWERLINE_BASH_CONTINUATION=1
+export POWERLINE_BASH_SELECT=1
+export POWERLINE_INSTALL_PATH=`/usr/bin/pip show powerline-status | grep Location | awk '{print $2}'`/powerline
 
+# aliases
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
-alias ll='ls -l --color'
+alias ls='ls --color=auto'
+alias ll='ls -l --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+# alias tmux='tmux -2 $*'
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+if [ -f `which powerline-daemon` ]; then
+    flock -xn /tmp/powerline-daemon.lock powerline-daemon -q
+    . ${POWERLINE_INSTALL_PATH}/bindings/bash/powerline.sh
+fi
