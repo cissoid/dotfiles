@@ -34,6 +34,7 @@ Plugin 'majutsushi/tagbar'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'easymotion/vim-easymotion'
+Plugin 'fatih/vim-go'
 " Theme plugin
 Plugin 'tomasr/molokai'
 Plugin 'altercation/vim-colors-solarized'
@@ -42,7 +43,6 @@ Plugin 'altercation/vim-colors-solarized'
 " Plugin 'taglist.vim'
 " Plugin 'rking/ag.vim'
 " Plugin 'DrawIt.vim'
-" Plugin 'fatih/vim-go'
 " Plugin 'bling/vim-airline'
 " Plugin 'powerline/powerline'
 
@@ -153,6 +153,7 @@ syntax enable
 " colorful!
 set t_Co=256
 colorscheme molokai
+highlight Normal ctermbg=none
 " set background=dark
 " let g:solarized_termcolors=256
 " colorscheme solarized
@@ -281,17 +282,27 @@ augroup END
 
 augroup filetype_python
     autocmd!
-    autocmd FileType python setlocal autoread
     autocmd FileType python setlocal formatprg=autopep8\ -
-    autocmd BufWritePost *.py call ReformatPython("%")
+    autocmd BufWritePre *.py call Reformat()
+augroup END
+
+augroup filetype_golang
+    autocmd!
+    autocmd FileType go setlocal formatprg=gofmt
+    autocmd BufWritePre *.go call Reformat()
 augroup END
 " ================
 " }}}
 " ================
 
-" Custom function
-function! ReformatPython(path)
-    execute "silent !autopep8 -i " . expand(a:path)
+" Custom functions
+function! Reformat()
+    " mark current location
+    :normal mm
+    " format all
+    :normal gggqG
+    " move cursor back
+    :normal 'm
 endfunction
 
 " comment this because augroup seems better, modelines should use in specific
