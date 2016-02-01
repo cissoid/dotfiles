@@ -2,6 +2,9 @@
 	"ext": {
 		"shell": {
 			"theme": "bash_theme"
-		}
+		},
+        "tmux": {
+            "theme": "tmux_theme"
+        }
 	}
 }	
