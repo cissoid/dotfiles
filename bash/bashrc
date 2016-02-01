@@ -6,6 +6,7 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # set environment variables
+export PATH=$PATH:$HOME/bin:~/.local/bin
 export TERM=xterm-256color
 export LC_ALL=en_US.UTF-8
 export LC_TYPES=en_US.UTF-8

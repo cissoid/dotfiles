@@ -41,7 +41,7 @@ default_color white
 # default_gauge_width
 
 # Specify a default height for graphs. This is particularly useful for execgraph and execigraph as they do not take size arguments
-# default_graph_height
+default_graph_height 25
 
 # Specify a default width for graphs. This is particularly useful for execgraph and execigraph as they do not take size arguments
 # default_graph_width
@@ -80,16 +80,17 @@ draw_shades no
 # extra_newline
 
 # Font name in X, xfontsel can be used to get a nice font
-# font
+font sans-serif:size=12
 
 # If enabled, values which are in bytes will be printed in human readable format (i.e., KiB, MiB, etc). If disabled, the number of bytes is printed instead.
 # format_human_readable
 
 # Gap, in pixels, between right or left border of screen, same as passing -x at command line, e.g. gap_x 10. For other position related stuff, see 'alignment'.
-gap_x 40
+# gap_x 40
+gap_x 1340
 
 # Gap, in pixels, between top or bottom border of screen, same as passing -y at command line, e.g. gap_y 10. For other position related stuff, see 'alignment'.
-gap_y 50
+gap_y 30
 
 # Hostname to connect to for hddtemp objects. Defaults to "127.0.0.1".
 # hddtemp_host
@@ -140,7 +141,7 @@ gap_y 50
 # max_user_text
 
 # Maximum width of window
-maximum_width 400
+maximum_width 500
 
 # Minimum height of the window
 # minimum_height
@@ -230,7 +231,9 @@ own_window_argb_visual yes
 own_window_transparent yes
 
 # if own_window is yes, you may specify type normal, desktop, dock, panel or override (default: normal). Desktop windows are special windows that have no window decorations; are always visible on your desktop; do not appear in your pager or taskbar; and are sticky across all workspaces. Panel windows reserve space along a desktop edge, just like panels and taskbars, preventing maximized windows from overlapping them. The edge is chosen based on the alignment option. Override windows are not under the control of the window manager. Hints are ignored. This type of window can be useful for certain situations.
-# own_window_type
+# set type to override to avoid disappear when click "Show Desktop" button.
+# See http://ubuntuforums.org/showthread.php?t=827728.
+own_window_type dock
 
 # Pad percentages to this many decimals (0 = no padding)
 # pad_percents
@@ -297,42 +300,22 @@ use_xft yes
 xftalpha 0.8
 
 TEXT
-BATTERY ${hr 1}
-${battery_bar 4,200 BAT0} ${alignr} ${battery_percent BAT0}%
-${battery_bar 4,200 BAT1} ${alignr} ${battery_percent BAT1}%
 ${hr 1}
-CPU ${alignr} ${freq cpu0} MHz (${cpu cpu0}%)
-${cpubar 4 cpu0}
-Ram ${alignr} $mem / $memmax ($memperc%)
-${membar 4}
-GPU ${alignr} ${nvidia cpufreq}
-Disk ${alignr} ${fs_used /} / ${fs_size /} (${fs_used_perc /}%)
-${fs_bar 4 /}
-${hr 1}
-Temp: ${alignr}${acpitemp} C
-CPU: ${alignr}${freq dyn} MHz
-Processes: ${alignr}$processes ($running_processes running)
-Load: ${alignr}$loadavg
-Highest CPU $alignr CPU%  MEM%
-${top name 1}$alignr${top cpu 1}   ${top mem 1}
-${top name 2}$alignr${top cpu 2}   ${top mem 2}
-${top name 3}$alignr${top cpu 3}   ${top mem 3}
-Highest MEM $alignr CPU%  MEM%
-${top_mem name 1}$alignr${top_mem cpu 1}   ${top_mem mem 1}
-${top_mem name 2}$alignr${top_mem cpu 2}   ${top_mem mem 2}
-${top_mem name 3}$alignr${top_mem cpu 3}   ${top_mem mem 3}
-${color white}FILE SYSTEM ${hr 1}${color}
-Root: ${alignr}${fs_free /} / ${fs_size /}
-${fs_bar 4 /}
-Home: ${alignr}${fs_free /home} / ${fs_size /home}
-${fs_bar 4 /home}
-${color white}NETWORK ${hr 1}${color}
+${font sans-serif:size=22}CPU${font} ${freq cpu0} MHz (${cpu cpu0}%)
+${cpugraph cpu0}
+# 
+${font sans-serif:size=22}RAM${font} $mem / $memmax ($memperc%)
+${memgraph}
+#
+${font sans-serif:size=22}Load${font} $loadavg
+${loadgraph}
+#
+${font sans-serif:size=22}Disk${font} ${fs_used /} / ${fs_size /} (${fs_used_perc /}%)
+${voffset 5}Read ${diskio_read /dev/sda4} ${alignr}Write ${diskio_write /dev/sda4}
+${diskiograph_read /dev/sda4 25,107} ${alignr}${diskiograph_write /dev/sda4 25,107}
+#
+${font sans-serif:size=22}NET${font}
 Down ${downspeed wlan0} k/s ${alignr}Up ${upspeed wlan0} k/s
 ${downspeedgraph wlan0 25,107} ${alignr}${upspeedgraph wlan0 25,107}
 Total ${totaldown wlan0} ${alignr}Total ${totalup wlan0}
-#${color white}WEATHER ${hr 1}${color}
-#${execi 3600 python ~/.conkydir/conkyForecast.py --location=CHXX0101 --datatype=CN}
-#${font Weather:size=44}${color gold}${execi 3600 python ~/.conkydir/conkyForecast.py --location=CHXX0101 --datatype=WF}${font}${color}${voffset -20}${offset 18}${execi 3600 python #~/.conkydir/conkyForecast.py --location=CHXX0101 --datatype=CC}${offset 10}${execi 3600 python ~/.conkydir/conkyForecast.py --location=CHXX0101 --datatype=HT}${offset 10}${execi 3600 #python ~/.conkydir/conkyForecast.py --location=CHXX0101 --datatype=WS} ${font Arrows:size=10}${execi 3600 python ~/.conkydir/conkyForecast.py --location=CHXX0101 --datatype=BF}$font
-#${offset 60}Sol: ${color}${execi 3600 python ~/.conkydir/conkyForecast.py --location=CHXX0101 --datatype=SR}-${execi 3600 python ~/.conkydir/conkyForecast.py --location=CHXX0101 --#datatype=SS}
-#${font Weather:size=26}${execi 3600 python ~/.conkydir/conkyForecast.py --location=CHXX0101 --datatype=WF --startday=1 --endday=4 --spaces=1}${font}
-#${execi 3600 python ~/.conkydir/conkyForecast.py --location=CHXX0101 --datatype=HT --startday=1 --endday=4 --spaces=11}
+${hr 1}
