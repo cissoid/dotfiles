@@ -288,6 +288,12 @@ augroup filetype_python
     autocmd BufWritePre *.py call Reformat()
 augroup END
 
+augroup filetype_clang
+    autocmd!
+    autocmd FileType c,cpp setlocal formatprg=clang-format\ -style=\"\{BasedOnStyle:\ Google,\ IndentWidth:\ 4\}\"
+    autocmd BufWritePre *.h,*.c,*.cpp call Reformat()
+augroup END
+
 augroup filetype_golang
     autocmd!
     autocmd FileType go setlocal formatprg=gofmt
@@ -309,6 +315,8 @@ function! Reformat()
     :normal gggqG
     " move cursor back
     :normal 'm
+    " center current line
+    :normal zz
 endfunction
 
 " capture shell output and display in a window.
