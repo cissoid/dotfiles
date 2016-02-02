@@ -274,6 +274,8 @@ inoremap jk <ESC>
 
 " ================
 " filetype specific settings. {{{
+" move these config into ftplugin folder seems better, but not necessary for me
+" now.
 " ================
 augroup filetype_vim
     autocmd!
@@ -289,13 +291,17 @@ augroup END
 augroup filetype_golang
     autocmd!
     autocmd FileType go setlocal formatprg=gofmt
+    autocmd FileType go nnoremap <F9> :Shell build %<CR>
+    autocmd FileType go nnoremap <F10> :Shell go run %<CR>
     autocmd BufWritePre *.go call Reformat()
 augroup END
 " ================
 " }}}
 " ================
 
-" Custom functions
+" ================
+" Custom functions. {{{
+" ================
 function! Reformat()
     " mark current location
     :normal mm
@@ -304,6 +310,25 @@ function! Reformat()
     " move cursor back
     :normal 'm
 endfunction
+
+" capture shell output and display in a window.
+function! s:ExecuteInShell(command)
+    let command = join(map(split(a:command), 'expand(v:val)'))
+    let winnr = bufwinnr('^' . command . '$')
+    silent! execute  winnr < 0 ? 'botright new ' . fnameescape(command) : winnr . 'wincmd w'
+    setlocal buftype=nowrite bufhidden=wipe nobuflisted noswapfile nowrap number
+    echo 'Execute ' . command . '...'
+    silent! execute 'silent %!'. command
+    silent! execute 'resize ' . line('$')
+    silent! redraw
+    silent! execute 'au BufUnload <buffer> execute bufwinnr(' . bufnr('#') . ') . ''wincmd w'''
+    " silent! execute 'nnoremap <silent> <buffer> <LocalLeader>r :call <SID>ExecuteInShell(''' . command . ''')<CR>'
+    echo 'Shell command ' . command . ' executed.'
+endfunction
+command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
+" ================
+" }}}
+" ================
 
 " comment this because augroup seems better, modelines should use in specific
 " file, IMO.
