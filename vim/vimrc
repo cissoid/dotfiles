@@ -219,8 +219,6 @@ set foldlevel=99
 set foldnestmax=10
 " }}} 
 
-" enable all Python syntax highlighting features
-let python_highlight_all = 1
 " ================
 " }}} end custom settings
 " ================
@@ -284,6 +282,8 @@ augroup END
 
 augroup filetype_python
     autocmd!
+    " enable all Python syntax highlighting features
+    autocmd FileType python let python_highlight_all = 1
     autocmd FileType python setlocal formatprg=autopep8\ -
     autocmd BufWritePre *.py call Reformat()
 augroup END
@@ -327,7 +327,7 @@ function! s:ExecuteInShell(command)
     setlocal buftype=nowrite bufhidden=wipe nobuflisted noswapfile nowrap number
     echo 'Execute ' . command . '...'
     silent! execute 'silent %!'. command
-    silent! execute 'resize ' . line('$')
+    silent! execute 'resize ' . max([line('$'), 5])
     silent! redraw
     silent! execute 'au BufUnload <buffer> execute bufwinnr(' . bufnr('#') . ') . ''wincmd w'''
     " silent! execute 'nnoremap <silent> <buffer> <LocalLeader>r :call <SID>ExecuteInShell(''' . command . ''')<CR>'
