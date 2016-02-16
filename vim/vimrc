@@ -35,6 +35,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'fatih/vim-go'
+Plugin 'jiangmiao/auto-pairs'
 " Theme plugin
 Plugin 'tomasr/molokai'
 Plugin 'altercation/vim-colors-solarized'
@@ -310,13 +311,13 @@ augroup END
 " ================
 function! Reformat()
     " mark current location
-    :normal mm
+    execute "normal! mm"
     " format all
-    :normal gggqG
+    execute "normal! gggqG"
     " move cursor back
-    :normal 'm
+    execute "normal! 'm"
     " center current line
-    :normal zz
+    execute "normal! zz"
 endfunction
 
 " capture shell output and display in a window.
