@@ -5,7 +5,7 @@
 	st = status
 	co = checkout
 	ci = commit
-	glog = log --all --graph --oneline --decorate
+    glog = log --all --graph --pretty='%C(auto)%h %d %s (%Cgreen%an, %ar%Creset)'
 [color]
 	status = auto
 	branch = auto

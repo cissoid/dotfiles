@@ -100,6 +100,9 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+let g:syntastic_c_check_header = 1
+let g:syntastic_c_auto_refresh_includes = 1
 " }}}
 
 " nerdtree settings {{{
@@ -132,10 +135,18 @@ let g:ycm_complete_in_strings = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_key_invoke_completion = "<Leader>y<Space>"
+let g:ycm_key_detailed_diagnostics = "<Leader>yd"
+let g:ycm_key_list_select_completion = ["<Tab>","<C-j>"]
+let g:ycm_key_list_previous_completion = ["<C-k>"]
+let g:ycm_global_ycm_extra_conf = "~/.vim/data/ycm_extra_conf.py"
+let g:ycm_confirm_extra_conf = 0
 " }}}
 
 " ultisnips settings {{{
-" let g:UltiSnipsExpandTrigger = "<C-y>"
+let g:UltiSnipsExpandTrigger = "<C-l>"
+let g:UltiSnipsJumpForwardTrigger = "<C-j>"
+let g:UltiSnipsJumpBackwordTrigger = "<C-k>"
 " }}}
 
 " vim-indent-guides settings {{{
@@ -231,41 +242,47 @@ set foldnestmax=10
 
 " nmap {{{
 " hard mode
-nnoremap <LEFT> <NOP>
-nnoremap <RIGHT> <NOP>
-nnoremap <UP> <NOP>
-nnoremap <DOWN> <NOP>
+nnoremap <Left> <Nop>
+nnoremap <Right> <Nop>
+nnoremap <Up> <Nop>
+nnoremap <Down> <Nop>
 " move vertically by visual line
 nnoremap j gj
 nnoremap k gk
 " space = toggle folding.
-nnoremap <SPACE> za
+nnoremap <Space> za
 " highlight last inserted text
-nnoremap gV `[v`]
+" nnoremap gV `[v`]
 " actually it map to Ctrl+/. See
 " http://stackoverflow.com/questions/9051837/how-to-map-c-to-toggle-comments-in-vim.
 " nmap <C-_> <Plug>NERDCommenterToggle
 "
-nnoremap <LEADER>u :GundoToggle<CR>
-nnoremap <LEADER>n :NERDTreeTabsToggle<CR>
-nnoremap <LEADER>t :TagbarToggle<CR>
-nnoremap <LEADER>s :mksession<CR>
-nnoremap <LEADER>a :Ag 
-nnoremap <LEADER>ev :vsplit $MYVIMRC<CR>
+" nnoremap <Leader>s :mksession<CR>
+" nnoremap <Leader>a :Ag 
+nnoremap <Leader>ev :vsplit $MYVIMRC<CR>
 " reopen .vimrc after source, otherwise filetype specific settinsg will not
 " work.
-nnoremap <LEADER>sv :source $MYVIMRC<CR>:q<CR>
-nnoremap <C-n> :tabnew<CR>
+nnoremap <Leader>sv :source $MYVIMRC<CR>:q<CR>
+" nnoremap <C-n> :tabnew<CR>
+
+nnoremap <Leader>u :GundoToggle<CR>
+nnoremap <Leader>n :NERDTreeTabsToggle<CR>
+nnoremap <Leader>t :TagbarToggle<CR>
+nnoremap <Leader>yg :YcmCompleter GoTo<CR>
+nnoremap <Leader>yt :YcmCompleter GetType<CR>
+nnoremap <Leader>yd :YcmCompleter GetDoc<CR>
 " }}}
 
 " imap {{{
 " hard mode
-inoremap <LEFT> <NOP>
-inoremap <RIGHT> <NOP>
-inoremap <UP> <NOP>
-inoremap <DOWN> <NOP>
-inoremap <ESC> <NOP>
-inoremap jk <ESC>
+inoremap <Left> <Nop>
+inoremap <Right> <Nop>
+inoremap <Up> <Nop>
+inoremap <Down> <Nop>
+inoremap <Esc> <Nop>
+inoremap jk <Esc>
+
+inoremap <Leader>yt :YcmCompleter GetType<CR>
 " }}}
 " ================
 " }}} end keymap settings
