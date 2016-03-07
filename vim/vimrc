@@ -191,9 +191,9 @@ set lazyredraw
 " show the matching part of the pair for [] {} and ()
 set showmatch
 " set text width
-set textwidth=80
+set textwidth=0
 " highlight the long text
-set colorcolumn=+1
+set colorcolumn=80,120
 set ruler
 " }}}
 
