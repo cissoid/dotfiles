@@ -319,6 +319,11 @@ augroup filetype_golang
     autocmd FileType go nnoremap <F10> :Shell go run %<CR>
     autocmd BufWritePre *.go call Reformat()
 augroup END
+
+augroup filetype_javascript
+    autocmd!
+    autocmd FileType javascript setlocal formatprg=js-beautify
+    autocmd BufWritePre *.js call Reformat()
 " ================
 " }}}
 " ================
