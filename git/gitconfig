@@ -2,10 +2,11 @@
 	name = Cissoid
 	email = wxh@wxh.me
 [alias]
+    br = branch
 	st = status
 	co = checkout
 	ci = commit
-    glog = log --all --graph --pretty='%C(auto)%h %d %s (%Cgreen%an, %ar%Creset)'
+    glog = log --all --graph --pretty='%C(auto)%h %d %s (%Cgreen%an%Creset, %Cblue%ar%Creset)'
 [color]
 	status = auto
 	branch = auto

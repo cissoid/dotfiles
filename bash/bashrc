@@ -18,6 +18,7 @@ export GOROOT=~/go
 export GOPATH=~/env/golang
 
 # aliases
+alias s='ssh $*'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
