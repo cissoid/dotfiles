@@ -5,6 +5,7 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
+
 # set environment variables
 export PATH=$PATH:$HOME/bin:~/.local/bin
 export TERM=xterm-256color
@@ -13,7 +14,7 @@ export LC_TYPES=en_US.UTF-8
 export LANG=en_US.UTF-8
 export POWERLINE_BASH_CONTINUATION=1
 export POWERLINE_BASH_SELECT=1
-export POWERLINE_INSTALL_PATH=`/usr/bin/pip show powerline-status | grep Location | awk '{print $2}'`/powerline
+export POWERLINE_INSTALL_PATH=`pip show powerline-status | grep Location | awk '{print $2}'`/powerline
 export GOROOT=~/go
 export GOPATH=~/env/golang
 
@@ -29,18 +30,32 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 # alias tmux='tmux -2 $*'
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+if [ "$(uname)" == "Linux" ]; then
+    # Linux specific config.
+    if ! shopt -oq posix; then
+      if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+      elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+      fi
+    fi
+    
+    if [ -f `which powerline-daemon` ]; then
+        flock -xn /tmp/powerline-daemon.lock powerline-daemon -q
+        . ${POWERLINE_INSTALL_PATH}/bindings/bash/powerline.sh
+    fi
+
+elif [ "$(uname)" == "Darwin" ]; then
+    # OS X specific config.
+    export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
+    export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
+
+    if [ -f $(brew --prefix)/etc/bash_completion  ]; then
+        . $(brew --prefix)/etc/bash_completion
+    fi
+
+    if [ -f `which powerline-daemon` ]; then
+        . ${POWERLINE_INSTALL_PATH}/bindings/bash/powerline.sh
+    fi
 fi
 
-if [ -f `which powerline-daemon` ]; then
-    flock -xn /tmp/powerline-daemon.lock powerline-daemon -q
-    . ${POWERLINE_INSTALL_PATH}/bindings/bash/powerline.sh
-fi
