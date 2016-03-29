@@ -98,11 +98,17 @@ set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 let g:syntastic_c_check_header = 1
 let g:syntastic_c_auto_refresh_includes = 1
+let g:syntastic_python_checkers = ["flake8"]
+let g:syntastic_python_flake8_args = "--ignore=E402,E501"
+" let g:syntastic_python_flake8_quiet_messages = {
+    " \ "type": "style",
+    " \ "regex": "\s(E401)\s"
+    " \ }
 " }}}
 
 " nerdtree settings {{{
@@ -111,7 +117,7 @@ let NERDTreeIgnore = ['\.pyc$', '\~$']
 
 " nerdcommenter settings {{{
 " Add extra space after comment character.
-let NERDSpaceDelims=1
+" let NERDSpaceDelims=1
 " }}}
 
 " ctrlp settings {{{
@@ -129,7 +135,7 @@ endif
 " }}}
 
 " ycm settings {{{
-" let g:ycm_min_num_of_chars_for_completion = 1
+let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_complete_in_comments = 1
 let g:ycm_complete_in_strings = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
@@ -265,6 +271,15 @@ nnoremap <Leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <Leader>sv :source $MYVIMRC<CR>:q<CR>
 " nnoremap <C-n> :tabnew<CR>
 
+nnoremap <Leader>% :vsplit<CR>
+nnoremap <Leader>" :split<CR>
+
+nnoremap <Leader>b :b
+nnoremap <Leader>bn :bn<CR>
+nnoremap <Leader>bp :bp<CR>
+
+nnoremap <Leader>fa :call Reformat()<CR>
+
 nnoremap <Leader>u :GundoToggle<CR>
 nnoremap <Leader>n :NERDTreeTabsToggle<CR>
 nnoremap <Leader>t :TagbarToggle<CR>
@@ -303,7 +318,7 @@ augroup filetype_python
     " enable all Python syntax highlighting features
     autocmd FileType python let python_highlight_all = 1
     autocmd FileType python setlocal formatprg=autopep8\ -
-    autocmd BufWritePre *.py call Reformat()
+    " autocmd BufWritePre *.py call Reformat()
 augroup END
 
 augroup filetype_clang
