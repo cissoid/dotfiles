@@ -36,6 +36,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'fatih/vim-go'
 Plugin 'jiangmiao/auto-pairs'
+Plugin 'mattn/emmet-vim'
 " Theme plugin
 Plugin 'tomasr/molokai'
 Plugin 'altercation/vim-colors-solarized'
@@ -159,6 +160,10 @@ let g:UltiSnipsJumpBackwordTrigger = "<C-k>"
 " let g:indent_guides_start_level = 0
 " }}}
 
+" emmet settings {{{
+let g:user_emmet_install_global = 0
+" }}}
+
 " ================
 " }}} end plugin settings
 " ================
@@ -274,6 +279,9 @@ nnoremap <Leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <Leader>sv :source $MYVIMRC<CR>:q<CR>
 " nnoremap <C-n> :tabnew<CR>
 
+nnoremap J <C-d>
+nnoremap K <C-u>
+
 nnoremap <Leader>% :vsplit<CR>
 nnoremap <Leader>" :split<CR>
 
@@ -321,13 +329,13 @@ augroup filetype_python
     autocmd!
     " enable all Python syntax highlighting features
     autocmd FileType python let python_highlight_all = 1
-    autocmd FileType python setlocal formatprg=autopep8\ -
+    autocmd FileType python setlocal formatprg=autopep8\ \-
     " autocmd BufWritePre *.py call Reformat()
 augroup END
 
 augroup filetype_clang
     autocmd!
-    autocmd FileType c,cpp setlocal formatprg=clang-format\ -style=\"\{BasedOnStyle:\ Google,\ IndentWidth:\ 4\}\"
+    autocmd FileType c,cpp setlocal formatprg=clang\-format\ \-style=\"\{BasedOnStyle:\ Google,\ IndentWidth:\ 4\}\"
     autocmd BufWritePre *.h,*.c,*.cpp call Reformat()
 augroup END
 
@@ -339,10 +347,18 @@ augroup filetype_golang
     autocmd BufWritePre *.go call Reformat()
 augroup END
 
+augroup filetype_html
+    autocmd!
+    autocmd FileType html,css EmmetInstall
+    autocmd FileType html setlocal formatprg=js\-beautify\ \-\-type\ html
+    autocmd FileType css setlocal formatprg=js\-beautify\ \-\-type\ css
+augroup END
+
 augroup filetype_javascript
     autocmd!
-    autocmd FileType javascript setlocal formatprg=js-beautify
+    autocmd FileType javascript setlocal formatprg=js\-beautify
     autocmd BufWritePre *.js call Reformat()
+augroup END
 " ================
 " }}}
 " ================
