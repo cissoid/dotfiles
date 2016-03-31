@@ -23,11 +23,12 @@ alias s='ssh $*'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
-alias ls='ls --color=auto'
-alias ll='ls -l --color=auto'
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+alias ls='ls --color=auto $*'
+alias ll='ls -l --color=auto $*'
+alias grep='grep --color=auto $*'
+alias fgrep='fgrep --color=auto $*'
+alias egrep='egrep --color=auto $*'
+alias du1='du --max-depth=1 $*'
 # alias tmux='tmux -2 $*'
 
 if [ "$(uname)" == "Linux" ]; then
@@ -47,11 +48,12 @@ if [ "$(uname)" == "Linux" ]; then
 
 elif [ "$(uname)" == "Darwin" ]; then
     # OS X specific config.
-    export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
-    export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
+    HOMEBREW_PREFIX=$(brew --prefix)
+    export PATH=$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH
+    export MANPATH=$HOMEBREW_PREFIX/opt/coreutils/libexec/gnuman:$MANPATH
 
-    if [ -f $(brew --prefix)/etc/bash_completion  ]; then
-        . $(brew --prefix)/etc/bash_completion
+    if [ -f $HOMEBREW_PREFIX/etc/bash_completion  ]; then
+        . $HOMEBREW_PREFIX/etc/bash_completion
     fi
 
     if [ -f `which powerline-daemon` ]; then

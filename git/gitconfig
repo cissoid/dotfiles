@@ -3,12 +3,12 @@
 	st = status
 	co = checkout
 	ci = commit
-    glog = log --all --graph --pretty='%C(auto)%h %d %s (%Cgreen%an%Creset, %Cblue%ar%Creset)'
+    glog = log --all --graph --date='format:%Y-%m-%d %H:%M' --pretty='%C(auto)%h %d %s (%C(cyan)%an%Creset, %Cgreen%ad%Creset)'
 [color]
 	status = auto
 	branch = auto
 	diff = auto
-	ui = true
+	ui = auto
 	pager = true
 [core]
 	editor = vim
