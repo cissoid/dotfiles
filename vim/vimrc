@@ -21,11 +21,13 @@ call vundle#begin('~/env/vim/bundle')
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'godlygeek/csapprox'
 Plugin 'dirdiff.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/syntastic'
 Plugin 'jistr/vim-nerdtree-tabs'
+" Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'sjl/gundo.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'Valloric/YouCompleteMe'
@@ -34,12 +36,16 @@ Plugin 'majutsushi/tagbar'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'easymotion/vim-easymotion'
-Plugin 'fatih/vim-go'
+Plugin 'henrik/vim-indexed-search'
+" Plugin 'fatih/vim-go'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'mattn/emmet-vim'
+Plugin 'wesQ3/vim-windowswap'
+" Code highlight
+Plugin 'solarnz/thrift.vim'
 " Theme plugin
 Plugin 'tomasr/molokai'
-" Plugin 'altercation/vim-colors-solarized'
+Plugin 'altercation/vim-colors-solarized'
 " Unused
 " Plugin 'nathanaelkane/vim-indent-guides'
 " Plugin 'taglist.vim'
@@ -188,7 +194,7 @@ set showtabline=2
 " always show status line.
 set laststatus=2
 " don't show default mode line(above status line).
-set noshowmode
+" set noshowmode
 " show line number.
 set number
 " show command in bottom bar, no use for powerline.
@@ -206,6 +212,13 @@ set textwidth=0
 " highlight the long text
 set colorcolumn=80,120
 set ruler
+" }}}
+
+" gui setting {{{
+if has("gui_running")
+    set guifont=Ubuntu\ Mono\ derivative\ Powerline:h16
+    set guioptions=
+endif
 " }}}
 
 " tab & space setting. {{{
@@ -360,6 +373,7 @@ augroup filetype_javascript
     autocmd FileType javascript setlocal formatprg=js\-beautify
     autocmd BufWritePre *.js call Reformat()
 augroup END
+
 " ================
 " }}}
 " ================
