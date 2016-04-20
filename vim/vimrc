@@ -38,16 +38,19 @@ Plugin 'tpope/vim-surround'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'henrik/vim-indexed-search'
 " Plugin 'fatih/vim-go'
-Plugin 'jiangmiao/auto-pairs'
+" Plugin 'jiangmiao/auto-pairs'
+Plugin 'raimondi/delimitmate'
 Plugin 'mattn/emmet-vim'
 Plugin 'wesQ3/vim-windowswap'
 " Code highlight
+Plugin 'nginx.vim'
 Plugin 'solarnz/thrift.vim'
 " Theme plugin
 Plugin 'tomasr/molokai'
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'terryma/vim-multiple-cursors'
 " Unused
-" Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'nathanaelkane/vim-indent-guides'
 " Plugin 'taglist.vim'
 " Plugin 'rking/ag.vim'
 " Plugin 'DrawIt.vim'
@@ -168,6 +171,11 @@ let g:UltiSnipsJumpBackwordTrigger = "<C-k>"
 
 " emmet settings {{{
 let g:user_emmet_install_global = 0
+" }}}
+
+" indent guide settings {{{
+let g:indent_guide_enable_on_vim_startup = 1
+let g:indent_guides_guid_size = 1
 " }}}
 
 " ================
