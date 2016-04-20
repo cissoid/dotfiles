@@ -128,6 +128,9 @@ let NERDTreeIgnore = ['\.pyc$', '\~$']
 " nerdcommenter settings {{{
 " Add extra space after comment character.
 " let NERDSpaceDelims=1
+let g:NERDCustomDelimiters = {
+    \ "vim": {"left": "\" ", "right":""}
+    \ }
 " }}}
 
 " ctrlp settings {{{
@@ -176,6 +179,10 @@ let g:user_emmet_install_global = 0
 " indent guide settings {{{
 let g:indent_guide_enable_on_vim_startup = 1
 let g:indent_guides_guid_size = 1
+" }}}
+
+" tarbar settings {{{
+let g:tarbar_sort = 0
 " }}}
 
 " ================
@@ -343,7 +350,6 @@ inoremap <Leader>yt :YcmCompleter GetType<CR>
 augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker foldlevel=0
-    autocmd FileType vim let g:NERDSpaceDelims = 1
 augroup END
 
 augroup filetype_python
