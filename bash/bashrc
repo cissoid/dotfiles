@@ -5,9 +5,13 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
+# support for **
+shopt -s globstar
+shopt -s cdspell
+shopt -s cmdhist
+shopt -s dirspell
 
 # set environment variables
-export PATH=$PATH:$HOME/bin:~/.local/bin
 export TERM=xterm-256color
 export LC_ALL=en_US.UTF-8
 export LC_TYPES=en_US.UTF-8
@@ -16,7 +20,8 @@ export POWERLINE_BASH_CONTINUATION=1
 export POWERLINE_BASH_SELECT=1
 export POWERLINE_INSTALL_PATH=`pip show powerline-status | grep Location | awk '{print $2}'`/powerline
 export GOROOT=~/go
-export GOPATH=~/env/golang
+export GOPATH=$HOME/env/golang
+export PATH=$PATH:$HOME/bin:$GOPATH/bin
 
 # aliases
 alias s='ssh $*'
@@ -29,6 +34,7 @@ alias grep='grep --color=auto $*'
 alias fgrep='fgrep --color=auto $*'
 alias egrep='egrep --color=auto $*'
 alias du1='du --max-depth=1 $*'
+alias tree1='tree -L 1 $*'
 # alias tmux='tmux -2 $*'
 
 if [ "$(uname)" == "Linux" ]; then
@@ -60,4 +66,3 @@ elif [ "$(uname)" == "Darwin" ]; then
         . ${POWERLINE_INSTALL_PATH}/bindings/bash/powerline.sh
     fi
 fi
-

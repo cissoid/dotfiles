@@ -1,0 +1,8 @@
+{
+    "plugins": {
+        "modules": {},
+        "es_modules": {},
+        "node": {},
+        "node_resolve": {}
+    }
+}

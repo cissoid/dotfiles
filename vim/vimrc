@@ -115,6 +115,9 @@ let g:syntastic_c_check_header = 1
 let g:syntastic_c_auto_refresh_includes = 1
 let g:syntastic_python_checkers = ["flake8"]
 let g:syntastic_python_flake8_args = "--ignore=E402,E501"
+" let g:syntastic_python_checkers = ["pylint"]
+" let g:syntastic_python_pylint_post_args = '--msg-template="{path}:{line}:{column}:{C}: [{symbol} {msg_id}] {msg}"'
+" let g:syntastic_python_pylint_args = "--disable=C0103,C0111,C0411,C0412,C0413,R0201"
 " let g:syntastic_python_flake8_quiet_messages = {
 "     \ "type": "style",
 "     \ "regex": "\s(E401)\s"
@@ -181,8 +184,8 @@ let g:indent_guide_enable_on_vim_startup = 1
 let g:indent_guides_guid_size = 1
 " }}}
 
-" tarbar settings {{{
-let g:tarbar_sort = 0
+" tagbar settings {{{
+let g:tagbar_sort = 0
 " }}}
 
 " ================
@@ -309,6 +312,8 @@ nnoremap <Leader>sv :source $MYVIMRC<CR>:q<CR>
 
 nnoremap J <C-d>
 nnoremap K <C-u>
+nnoremap <C-j> j<C-e>
+nnoremap <C-k> k<C-y>
 
 nnoremap <Leader>% :vsplit<CR>
 nnoremap <Leader>" :split<CR>
