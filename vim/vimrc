@@ -167,8 +167,8 @@ let g:ycm_confirm_extra_conf = 0
 
 " ultisnips settings {{{
 let g:UltiSnipsExpandTrigger = "<C-l>"
-let g:UltiSnipsJumpForwardTrigger = "<C-j>"
-let g:UltiSnipsJumpBackwordTrigger = "<C-k>"
+let g:UltiSnipsJumpForwardTrigger = "<C-l>"
+let g:UltiSnipsJumpBackwordTrigger = "<C-h>"
 " }}}
 
 " vim-indent-guides settings {{{
@@ -212,7 +212,7 @@ set showtabline=2
 " always show status line.
 set laststatus=2
 " don't show default mode line(above status line).
-" set noshowmode
+set noshowmode
 " show line number.
 set number
 " show command in bottom bar, no use for powerline.
@@ -234,8 +234,14 @@ set ruler
 
 " gui setting {{{
 if has("gui_running")
-    set guifont=Ubuntu\ Mono\ derivative\ Powerline:h16
-    set guioptions=
+    if has("macunix")
+        set guifont=Ubuntu\ Mono\ derivative\ Powerline:h16
+        set guioptions=
+    elseif has("unix")
+        set guifont=Ubuntu\ Mono\ 12
+        set guioptions=
+    endif
+
 endif
 " }}}
 
@@ -307,7 +313,7 @@ nnoremap <Space> za
 nnoremap <Leader>ev :vsplit $MYVIMRC<CR>
 " reopen .vimrc after source, otherwise filetype specific settinsg will not
 " work.
-nnoremap <Leader>sv :source $MYVIMRC<CR>:q<CR>
+nnoremap <Leader>sv :w<CR>:source $MYVIMRC<CR>:q<CR>
 " nnoremap <C-n> :tabnew<CR>
 
 nnoremap J <C-d>
