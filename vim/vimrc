@@ -1,6 +1,9 @@
 " ================
 " base settings {{{
 " ================
+" If set, use some more excellent extensions, but maybe unusable in server
+" environment.
+let enhanced = 1
 " set encoding
 set encoding=utf-8
 " ================
@@ -20,37 +23,42 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin('~/env/vim/bundle')
 
 " let Vundle manage Vundle, required
+" Common
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'godlygeek/csapprox'
-Plugin 'dirdiff.vim'
+
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/syntastic'
 Plugin 'jistr/vim-nerdtree-tabs'
-" Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'sjl/gundo.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'SirVer/ultisnips'
-Plugin 'majutsushi/tagbar'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'henrik/vim-indexed-search'
-" Plugin 'fatih/vim-go'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'terryma/vim-multiple-cursors'
 " Plugin 'jiangmiao/auto-pairs'
 Plugin 'raimondi/delimitmate'
-Plugin 'mattn/emmet-vim'
 Plugin 'wesQ3/vim-windowswap'
-" Code highlight
+Plugin 'dirdiff.vim'
+
+if enhanced
+    Plugin 'majutsushi/tagbar'
+    Plugin 'Valloric/YouCompleteMe'
+    Plugin 'SirVer/ultisnips'
+endif
+
+" Language specific
+" Plugin 'fatih/vim-go'
+Plugin 'mattn/emmet-vim'
 Plugin 'nginx.vim'
 Plugin 'solarnz/thrift.vim'
 " Theme plugin
 Plugin 'tomasr/molokai'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'terryma/vim-multiple-cursors'
+" Plugin 'altercation/vim-colors-solarized'
 " Unused
-Plugin 'nathanaelkane/vim-indent-guides'
+" Plugin 'godlygeek/csapprox'
 " Plugin 'taglist.vim'
 " Plugin 'rking/ag.vim'
 " Plugin 'DrawIt.vim'
@@ -96,9 +104,11 @@ filetype plugin on
 " ================
 
 " powerline settings {{{
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
+if enhanced
+    python from powerline.vim import setup as powerline_setup
+    python powerline_setup()
+    python del powerline_setup
+endif
 " }}}
 
 " syntastic settings, this MUST set after powerline settings. {{{
@@ -151,37 +161,38 @@ endif
 " }}}
 
 " ycm settings {{{
-let g:ycm_min_num_of_chars_for_completion = 1
-let g:ycm_complete_in_comments = 1
-let g:ycm_complete_in_strings = 1
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_key_invoke_completion = "<Leader>y<Space>"
-let g:ycm_key_detailed_diagnostics = "<Leader>yd"
-let g:ycm_key_list_select_completion = ["<Tab>","<C-j>"]
-let g:ycm_key_list_previous_completion = ["<C-k>"]
-let g:ycm_global_ycm_extra_conf = "~/.vim/data/ycm_extra_conf.py"
-let g:ycm_confirm_extra_conf = 0
+if enhanced
+    let g:ycm_min_num_of_chars_for_completion = 1
+    let g:ycm_complete_in_comments = 1
+    let g:ycm_complete_in_strings = 1
+    let g:ycm_collect_identifiers_from_comments_and_strings = 1
+    let g:ycm_seed_identifiers_with_syntax = 1
+    let g:ycm_autoclose_preview_window_after_completion = 1
+    let g:ycm_key_invoke_completion = "<Leader>y<Space>"
+    let g:ycm_key_detailed_diagnostics = "<Leader>yd"
+    let g:ycm_key_list_select_completion = ["<Tab>","<C-j>"]
+    let g:ycm_key_list_previous_completion = ["<C-k>"]
+    let g:ycm_global_ycm_extra_conf = "~/.vim/data/ycm_extra_conf.py"
+    let g:ycm_confirm_extra_conf = 0
+endif
 " }}}
 
 " ultisnips settings {{{
-let g:UltiSnipsExpandTrigger = "<C-l>"
-let g:UltiSnipsJumpForwardTrigger = "<C-l>"
-let g:UltiSnipsJumpBackwordTrigger = "<C-h>"
+if enhanced
+    let g:UltiSnipsExpandTrigger = "<C-l>"
+    let g:UltiSnipsJumpForwardTrigger = "<C-l>"
+    let g:UltiSnipsJumpBackwordTrigger = "<C-h>"
+endif
 " }}}
 
 " vim-indent-guides settings {{{
 " let g:indent_guides_start_level = 0
+let g:indent_guide_enable_on_vim_startup = 1
+let g:indent_guides_guid_size = 1
 " }}}
 
 " emmet settings {{{
 let g:user_emmet_install_global = 0
-" }}}
-
-" indent guide settings {{{
-let g:indent_guide_enable_on_vim_startup = 1
-let g:indent_guides_guid_size = 1
 " }}}
 
 " tagbar settings {{{
@@ -328,14 +339,16 @@ nnoremap <Leader>b :b
 nnoremap <Leader>bn :bn<CR>
 nnoremap <Leader>bp :bp<CR>
 
-nnoremap <Leader>fa :call Reformat()<CR>
-
 nnoremap <Leader>u :GundoToggle<CR>
 nnoremap <Leader>n :NERDTreeTabsToggle<CR>
-nnoremap <Leader>t :TagbarToggle<CR>
-nnoremap <Leader>yg :YcmCompleter GoTo<CR>
-nnoremap <Leader>yt :YcmCompleter GetType<CR>
-nnoremap <Leader>yd :YcmCompleter GetDoc<CR>
+
+if enhanced
+    nnoremap <Leader>t :TagbarToggle<CR>
+    nnoremap <Leader>yg :YcmCompleter GoTo<CR>
+    nnoremap <Leader>yt :YcmCompleter GetType<CR>
+    nnoremap <Leader>yd :YcmCompleter GetDoc<CR>
+    nnoremap <Leader>fa :call Reformat()<CR>
+endif
 " }}}
 
 " imap {{{
@@ -347,7 +360,9 @@ inoremap <Down> <Nop>
 inoremap <Esc> <Nop>
 inoremap jk <Esc>
 
-inoremap <Leader>yt :YcmCompleter GetType<CR>
+if enhanced
+    inoremap <Leader>yt :YcmCompleter GetType<CR>
+endif
 " }}}
 " ================
 " }}} end keymap settings
@@ -367,36 +382,48 @@ augroup filetype_python
     autocmd!
     " enable all Python syntax highlighting features
     autocmd FileType python let python_highlight_all = 1
-    autocmd FileType python setlocal formatprg=autopep8\ \-
-    autocmd FileType pyrex setlocal formatprg=autopep8\ \-
-    " autocmd BufWritePre *.py call Reformat()
+
+    if enhanced
+        autocmd FileType python setlocal formatprg=autopep8\ \-
+        autocmd FileType pyrex setlocal formatprg=autopep8\ \-
+        " autocmd BufWritePre *.py call Reformat()
+    endif
 augroup END
 
 augroup filetype_clang
     autocmd!
-    autocmd FileType c,cpp setlocal formatprg=clang\-format\ \-style=\"\{BasedOnStyle:\ Google,\ IndentWidth:\ 4\}\"
-    autocmd BufWritePre *.h,*.c,*.cpp call Reformat()
+
+    if enhanced
+        autocmd FileType c,cpp setlocal formatprg=clang\-format\ \-style=\"\{BasedOnStyle:\ Google,\ IndentWidth:\ 4\}\"
+        " autocmd BufWritePre *.h,*.c,*.cpp call Reformat()
+    endif
 augroup END
 
 augroup filetype_golang
     autocmd!
-    autocmd FileType go setlocal formatprg=gofmt
-    autocmd FileType go nnoremap <F9> :Shell build %<CR>
-    autocmd FileType go nnoremap <F10> :Shell go run %<CR>
-    autocmd BufWritePre *.go call Reformat()
+    if enhanced
+        autocmd FileType go setlocal formatprg=gofmt
+        autocmd FileType go nnoremap <F9> :Shell build %<CR>
+        autocmd FileType go nnoremap <F10> :Shell go run %<CR>
+        autocmd BufWritePre *.go call Reformat()
+    endif
 augroup END
 
 augroup filetype_html
     autocmd!
-    autocmd FileType html,css EmmetInstall
-    autocmd FileType html setlocal formatprg=js\-beautify\ \-\-type\ html
-    autocmd FileType css setlocal formatprg=js\-beautify\ \-\-type\ css
+    if enhanced
+        autocmd FileType html,css EmmetInstall
+        autocmd FileType html setlocal formatprg=js\-beautify\ \-\-type\ html
+        autocmd FileType css setlocal formatprg=js\-beautify\ \-\-type\ css
+    endif
 augroup END
 
 augroup filetype_javascript
     autocmd!
-    autocmd FileType javascript setlocal formatprg=js\-beautify
-    autocmd BufWritePre *.js call Reformat()
+    if enhanced
+        autocmd FileType javascript setlocal formatprg=js\-beautify
+        autocmd BufWritePre *.js call Reformat()
+    endif
 augroup END
 
 " ================
