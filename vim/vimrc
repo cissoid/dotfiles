@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-04-27 12:56:17
+" Last Modified: 2016-04-27 18:16:57
 " ================
 
 " ================
@@ -48,7 +48,9 @@ Plugin 'terryma/vim-multiple-cursors'
 " Plugin 'jiangmiao/auto-pairs'
 Plugin 'raimondi/delimitmate'
 Plugin 'wesQ3/vim-windowswap'
+Plugin 'a.vim'
 Plugin 'dirdiff.vim'
+Plugin 'vimwiki/vimwiki'
 
 if enhanced
     Plugin 'majutsushi/tagbar'
@@ -207,6 +209,16 @@ let g:user_emmet_install_global = 0
 let g:tagbar_sort = 0
 " }}}
 
+" windowswap settings {{{
+let g:windowswap_map_keys = 0
+" }}}
+
+" vimwiki settings {{{
+let g:vimwiki_list = [
+    \ {"path": "~/Dropbox/Personal/wiki/", "syntax": "markdown", "ext": ".md", "auto_toc": 1}
+    \ ]
+" }}}
+
 " ================
 " }}} end plugin settings
 " ================
@@ -335,20 +347,18 @@ nnoremap <Leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <Leader>sv :w<CR>:source $MYVIMRC<CR>:q<CR>
 " nnoremap <C-n> :tabnew<CR>
 
-nnoremap J <C-d>
-nnoremap K <C-u>
+nnoremap <S-j> <C-d>
+nnoremap <S-k> <C-u>
 nnoremap <C-j> j<C-e>
 nnoremap <C-k> k<C-y>
 
 nnoremap <Leader>% :vsplit<CR>
 nnoremap <Leader>" :split<CR>
 
-nnoremap <Leader>b :b
-nnoremap <Leader>bn :bn<CR>
-nnoremap <Leader>bp :bp<CR>
-
 nnoremap <Leader>u :GundoToggle<CR>
 nnoremap <Leader>n :NERDTreeTabsToggle<CR>
+nnoremap <Leader>sw :call WindowSwap#EasyWindowSwap()<CR>
+nnoremap <Leader>w<Space> :VimwikiToggleListItem<CR>
 
 if enhanced
     nnoremap <Leader>t :TagbarToggle<CR>
@@ -403,7 +413,8 @@ augroup END
 
 augroup filetype_clang
     autocmd!
-    autocmd BufNewFile *.h,*.c,*.cpp call ParseFileTemplate('c')
+    autocmd BufNewFile *.h,*.c call ParseFileTemplate('c')
+    autocmd BufNewFile *.hpp,*.cpp,*.cc,*.cxx call ParseFileTemplate('cpp')
     autocmd BufWritePre *.h,*.c,*.cpp call UpdateModifyTime()
 
     if enhanced
