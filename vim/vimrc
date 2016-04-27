@@ -1,4 +1,11 @@
 " ================
+" File Name: .vimrc
+" Author: Cissoid
+" Created At: 2015-07-09 13:42:00
+" Last Modified: 2016-04-27 12:56:17
+" ================
+
+" ================
 " base settings {{{
 " ================
 " If set, use some more excellent extensions, but maybe unusable in server
@@ -140,9 +147,10 @@ let NERDTreeIgnore = ['\.pyc$', '\~$']
 
 " nerdcommenter settings {{{
 " Add extra space after comment character.
-" let NERDSpaceDelims=1
+let NERDSpaceDelims = 1
+let NERDRemoveExtraSpaces = 1
 let g:NERDCustomDelimiters = {
-    \ "vim": {"left": "\" ", "right":""}
+    \ "python": {"left": "#", "leftAlt": "#"}
     \ }
 " }}}
 
@@ -376,12 +384,15 @@ endif
 augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker foldlevel=0
+    autocmd BufWritePre .vimrc call UpdateModifyTime()
 augroup END
 
 augroup filetype_python
     autocmd!
     " enable all Python syntax highlighting features
     autocmd FileType python let python_highlight_all = 1
+    autocmd BufNewFile *.py call ParseFileTemplate('python')
+    autocmd BufWritePre *.py call UpdateModifyTime()
 
     if enhanced
         autocmd FileType python setlocal formatprg=autopep8\ \-
@@ -392,6 +403,8 @@ augroup END
 
 augroup filetype_clang
     autocmd!
+    autocmd BufNewFile *.h,*.c,*.cpp call ParseFileTemplate('c')
+    autocmd BufWritePre *.h,*.c,*.cpp call UpdateModifyTime()
 
     if enhanced
         autocmd FileType c,cpp setlocal formatprg=clang\-format\ \-style=\"\{BasedOnStyle:\ Google,\ IndentWidth:\ 4\}\"
@@ -435,13 +448,13 @@ augroup END
 " ================
 function! Reformat()
     " mark current location
-    execute "normal! mm"
+    silent! execute 'normal! mm'
     " format all
-    execute "normal! gggqG"
+    silent! execute 'normal! gggqG'
     " move cursor back
-    execute "normal! 'm"
+    silent! execute "normal! \'m"
     " center current line
-    execute "normal! zz"
+    silent! execute 'normal! zz'
 endfunction
 
 " capture shell output and display in a window.
@@ -459,6 +472,18 @@ function! s:ExecuteInShell(command)
     echo 'Shell command ' . command . ' executed.'
 endfunction
 command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
+
+function! ParseFileTemplate(filetype)
+    silent! execute '0r ' . '~/.vim/templates/' . a:filetype . '.template'
+    silent! execute '1,' . min([line('$'), 10]) . 's/\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]/\=eval(submatch(1))/ge'
+endfunction
+
+function! UpdateModifyTime()
+    silent! execute 'normal! mm'
+    silent! execute '1,' . min([line('$'), 10]) . 's/\(Last Modified: \)\@<=\(\d\{4\}-\d\{2\}-\d\{2\} \d\{2\}:\d\{2\}:\d\{2\}\)/\=eval("strftime(\"%Y-%m-%d %H:%M:%S\")")'
+    silent! execute "normal! \'m"
+    silent! execute 'normal! zz'
+endfunction
 " ================
 " }}}
 " ================

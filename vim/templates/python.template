@@ -1,0 +1,12 @@
+# coding: utf-8
+# File Name: [:VIM_EVAL:]expand('%')[:END_EVAL:]
+# Created At: [:VIM_EVAL:]strftime('%Y-%m-%d %H:%M:%S')[:END_EVAL:]
+# Last Modified: [:VIM_EVAL:]strftime('%Y-%m-%d %H:%M:%S')[:END_EVAL:]
+from __future__ import print_function
+
+
+def main():
+    print('Hello World')
+
+if __name__ == '__main__':
+    main()
