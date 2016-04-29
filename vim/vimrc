@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-04-29 11:15:42
+" Last Modified: 2016-04-29 14:40:15
 " ================
 
 " ================
@@ -376,6 +376,7 @@ nnoremap <C-k> k<C-y>
 nnoremap <Leader>% :vsplit<CR>
 nnoremap <Leader>" :split<CR>
 
+nnoremap <Leader>p :set paste!<CR>
 
 if enhanced
     nnoremap <Leader>n :NERDTreeTabsToggle<CR>
@@ -402,6 +403,15 @@ inoremap jk <Esc>
 if enhanced
     inoremap <Leader>yt :YcmCompleter GetType<CR>
 endif
+" }}}
+
+" vmap {{{
+vnoremap <Left> <Nop>
+vnoremap <Right> <Nop>
+vnoremap <Up> <Nop>
+vnoremap <Down> <Nop>
+vnoremap <Esc> <Nop>
+vnoremap jk <Esc>
 " }}}
 " ================
 " }}} end keymap settings
@@ -522,6 +532,6 @@ endfunction
 " ================
 
 " comment this because augroup seems better, modelines should use in specific
-" file, IMO.
+" file, IMHO.
 " set modelines=1
 " vim:foldmethod=marker foldlevel=0
