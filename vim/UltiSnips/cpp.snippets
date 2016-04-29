@@ -1,0 +1,8 @@
+snippet ifndef
+#ifndef ${1:`!p t[1] = '_' + fn.upper().replace('.', '_') + '_'`}
+#define $1
+
+$2
+
+#endif /* End of define $1. */
+endsnippet
