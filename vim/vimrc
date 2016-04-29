@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-04-27 18:16:57
+" Last Modified: 2016-04-29 10:33:05
 " ================
 
 " ================
@@ -133,7 +133,7 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_c_check_header = 1
 let g:syntastic_c_auto_refresh_includes = 1
 let g:syntastic_python_checkers = ["flake8"]
-let g:syntastic_python_flake8_args = "--ignore=E402,E501"
+" let g:syntastic_python_flake8_args = "--ignore=E402,E501"
 " let g:syntastic_python_checkers = ["pylint"]
 " let g:syntastic_python_pylint_post_args = '--msg-template="{path}:{line}:{column}:{C}: [{symbol} {msg_id}] {msg}"'
 " let g:syntastic_python_pylint_args = "--disable=C0103,C0111,C0411,C0412,C0413,R0201"
