@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-04-29 10:33:05
+" Last Modified: 2016-04-29 10:56:41
 " ================
 
 " ================
@@ -394,15 +394,15 @@ endif
 augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker foldlevel=0
-    autocmd BufWritePre .vimrc call UpdateModifyTime()
+    autocmd BufWritePre vimrc,.vimrc call UpdateFileTemplate()
 augroup END
 
 augroup filetype_python
     autocmd!
     " enable all Python syntax highlighting features
     autocmd FileType python let python_highlight_all = 1
-    autocmd BufNewFile *.py call ParseFileTemplate('python')
-    autocmd BufWritePre *.py call UpdateModifyTime()
+    autocmd BufNewFile *.py call AddFileTemplate('python')
+    autocmd BufWritePre *.py call UpdateFileTemplate()
 
     if enhanced
         autocmd FileType python setlocal formatprg=autopep8\ \-
@@ -413,9 +413,10 @@ augroup END
 
 augroup filetype_clang
     autocmd!
-    autocmd BufNewFile *.h,*.c call ParseFileTemplate('c')
-    autocmd BufNewFile *.hpp,*.cpp,*.cc,*.cxx call ParseFileTemplate('cpp')
-    autocmd BufWritePre *.h,*.c,*.cpp call UpdateModifyTime()
+    autocmd BufNewFile *.h,*.c call AddFileTemplate('c')
+    autocmd BufWritePre *.h,*.c call UpdateFileTemplate()
+    autocmd BufNewFile *.hpp,*.cpp,*.cc,*.cxx call AddFileTemplate('cpp')
+    autocmd BufWritePre *.hpp,*.cpp,*.cc,*.cxx call UpdateFileTemplate()
 
     if enhanced
         autocmd FileType c,cpp setlocal formatprg=clang\-format\ \-style=\"\{BasedOnStyle:\ Google,\ IndentWidth:\ 4\}\"
@@ -484,12 +485,12 @@ function! s:ExecuteInShell(command)
 endfunction
 command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
 
-function! ParseFileTemplate(filetype)
+function! AddFileTemplate(filetype)
     silent! execute '0r ' . '~/.vim/templates/' . a:filetype . '.template'
     silent! execute '1,' . min([line('$'), 10]) . 's/\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]/\=eval(submatch(1))/ge'
 endfunction
 
-function! UpdateModifyTime()
+function! UpdateFileTemplate()
     silent! execute 'normal! mm'
     silent! execute '1,' . min([line('$'), 10]) . 's/\(Last Modified: \)\@<=\(\d\{4\}-\d\{2\}-\d\{2\} \d\{2\}:\d\{2\}:\d\{2\}\)/\=eval("strftime(\"%Y-%m-%d %H:%M:%S\")")'
     silent! execute "normal! \'m"
