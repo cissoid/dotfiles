@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-04-29 10:56:41
+" Last Modified: 2016-04-29 11:15:42
 " ================
 
 " ================
@@ -33,39 +33,44 @@ call vundle#begin('~/env/vim/bundle')
 " Common
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/syntastic'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'sjl/gundo.vim'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-surround'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'henrik/vim-indexed-search'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'terryma/vim-multiple-cursors'
-" Plugin 'jiangmiao/auto-pairs'
-Plugin 'raimondi/delimitmate'
-Plugin 'wesQ3/vim-windowswap'
 Plugin 'a.vim'
 Plugin 'dirdiff.vim'
-Plugin 'vimwiki/vimwiki'
 
 if enhanced
+    Plugin 'scrooloose/nerdtree'
+    Plugin 'scrooloose/nerdcommenter'
+    Plugin 'scrooloose/syntastic'
+    Plugin 'jistr/vim-nerdtree-tabs'
     Plugin 'majutsushi/tagbar'
+    Plugin 'sjl/gundo.vim'
+    Plugin 'ctrlpvim/ctrlp.vim'
+    Plugin 'tpope/vim-surround'
+    Plugin 'easymotion/vim-easymotion'
+    Plugin 'terryma/vim-multiple-cursors'
+    Plugin 'tpope/vim-fugitive'
+    Plugin 'henrik/vim-indexed-search'
+    Plugin 'raimondi/delimitmate'
+    " Plugin 'jiangmiao/auto-pairs'
+    Plugin 'nathanaelkane/vim-indent-guides'
+    Plugin 'wesQ3/vim-windowswap'
     Plugin 'Valloric/YouCompleteMe'
     Plugin 'SirVer/ultisnips'
+    Plugin 'vimwiki/vimwiki'
 endif
 
 " Language specific
 " Plugin 'fatih/vim-go'
-Plugin 'mattn/emmet-vim'
 Plugin 'nginx.vim'
 Plugin 'solarnz/thrift.vim'
+
+if enhanced
+    Plugin 'mattn/emmet-vim'
+endif
+
 " Theme plugin
 Plugin 'tomasr/molokai'
 " Plugin 'altercation/vim-colors-solarized'
+
 " Unused
 " Plugin 'godlygeek/csapprox'
 " Plugin 'taglist.vim'
@@ -121,52 +126,60 @@ endif
 " }}}
 
 " syntastic settings, this MUST set after powerline settings. {{{
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+if enhanced
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 1
+    " let g:syntastic_check_on_open = 1
+    let g:syntastic_check_on_wq = 0
 
-let g:syntastic_c_check_header = 1
-let g:syntastic_c_auto_refresh_includes = 1
-let g:syntastic_python_checkers = ["flake8"]
-" let g:syntastic_python_flake8_args = "--ignore=E402,E501"
-" let g:syntastic_python_checkers = ["pylint"]
-" let g:syntastic_python_pylint_post_args = '--msg-template="{path}:{line}:{column}:{C}: [{symbol} {msg_id}] {msg}"'
-" let g:syntastic_python_pylint_args = "--disable=C0103,C0111,C0411,C0412,C0413,R0201"
-" let g:syntastic_python_flake8_quiet_messages = {
-"     \ "type": "style",
-"     \ "regex": "\s(E401)\s"
-"     \ }
+    let g:syntastic_c_check_header = 1
+    let g:syntastic_c_auto_refresh_includes = 1
+    let g:syntastic_python_checkers = ["flake8"]
+    " let g:syntastic_python_flake8_args = "--ignore=E402,E501"
+    " let g:syntastic_python_checkers = ["pylint"]
+    " let g:syntastic_python_pylint_post_args = '--msg-template="{path}:{line}:{column}:{C}: [{symbol} {msg_id}] {msg}"'
+    " let g:syntastic_python_pylint_args = "--disable=C0103,C0111,C0411,C0412,C0413,R0201"
+    " let g:syntastic_python_flake8_quiet_messages = {
+    "     \ "type": "style",
+    "     \ "regex": "\s(E401)\s"
+    "     \ }
+endif
 " }}}
 
 " nerdtree settings {{{
-let NERDTreeIgnore = ['\.pyc$', '\~$']
+if enhanced
+    let NERDTreeIgnore = ['\.pyc$', '\~$']
+endif
 " }}}
 
 " nerdcommenter settings {{{
-" Add extra space after comment character.
-let NERDSpaceDelims = 1
-let NERDRemoveExtraSpaces = 1
-let g:NERDCustomDelimiters = {
-    \ "python": {"left": "#", "leftAlt": "#"}
-    \ }
+if enhanced
+    " Add extra space after comment character.
+    let NERDSpaceDelims = 1
+    let NERDRemoveExtraSpaces = 1
+    let g:NERDCustomDelimiters = {
+        \ "python": {"left": "#", "leftAlt": "#"}
+        \ }
+endif
 " }}}
 
 " ctrlp settings {{{
-" show window in bottom, and sort from top to bottom.
-let g:ctrlp_match_window = 'bottom,order:ttb'
-" open match file in new buffer.
-let g:ctrlp_switch_buffer = 0
-" support change working directory.
-let g:ctrlp_working_path_mode = 0
-" use ag to speed up.
-if executable('ag')
-    let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-    let g:ctrlp_use_caching = 0
+if enhanced
+    " show window in bottom, and sort from top to bottom.
+    let g:ctrlp_match_window = 'bottom,order:ttb'
+    " open match file in new buffer.
+    let g:ctrlp_switch_buffer = 0
+    " support change working directory.
+    let g:ctrlp_working_path_mode = 0
+    " use ag to speed up.
+    if executable('ag')
+        let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+        let g:ctrlp_use_caching = 0
+    endif
 endif
 " }}}
 
@@ -202,21 +215,29 @@ let g:indent_guides_guid_size = 1
 " }}}
 
 " emmet settings {{{
-let g:user_emmet_install_global = 0
+if enhanced
+    let g:user_emmet_install_global = 0
+endif
 " }}}
 
 " tagbar settings {{{
-let g:tagbar_sort = 0
+if enhanced
+    let g:tagbar_sort = 0
+endif
 " }}}
 
 " windowswap settings {{{
-let g:windowswap_map_keys = 0
+if enhanced
+    let g:windowswap_map_keys = 0
+endif
 " }}}
 
 " vimwiki settings {{{
-let g:vimwiki_list = [
-    \ {"path": "~/Dropbox/Personal/wiki/", "syntax": "markdown", "ext": ".md", "auto_toc": 1}
-    \ ]
+if enhanced
+    let g:vimwiki_list = [
+        \ {"path": "~/Dropbox/Personal/wiki/", "syntax": "markdown", "ext": ".md", "auto_toc": 1}
+        \ ]
+endif
 " }}}
 
 " ================
@@ -355,16 +376,16 @@ nnoremap <C-k> k<C-y>
 nnoremap <Leader>% :vsplit<CR>
 nnoremap <Leader>" :split<CR>
 
-nnoremap <Leader>u :GundoToggle<CR>
-nnoremap <Leader>n :NERDTreeTabsToggle<CR>
-nnoremap <Leader>sw :call WindowSwap#EasyWindowSwap()<CR>
-nnoremap <Leader>w<Space> :VimwikiToggleListItem<CR>
 
 if enhanced
+    nnoremap <Leader>n :NERDTreeTabsToggle<CR>
+    nnoremap <Leader>u :GundoToggle<CR>
     nnoremap <Leader>t :TagbarToggle<CR>
+    nnoremap <Leader>sw :call WindowSwap#EasyWindowSwap()<CR>
     nnoremap <Leader>yg :YcmCompleter GoTo<CR>
     nnoremap <Leader>yt :YcmCompleter GetType<CR>
     nnoremap <Leader>yd :YcmCompleter GetDoc<CR>
+    nnoremap <Leader>w<Space> :VimwikiToggleListItem<CR>
     nnoremap <Leader>fa :call Reformat()<CR>
 endif
 " }}}
