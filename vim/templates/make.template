@@ -1,0 +1,3 @@
+clean:
+	rm -rf *.o
+	find . -type f -executable -exec rm -rf {}\
