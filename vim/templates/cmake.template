@@ -1,12 +1,13 @@
-# coding: utf-8
+cmake_minimum_required (VERSION 2.8)
 # File Name: [:VIM_EVAL:]expand('%:t')[:END_EVAL:]
+# Author:
 # Created At: [:VIM_EVAL:]strftime('%Y-%m-%d %H:%M:%S')[:END_EVAL:]
 # Last Modified: [:VIM_EVAL:]strftime('%Y-%m-%d %H:%M:%S')[:END_EVAL:]
-from __future__ import print_function
 
+project ()
+set (BIN_DIR ${PROJECT_SOURCE_DIR}/bin)
+set (SRC_DIR ${PROJECT_SOURCE_DIR}/src)
 
-def main():
-    print('Hello World')
+add_subdirectory(${SRC_DIR})
 
-if __name__ == '__main__':
-    main()
+add_executable(main)
