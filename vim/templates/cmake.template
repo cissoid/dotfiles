@@ -5,8 +5,10 @@ cmake_minimum_required (VERSION 2.8)
 # Last Modified: [:VIM_EVAL:]strftime('%Y-%m-%d %H:%M:%S')[:END_EVAL:]
 
 project ()
-set (BIN_DIR ${PROJECT_SOURCE_DIR}/bin)
+
 set (SRC_DIR ${PROJECT_SOURCE_DIR}/src)
+set (EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+set (LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 add_subdirectory(${SRC_DIR})
 
