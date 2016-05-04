@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-05-02 12:37:14
+" Last Modified: 2016-05-04 14:06:28
 " ================
 
 " ================
@@ -10,7 +10,10 @@
 " ================
 " If set, use some more excellent extensions, but maybe unusable in server
 " environment.
-let enhanced = 1
+let s:enhanced = 1
+" Add filetypes which could be formatted, so that Reformat() will take
+" effects.
+let s:format_filetypes = []
 " set encoding
 set encoding=utf-8
 " ================
@@ -36,7 +39,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'a.vim'
 Plugin 'dirdiff.vim'
 
-if enhanced
+if s:enhanced
     Plugin 'scrooloose/nerdtree'
     Plugin 'scrooloose/nerdcommenter'
     Plugin 'scrooloose/syntastic'
@@ -63,7 +66,7 @@ endif
 Plugin 'nginx.vim'
 Plugin 'solarnz/thrift.vim'
 
-if enhanced
+if s:enhanced
     Plugin 'mattn/emmet-vim'
 endif
 
@@ -119,7 +122,7 @@ filetype plugin on
 " ================
 
 " powerline settings {{{
-if enhanced
+if s:enhanced
     python from powerline.vim import setup as powerline_setup
     python powerline_setup()
     python del powerline_setup
@@ -127,7 +130,7 @@ endif
 " }}}
 
 " syntastic settings, this MUST set after powerline settings. {{{
-if enhanced
+if s:enhanced
     set statusline+=%#warningmsg#
     set statusline+=%{SyntasticStatuslineFlag()}
     set statusline+=%*
@@ -152,13 +155,13 @@ endif
 " }}}
 
 " nerdtree settings {{{
-if enhanced
+if s:enhanced
     let NERDTreeIgnore = ['\.pyc$', '\~$']
 endif
 " }}}
 
 " nerdcommenter settings {{{
-if enhanced
+if s:enhanced
     " Add extra space after comment character.
     let NERDSpaceDelims = 1
     let NERDRemoveExtraSpaces = 1
@@ -169,7 +172,7 @@ endif
 " }}}
 
 " ctrlp settings {{{
-if enhanced
+if s:enhanced
     " show window in bottom, and sort from top to bottom.
     let g:ctrlp_match_window = 'bottom,order:ttb'
     " open match file in new buffer.
@@ -185,7 +188,7 @@ endif
 " }}}
 
 " ycm settings {{{
-if enhanced
+if s:enhanced
     let g:ycm_min_num_of_chars_for_completion = 1
     let g:ycm_complete_in_comments = 1
     let g:ycm_complete_in_strings = 1
@@ -202,7 +205,7 @@ endif
 " }}}
 
 " ultisnips settings {{{
-if enhanced
+if s:enhanced
     let g:UltiSnipsExpandTrigger = '<C-l>'
     let g:UltiSnipsJumpForwardTrigger = '<C-l>'
     let g:UltiSnipsJumpBackwordTrigger = '<C-h>'
@@ -216,25 +219,25 @@ let g:indent_guides_guid_size = 1
 " }}}
 
 " emmet settings {{{
-if enhanced
+if s:enhanced
     let g:user_emmet_install_global = 0
 endif
 " }}}
 
 " tagbar settings {{{
-if enhanced
+if s:enhanced
     let g:tagbar_sort = 0
 endif
 " }}}
 
 " windowswap settings {{{
-if enhanced
+if s:enhanced
     let g:windowswap_map_keys = 0
 endif
 " }}}
 
 " vimwiki settings {{{
-if enhanced
+if s:enhanced
     let g:vimwiki_list = [
         \ {'path': '~/Dropbox/Personal/wiki/', 'syntax': 'markdown', 'ext': '.md', 'auto_toc': 1}
         \ ]
@@ -379,9 +382,9 @@ nnoremap <Leader>% :vsplit<CR>
 nnoremap <Leader>" :split<CR>
 
 nnoremap <Leader>p :set paste!<CR>
-nnoremap <Leader>at :call ManualAddFileTemplate()<CR>
+nnoremap <Leader>at :call s:ManualAddFileTemplate()<CR>
 
-if enhanced
+if s:enhanced
     nnoremap <Leader>n :NERDTreeTabsToggle<CR>
     nnoremap <Leader>u :GundoToggle<CR>
     nnoremap <Leader>t :TagbarToggle<CR>
@@ -403,7 +406,7 @@ inoremap <Down> <Nop>
 inoremap <Esc> <Nop>
 inoremap jk <Esc>
 
-if enhanced
+if s:enhanced
     inoremap <Leader>yt :YcmCompleter GetType<CR>
 endif
 " }}}
@@ -425,46 +428,50 @@ vnoremap jk <Esc>
 " move these config into ftplugin folder seems better, but not necessary for me
 " now.
 " ================
-augroup filetype_vim
+
+augroup filetype_dotfiles
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker foldlevel=0
-    autocmd BufWritePre vimrc,.vimrc call UpdateFileTemplate()
+    autocmd BufWritePre .vimrc,vimrc call s:UpdateFileTemplate()
+
+    autocmd BufWritePre .gitconfig,gitconfig call s:UpdateFileTemplate()
 augroup END
 
 augroup filetype_python
     autocmd!
     " enable all Python syntax highlighting features
     autocmd FileType python let python_highlight_all = 1
-    autocmd BufNewFile *.py call AddFileTemplate('python')
-    autocmd BufWritePre *.py call UpdateFileTemplate()
+    autocmd BufNewFile *.py call s:AddFileTemplate('python')
+    autocmd BufWritePre *.py call s:UpdateFileTemplate()
 
-    if enhanced
-        autocmd FileType python setlocal formatprg=autopep8\ \-
-        autocmd FileType pyrex setlocal formatprg=autopep8\ \-
+    if s:enhanced
+        call s:AddReformatLang(['python', 'pyrex'])
+        autocmd FileType python,pyrex setlocal formatprg=autopep8\ \-
         " autocmd BufWritePre *.py call Reformat()
     endif
 augroup END
 
 augroup filetype_make
     autocmd!
-    autocmd BufNewFile Makefile call AddFileTemplate('make')
+    autocmd BufNewFile Makefile call s:AddFileTemplate('make')
 augroup END
 
 augroup filetype_cmake
     autocmd!
     autocmd BufNewFile,BufReadPre CMakeLists.txt setlocal filetype=cmake
-    autocmd BufNewFile CMakeLists.txt call AddFileTemplate('cmake')
-    autocmd BufWritePre CMakeLists.txt call UpdateFileTemplate()
+    autocmd BufNewFile CMakeLists.txt call s:AddFileTemplate('cmake')
+    autocmd BufWritePre CMakeLists.txt call s:UpdateFileTemplate()
 augroup END
 
 augroup filetype_clang
     autocmd!
-    autocmd BufNewFile *.h,*.c call AddFileTemplate('c')
-    autocmd BufWritePre *.h,*.c call UpdateFileTemplate()
-    autocmd BufNewFile *.hpp,*.cpp,*.cc,*.cxx call AddFileTemplate('cpp')
-    autocmd BufWritePre *.hpp,*.cpp,*.cc,*.cxx call UpdateFileTemplate()
+    autocmd BufNewFile *.h,*.c call s:AddFileTemplate('c')
+    autocmd BufWritePre *.h,*.c call s:UpdateFileTemplate()
+    autocmd BufNewFile *.hpp,*.cpp,*.cc,*.cxx call s:AddFileTemplate('cpp')
+    autocmd BufWritePre *.hpp,*.cpp,*.cc,*.cxx call s:UpdateFileTemplate()
 
-    if enhanced
+    if s:enhanced
+        call s:AddReformatLang(['c', 'cpp'])
         autocmd FileType c,cpp setlocal formatprg=clang\-format\ \-style=\"\{BasedOnStyle:\ Google,\ IndentWidth:\ 4\}\"
         " autocmd BufWritePre *.h,*.c,*.cpp call Reformat()
     endif
@@ -472,7 +479,8 @@ augroup END
 
 augroup filetype_golang
     autocmd!
-    if enhanced
+    if s:enhanced
+        call s:AddReformatLang('go')
         autocmd FileType go setlocal formatprg=gofmt
         autocmd FileType go nnoremap <F9> :Shell build %<CR>
         autocmd FileType go nnoremap <F10> :Shell go run %<CR>
@@ -482,8 +490,9 @@ augroup END
 
 augroup filetype_html
     autocmd!
-    if enhanced
+    if s:enhanced
         autocmd FileType html,css EmmetInstall
+        call s:AddReformatLang(['html', 'css'])
         autocmd FileType html setlocal formatprg=js\-beautify\ \-\-type\ html
         autocmd FileType css setlocal formatprg=js\-beautify\ \-\-type\ css
     endif
@@ -491,7 +500,8 @@ augroup END
 
 augroup filetype_javascript
     autocmd!
-    if enhanced
+    if s:enhanced
+        call s:AddReformatLang('javascript')
         autocmd FileType javascript setlocal formatprg=js\-beautify
         autocmd BufWritePre *.js call Reformat()
     endif
@@ -504,17 +514,27 @@ augroup END
 " ================
 " Custom functions. {{{
 " ================
+function! s:AddReformatLang(filetypes)
+    if (type(a:filetypes) == 3) " expect list
+        call extend(s:format_filetypes, a:filetypes)
+    elseif (type(a:filetypes) == 1) " expect string
+        call add(s:format_filetypes, a:filetypes)
+    endif
+endfunction
+
 function! Reformat()
-    " mark current location
-    silent! normal! mm
-    " format all
-    silent! normal! gggqG
-    " move cursor back
-    silent! normal! 'm
-    " clear mark
-    silent! execute 'delmarks m'
-    " center current line
-    silent! normal! zz
+    if (index(s:format_filetypes, &filetype) >= 0)
+        " mark current location
+        silent! normal! mm
+        " format all
+        silent! normal! gggqG
+        " move cursor back
+        silent! normal! 'm
+        " clear mark
+        silent! execute 'delmarks m'
+        " center current line
+        silent! normal! zz
+    endif
 endfunction
 
 " capture shell output and display in a window.
@@ -533,7 +553,7 @@ function! s:ExecuteInShell(command)
 endfunction
 command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
 
-function! AddFileTemplate(filetype)
+function! s:AddFileTemplate(filetype)
     let l:template = '~/.vim/templates/' . a:filetype . '.template'
     let l:writecmd = '0read ' . l:template
     silent! execute l:writecmd
@@ -545,11 +565,11 @@ function! AddFileTemplate(filetype)
     silent! execute l:execcmd
 endfunction
 
-function! ManualAddFileTemplate()
-    silent! call AddFileTemplate(&filetype)
+function! s:ManualAddFileTemplate()
+    silent! call s:AddFileTemplate(&filetype)
 endfunction
 
-function! UpdateFileTemplate()
+function! s:UpdateFileTemplate()
     let l:exec_line = '1,' . min([line('$'), 10])
     let l:modify_regex = '(Last Modified: )@<=([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})'
     let l:eval_func = '\=eval("strftime(\"%Y-%m-%d %H:%M:%S\")")'
@@ -563,8 +583,3 @@ endfunction
 " ================
 " }}}
 " ================
-
-" comment this because augroup seems better, modelines should use in specific
-" file, IMHO.
-" set modelines=1
-" vim:foldmethod=marker foldlevel=0
