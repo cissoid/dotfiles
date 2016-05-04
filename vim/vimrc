@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-05-04 14:06:28
+" Last Modified: 2016-05-04 15:04:27
 " ================
 
 " ================
@@ -344,6 +344,79 @@ set backspace=indent,eol,start
 " ================
 
 " ================
+" Custom functions. {{{
+" ================
+function! s:AddReformatLang(filetypes)
+    if (type(a:filetypes) == 3) " expect list
+        call extend(s:format_filetypes, a:filetypes)
+    elseif (type(a:filetypes) == 1) " expect string
+        call add(s:format_filetypes, a:filetypes)
+    endif
+endfunction
+
+function! Reformat()
+    if (index(s:format_filetypes, &filetype) >= 0)
+        " mark current location
+        silent! normal! mm
+        " format all
+        silent! normal! gggqG
+        " move cursor back
+        silent! normal! 'm
+        " clear mark
+        silent! execute 'delmarks m'
+        " center current line
+        silent! normal! zz
+    endif
+endfunction
+
+" capture shell output and display in a window.
+function! s:ExecuteInShell(command)
+    let l:command = join(map(split(a:command), 'expand(v:val)'))
+    let l:winnr = bufwinnr('^' . l:command . '$')
+    silent! execute  l:winnr < 0 ? 'botright new ' . fnameescape(l:command) : l:winnr . 'wincmd w'
+    setlocal buftype=nowrite bufhidden=wipe nobuflisted noswapfile nowrap number
+    echo 'Execute ' . l:command . '...'
+    silent! execute 'silent %!'. l:command
+    silent! execute 'resize ' . max([line('$'), 5])
+    silent! redraw
+    silent! execute 'au BufUnload <buffer> execute bufwinnr(' . bufnr('#') . ') . ''wincmd w'''
+    " silent! execute 'nnoremap <silent> <buffer> <LocalLeader>r :call <SID>ExecuteInShell(''' . l:command . ''')<CR>'
+    echo 'Shell command ' . l:command . ' executed.'
+endfunction
+command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
+
+function! s:AddFileTemplate(filetype)
+    let l:template = '~/.vim/templates/' . a:filetype . '.template'
+    let l:writecmd = '0read ' . l:template
+    silent! execute l:writecmd
+
+    let l:exec_line = '1,' . min([line('$'), 10])
+    let l:eval_regex = '\[:VIM_EVAL:\](.+)\[:END_EVAL:\]'
+    let l:eval_func = '\=eval(submatch(1))'
+    let l:execcmd = l:exec_line . 's/\v\C' . l:eval_regex . '/' . l:eval_func . '/g'
+    silent! execute l:execcmd
+endfunction
+
+function! ManualAddFileTemplate()
+    silent! call s:AddFileTemplate(&filetype)
+endfunction
+
+function! s:UpdateFileTemplate()
+    let l:exec_line = '1,' . min([line('$'), 10])
+    let l:modify_regex = '(Last Modified: )@<=([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})'
+    let l:eval_func = '\=eval("strftime(\"%Y-%m-%d %H:%M:%S\")")'
+    silent! normal! mm
+    silent! execute l:exec_line . 's/\v\C' . l:modify_regex . '/' . l:eval_func . '/'
+    silent! normal! 'm
+    silent! execute 'delmarks m'
+    silent! normal! zz
+endfunction
+
+" ================
+" }}}
+" ================
+
+" ================
 " keymap settings {{{
 " ================
 " let mapleader=","
@@ -382,12 +455,13 @@ nnoremap <Leader>% :vsplit<CR>
 nnoremap <Leader>" :split<CR>
 
 nnoremap <Leader>p :set paste!<CR>
-nnoremap <Leader>at :call s:ManualAddFileTemplate()<CR>
+nnoremap <Leader>at :call ManualAddFileTemplate()<CR>
 
 if s:enhanced
     nnoremap <Leader>n :NERDTreeTabsToggle<CR>
     nnoremap <Leader>u :GundoToggle<CR>
     nnoremap <Leader>t :TagbarToggle<CR>
+    nnoremap <Leader>s :SyntasticReset<CR>
     nnoremap <Leader>sw :call WindowSwap#EasyWindowSwap()<CR>
     nnoremap <Leader>yg :YcmCompleter GoTo<CR>
     nnoremap <Leader>yt :YcmCompleter GetType<CR>
@@ -511,75 +585,3 @@ augroup END
 " }}}
 " ================
 
-" ================
-" Custom functions. {{{
-" ================
-function! s:AddReformatLang(filetypes)
-    if (type(a:filetypes) == 3) " expect list
-        call extend(s:format_filetypes, a:filetypes)
-    elseif (type(a:filetypes) == 1) " expect string
-        call add(s:format_filetypes, a:filetypes)
-    endif
-endfunction
-
-function! Reformat()
-    if (index(s:format_filetypes, &filetype) >= 0)
-        " mark current location
-        silent! normal! mm
-        " format all
-        silent! normal! gggqG
-        " move cursor back
-        silent! normal! 'm
-        " clear mark
-        silent! execute 'delmarks m'
-        " center current line
-        silent! normal! zz
-    endif
-endfunction
-
-" capture shell output and display in a window.
-function! s:ExecuteInShell(command)
-    let l:command = join(map(split(a:command), 'expand(v:val)'))
-    let l:winnr = bufwinnr('^' . l:command . '$')
-    silent! execute  l:winnr < 0 ? 'botright new ' . fnameescape(l:command) : l:winnr . 'wincmd w'
-    setlocal buftype=nowrite bufhidden=wipe nobuflisted noswapfile nowrap number
-    echo 'Execute ' . l:command . '...'
-    silent! execute 'silent %!'. l:command
-    silent! execute 'resize ' . max([line('$'), 5])
-    silent! redraw
-    silent! execute 'au BufUnload <buffer> execute bufwinnr(' . bufnr('#') . ') . ''wincmd w'''
-    " silent! execute 'nnoremap <silent> <buffer> <LocalLeader>r :call <SID>ExecuteInShell(''' . l:command . ''')<CR>'
-    echo 'Shell command ' . l:command . ' executed.'
-endfunction
-command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
-
-function! s:AddFileTemplate(filetype)
-    let l:template = '~/.vim/templates/' . a:filetype . '.template'
-    let l:writecmd = '0read ' . l:template
-    silent! execute l:writecmd
-
-    let l:exec_line = '1,' . min([line('$'), 10])
-    let l:eval_regex = '\[:VIM_EVAL:\](.+)\[:END_EVAL:\]'
-    let l:eval_func = '\=eval(submatch(1))'
-    let l:execcmd = l:exec_line . 's/\v\C' . l:eval_regex . '/' . l:eval_func . '/g'
-    silent! execute l:execcmd
-endfunction
-
-function! s:ManualAddFileTemplate()
-    silent! call s:AddFileTemplate(&filetype)
-endfunction
-
-function! s:UpdateFileTemplate()
-    let l:exec_line = '1,' . min([line('$'), 10])
-    let l:modify_regex = '(Last Modified: )@<=([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})'
-    let l:eval_func = '\=eval("strftime(\"%Y-%m-%d %H:%M:%S\")")'
-    silent! normal! mm
-    silent! execute l:exec_line . 's/\v\C' . l:modify_regex . '/' . l:eval_func . '/'
-    silent! normal! 'm
-    silent! execute 'delmarks m'
-    silent! normal! zz
-endfunction
-
-" ================
-" }}}
-" ================
