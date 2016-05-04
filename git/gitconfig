@@ -1,14 +1,26 @@
+# vim: filetype=gitconfig
+# File Name: .gitconfig
+# Author: Cissoid
+# Created At: 2015-09-01 09:34:00
+# Last Modified: 2016-05-04 11:07:17
+[core]
+    editor = vim
 [alias]
     br = branch
-	st = status
-	co = checkout
-	ci = commit
-    glog = log --all --graph --date='format:%Y-%m-%d %H:%M' --pretty='%C(auto)%h %d %s (%C(cyan)%an%Creset, %Cgreen%ad%Creset)'
+    st = status
+    co = checkout
+    ci = commit
+    glog = log --all --graph --pretty='%C(auto)%h %d %s (%C(cyan)%an%Creset, %Cgreen%ad%Creset)'
 [color]
-	status = auto
-	branch = auto
-	diff = auto
-	ui = auto
-	pager = true
-[core]
-	editor = vim
+    branch = auto
+    diff = auto
+    grep = auto
+    interactive = auto
+    pager = true
+    showBranch = auto
+    status = auto
+    ui = auto
+[grep]
+    lineNumber = true
+[log]
+    date = "format:%Y-%m-%d %H:%M:%S"
