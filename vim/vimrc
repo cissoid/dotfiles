@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-05-04 15:04:27
+" Last Modified: 2016-05-05 10:36:31
 " ================
 
 " ================
@@ -59,6 +59,7 @@ if s:enhanced
     Plugin 'Valloric/YouCompleteMe'
     Plugin 'SirVer/ultisnips'
     Plugin 'vimwiki/vimwiki'
+    Plugin 'mattn/emmet-vim'
 endif
 
 " Language specific
@@ -66,14 +67,10 @@ endif
 Plugin 'nginx.vim'
 Plugin 'solarnz/thrift.vim'
 
-if s:enhanced
-    Plugin 'mattn/emmet-vim'
-endif
-
 " Theme plugin
 Plugin 'tomasr/molokai'
-Plugin 'google/vim-colorscheme-primary'
 " Plugin 'altercation/vim-colors-solarized'
+" Plugin 'google/vim-colorscheme-primary'
 
 " Unused
 " Plugin 'godlygeek/csapprox'
@@ -157,6 +154,12 @@ endif
 " nerdtree settings {{{
 if s:enhanced
     let NERDTreeIgnore = ['\.pyc$', '\~$']
+    let NERDTreeCaseSensitiveSort = 1
+    " always change cwd when nerdtree change root node.
+    let NERDTreeChDirMode = 2
+    " show bookmarks on open.
+    let NERDTreeShowBookmarks = 1
+    " let NERDTreeShowLineNumbers = 1
 endif
 " }}}
 
