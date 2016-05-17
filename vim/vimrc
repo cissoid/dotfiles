@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-05-05 10:36:31
+" Last Modified: 2016-05-16 16:20:05
 " ================
 
 " ================
@@ -63,7 +63,7 @@ if s:enhanced
 endif
 
 " Language specific
-" Plugin 'fatih/vim-go'
+Plugin 'fatih/vim-go'
 Plugin 'nginx.vim'
 Plugin 'solarnz/thrift.vim'
 
@@ -148,6 +148,7 @@ if s:enhanced
     "     \ 'type': 'style',
     "     \ 'regex': '\s(E401)\s'
     "     \ }
+	let g:syntastic_go_checkers = ['go', 'gofmt', 'golint', 'govet']
 endif
 " }}}
 
@@ -245,6 +246,11 @@ if s:enhanced
         \ {'path': '~/Dropbox/Personal/wiki/', 'syntax': 'markdown', 'ext': '.md', 'auto_toc': 1}
         \ ]
 endif
+" }}}
+
+" vim-go settings {{{
+let g:go_fmt_fail_silently = 1
+let g:go_list_type = 'quickfix'
 " }}}
 
 " ================
@@ -559,8 +565,10 @@ augroup filetype_golang
     if s:enhanced
         call s:AddReformatLang('go')
         autocmd FileType go setlocal formatprg=gofmt
-        autocmd FileType go nnoremap <F9> :Shell build %<CR>
+        autocmd FileType go nnoremap <F9> :Shell go build %<CR>
         autocmd FileType go nnoremap <F10> :Shell go run %<CR>
+        autocmd BufNewFile *.go call s:AddFileTemplate('go')
+        autocmd BufWritePre *.go call s:UpdateFileTemplate()
         autocmd BufWritePre *.go call Reformat()
     endif
 augroup END
@@ -587,4 +595,3 @@ augroup END
 " ================
 " }}}
 " ================
-
