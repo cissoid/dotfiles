@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-05-16 16:20:05
+" Last Modified: 2016-05-18 08:55:03
 " ================
 
 " ================
@@ -304,7 +304,7 @@ if has('gui_running')
         set guifont=Ubuntu\ Mono\ derivative\ Powerline:h16
         set guioptions=
     elseif has('unix')
-        set guifont=Ubuntu\ Mono\ 12
+        set guifont=Monospace\ 12
         set guioptions=
     endif
 
