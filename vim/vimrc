@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-05-18 08:55:03
+" Last Modified: 2016-05-18 18:51:49
 " ================
 
 " ================
@@ -60,6 +60,7 @@ if s:enhanced
     Plugin 'SirVer/ultisnips'
     Plugin 'vimwiki/vimwiki'
     Plugin 'mattn/emmet-vim'
+    Plugin 'airblade/vim-gitgutter'
 endif
 
 " Language specific
