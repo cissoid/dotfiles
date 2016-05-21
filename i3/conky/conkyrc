@@ -1,0 +1,38 @@
+out_to_x no
+own_window no
+out_to_console yes
+background no
+max_text_width 0
+
+update_interval 2.0
+
+total_run_times 0
+
+short_units yes
+
+if_up_strictness address
+
+use_spacer left
+
+override_utf8_locale no
+
+cpu_avg_samples 2
+
+TEXT
+
+# current time
+[
+    # wireless network
+    {"full_text": "${wireless_essid wlp3s0} ⥥${downspeed wlp3s0}/s ⥣${upspeed wlp3s0}/s", "color": "\#CCCCCC"},
+    # battery
+    {"full_text": "☢${battery_percent BAT0}% ${battery_percent BAT1}%", "color": "\#CCCCCC"},
+    # brightness, roundup with awk.
+    {"full_text": "✸${exec xbacklight -get | awk '{print int($1+0.5)}'}", "color": "\#CCCCCC"},
+    # volume
+    {"full_text": "♪${exec ponymix get-volume}", "color": "\#CCCCCC"},
+    # current time
+    {"full_text": "${time %H:%M}", "color": "\#CCCCCC"},
+    # only add indicator between tray icon.
+    {"full_text": ""}
+],
+
