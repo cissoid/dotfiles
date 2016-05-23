@@ -24,3 +24,5 @@
     lineNumber = true
 [log]
     date = "format:%Y-%m-%d %H:%M:%S"
+[user]
+	useConfigOnly = true
