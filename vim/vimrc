@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-05-19 10:03:50
+" Last Modified: 2016-05-24 11:05:19
 " ================
 
 " ================
@@ -36,42 +36,60 @@ call vundle#begin('~/env/vim/bundle')
 " Common
 Plugin 'VundleVim/Vundle.vim'
 
+" Easily jump between header file and source file.
 Plugin 'a.vim'
+" Vimdiff for directories.
 Plugin 'dirdiff.vim'
+" Add extra command to handle surround symbols.
+Plugin 'tpope/vim-surround'
 
-if s:enhanced
-    Plugin 'scrooloose/nerdtree'
-    Plugin 'scrooloose/nerdcommenter'
-    Plugin 'scrooloose/syntastic'
-    Plugin 'jistr/vim-nerdtree-tabs'
-    Plugin 'majutsushi/tagbar'
-    Plugin 'sjl/gundo.vim'
-    Plugin 'ctrlpvim/ctrlp.vim'
-    Plugin 'tpope/vim-surround'
-    Plugin 'easymotion/vim-easymotion'
-    Plugin 'terryma/vim-multiple-cursors'
-    Plugin 'tpope/vim-fugitive'
-    Plugin 'henrik/vim-indexed-search'
-    Plugin 'raimondi/delimitmate'
-    " Plugin 'jiangmiao/auto-pairs'
-    Plugin 'nathanaelkane/vim-indent-guides'
-    Plugin 'wesQ3/vim-windowswap'
-    Plugin 'Valloric/YouCompleteMe'
-    Plugin 'SirVer/ultisnips'
-    Plugin 'vimwiki/vimwiki'
-    Plugin 'mattn/emmet-vim'
-    Plugin 'airblade/vim-gitgutter'
-endif
-
-" Language specific
-Plugin 'fatih/vim-go'
+" Language highlight.
 Plugin 'nginx.vim'
 Plugin 'solarnz/thrift.vim'
 
-" Theme plugin
+" Theme plugins
 Plugin 'tomasr/molokai'
 " Plugin 'altercation/vim-colors-solarized'
-" Plugin 'google/vim-colorscheme-primary'
+
+if s:enhanced
+    " Show current search index.
+    Plugin 'henrik/vim-indexed-search'
+    " Show gitgutter.
+    Plugin 'airblade/vim-gitgutter'
+    " Plugin 'nathanaelkane/vim-indent-guides'
+
+    " File tree.
+    Plugin 'scrooloose/nerdtree'
+    " Singleton nerdtree.
+    Plugin 'jistr/vim-nerdtree-tabs'
+    " Syntax check.
+    Plugin 'scrooloose/syntastic'
+    " Auto completion.
+    Plugin 'Valloric/YouCompleteMe'
+    " Snippet engine.
+    Plugin 'SirVer/ultisnips'
+    " Show undo tree.
+    Plugin 'sjl/gundo.vim'
+    " Show taglist.
+    Plugin 'majutsushi/tagbar'
+    " Fast search file.
+    Plugin 'ctrlpvim/ctrlp.vim'
+
+    " Comment/uncomment.
+    Plugin 'scrooloose/nerdcommenter'
+    " Auto add/remove pair symbols.
+    Plugin 'raimondi/delimitmate'
+    " Plugin 'jiangmiao/auto-pairs'
+    Plugin 'terryma/vim-multiple-cursors'
+    Plugin 'easymotion/vim-easymotion'
+    Plugin 'mattn/emmet-vim'
+    " Integrated with git.
+    Plugin 'tpope/vim-fugitive'
+    Plugin 'wesQ3/vim-windowswap'
+    " Personal wiki.
+    Plugin 'vimwiki/vimwiki'
+    " Plugin 'fatih/vim-go'
+endif
 
 " Unused
 " Plugin 'godlygeek/csapprox'
@@ -79,7 +97,6 @@ Plugin 'tomasr/molokai'
 " Plugin 'rking/ag.vim'
 " Plugin 'DrawIt.vim'
 " Plugin 'bling/vim-airline'
-" Plugin 'powerline/powerline'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -127,6 +144,32 @@ if s:enhanced
 endif
 " }}}
 
+" gitgutter settings {{{
+if s:enhanced
+    let g:gitgutter_max_signs = 1000
+endif
+" }}}
+
+" vim-indent-guides settings {{{
+if s:enhanced
+    " let g:indent_guides_start_level = 0
+    let g:indent_guide_enable_on_vim_startup = 1
+    let g:indent_guides_guid_size = 1
+endif
+" }}}
+
+" nerdtree settings {{{
+if s:enhanced
+    let NERDTreeIgnore = ['\.pyc$', '\~$']
+    let NERDTreeCaseSensitiveSort = 1
+    " always change cwd when nerdtree change root node.
+    let NERDTreeChDirMode = 2
+    " show bookmarks on open.
+    let NERDTreeShowBookmarks = 1
+    " let NERDTreeShowLineNumbers = 1
+endif
+" }}}
+
 " syntastic settings, this MUST set after powerline settings. {{{
 if s:enhanced
     set statusline+=%#warningmsg#
@@ -150,45 +193,7 @@ if s:enhanced
     "     \ 'regex': '\s(E401)\s'
     "     \ }
 	let g:syntastic_go_checkers = ['go', 'gofmt', 'golint', 'govet']
-endif
-" }}}
-
-" nerdtree settings {{{
-if s:enhanced
-    let NERDTreeIgnore = ['\.pyc$', '\~$']
-    let NERDTreeCaseSensitiveSort = 1
-    " always change cwd when nerdtree change root node.
-    let NERDTreeChDirMode = 2
-    " show bookmarks on open.
-    let NERDTreeShowBookmarks = 1
-    " let NERDTreeShowLineNumbers = 1
-endif
-" }}}
-
-" nerdcommenter settings {{{
-if s:enhanced
-    " Add extra space after comment character.
-    let NERDSpaceDelims = 1
-    let NERDRemoveExtraSpaces = 1
-    let g:NERDCustomDelimiters = {
-        \ 'python': {'left': '#', 'leftAlt': '#'}
-        \ }
-endif
-" }}}
-
-" ctrlp settings {{{
-if s:enhanced
-    " show window in bottom, and sort from top to bottom.
-    let g:ctrlp_match_window = 'bottom,order:ttb'
-    " open match file in new buffer.
-    let g:ctrlp_switch_buffer = 0
-    " support change working directory.
-    let g:ctrlp_working_path_mode = 0
-    " use ag to speed up.
-    if executable('ag')
-        let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-        let g:ctrlp_use_caching = 0
-    endif
+    let g:syntastic_javascript_checkers = ['eslint']
 endif
 " }}}
 
@@ -217,21 +222,42 @@ if s:enhanced
 endif
 " }}}
 
-" vim-indent-guides settings {{{
-" let g:indent_guides_start_level = 0
-let g:indent_guide_enable_on_vim_startup = 1
-let g:indent_guides_guid_size = 1
+" tagbar settings {{{
+if s:enhanced
+    let g:tagbar_sort = 0
+endif
+" }}}
+
+" ctrlp settings {{{
+if s:enhanced
+    " show window in bottom, and sort from top to bottom.
+    let g:ctrlp_match_window = 'bottom,order:ttb'
+    " open match file in new buffer.
+    let g:ctrlp_switch_buffer = 0
+    " support change working directory.
+    let g:ctrlp_working_path_mode = 0
+    " use ag to speed up.
+    if executable('ag')
+        let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+        let g:ctrlp_use_caching = 0
+    endif
+endif
+" }}}
+
+" nerdcommenter settings {{{
+if s:enhanced
+    " Add extra space after comment character.
+    let NERDSpaceDelims = 1
+    let NERDRemoveExtraSpaces = 1
+    let g:NERDCustomDelimiters = {
+        \ 'python': {'left': '#', 'leftAlt': '#'}
+        \ }
+endif
 " }}}
 
 " emmet settings {{{
 if s:enhanced
     let g:user_emmet_install_global = 0
-endif
-" }}}
-
-" tagbar settings {{{
-if s:enhanced
-    let g:tagbar_sort = 0
 endif
 " }}}
 
@@ -250,12 +276,10 @@ endif
 " }}}
 
 " vim-go settings {{{
-let g:go_fmt_fail_silently = 1
-let g:go_list_type = 'quickfix'
-" }}}
-
-" gitgutter settings {{{
-let g:gitgutter_max_signs = 1000
+if s:enhanced
+    let g:go_fmt_fail_silently = 1
+    let g:go_list_type = 'quickfix'
+endif
 " }}}
 
 " ================
@@ -594,6 +618,13 @@ augroup filetype_javascript
         call s:AddReformatLang('javascript')
         autocmd FileType javascript setlocal formatprg=js\-beautify
         autocmd BufWritePre *.js call Reformat()
+    endif
+augroup END
+
+augroup filetype_php
+    autocmd!
+    if s:enhanced
+        autocmd FileType php EmmetInstall
     endif
 augroup END
 
