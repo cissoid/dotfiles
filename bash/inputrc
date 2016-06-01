@@ -1,1 +1,5 @@
+# File Name: .inputrc
+# Author: Cissoid
+# Created At: 2015-09-01 09:34:00
+# Last Modified: 2016-05-30 16:24:11
 set completion-ignore-case on

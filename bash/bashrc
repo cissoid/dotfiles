@@ -1,4 +1,7 @@
-# .bashrc
+# File Name: .bashrc
+# Author: Cissoid
+# Created At: 2015-09-01 09:34:00
+# Last Modified: 2016-06-01 17:37:37
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
@@ -9,7 +12,7 @@ fi
 shopt -s globstar
 shopt -s cdspell
 shopt -s cmdhist
-shopt -s dirspell
+# shopt -s dirspell
 
 # set environment variables
 export TERM=xterm-256color
