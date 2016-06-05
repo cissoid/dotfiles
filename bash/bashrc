@@ -3,7 +3,7 @@
 # File Name: .bashrc
 # Author: Cissoid
 # Created At: 2015-09-01 09:34:00
-# Last Modified: 2016-06-04 23:24:38
+# Last Modified: 2016-06-05 14:38:28
 # ================
 
 # Source global definitions
@@ -32,8 +32,9 @@ POWERLINE_INSTALL_PATH=$(pip show powerline-status | grep Location | awk '{print
 
 # export GOROOT=~/go
 export GOPATH=$HOME/env/golang
+export COMPOSER_HOME=$HOME/.composer
 
-export PATH=$PATH:$HOME/bin:$GOPATH/bin
+export PATH=$PATH:$HOME/bin:$GOPATH/bin:$COMPOSER_HOME/vendor/bin
 
 
 if [ "$(uname)" == "Linux" ]; then

@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-06-04 08:46:49
+" Last Modified: 2016-06-05 14:30:08
 " ================
 
 " ================
@@ -47,7 +47,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'nginx.vim'
 Plugin 'solarnz/thrift.vim'
 Plugin 'chikamichi/mediawiki.vim'
-Plugin 'SWIG-syntax.vim'
+Plugin 'SWIG-syntax'
 
 " Theme plugins
 Plugin 'tomasr/molokai'
@@ -91,6 +91,8 @@ if s:enhanced
     " Personal wiki.
     Plugin 'vimwiki/vimwiki'
     " Plugin 'fatih/vim-go'
+    Plugin 'ynkdir/vim-vimlparser'
+    Plugin 'syngan/vim-vimlint'
 endif
 
 " Unused
@@ -185,7 +187,9 @@ if s:enhanced
 
     let g:syntastic_c_check_header = 1
     let g:syntastic_c_auto_refresh_includes = 1
-    let g:syntastic_python_checkers = ['flake8']
+    let g:syntastic_c_checkers = ['gcc', 'make', 'clang_check', 'cppcheck']
+	let g:syntastic_go_checkers = ['go', 'gofmt', 'golint', 'govet']
+    let g:syntastic_python_checkers = ['python', 'flake8', 'pep8', 'pyflakes']
     " let g:syntastic_python_flake8_args = '--ignore=E402,E501'
     " let g:syntastic_python_checkers = ["pylint"]
     " let g:syntastic_python_pylint_post_args = '--msg-template="{path}:{line}:{column}:{C}: [{symbol} {msg_id}] {msg}"'
@@ -194,8 +198,11 @@ if s:enhanced
     "     \ 'type': 'style',
     "     \ 'regex': '\s(E401)\s'
     "     \ }
-	let g:syntastic_go_checkers = ['go', 'gofmt', 'golint', 'govet']
-    let g:syntastic_javascript_checkers = ['eslint']
+    let g:syntastic_css_checkers = ['csslint', 'recess', 'stylelint']
+    let g:syntastic_javascript_checkers = ['eslint', 'jslint', 'jshint'] " standard
+    let g:syntastic_markdown_checkers = ['textlint']
+    let g:syntastic_sh_shellcheck_args = '-x -eSC1090,SC1091'
+    let g:syntastic_vim_checkers = ['vimlint', 'vint']
 endif
 " }}}
 
@@ -213,6 +220,8 @@ if s:enhanced
     let g:ycm_key_list_previous_completion = ['<C-k>']
     let g:ycm_global_ycm_extra_conf = '~/.vim/data/ycm_extra_conf.py'
     let g:ycm_confirm_extra_conf = 0
+    " disable this to make syntastic work correctly.
+    let g:ycm_show_diagnostics_ui = 0
 endif
 " }}}
 
@@ -531,8 +540,8 @@ vnoremap <Left> <Nop>
 vnoremap <Right> <Nop>
 vnoremap <Up> <Nop>
 vnoremap <Down> <Nop>
-vnoremap <Esc> <Nop>
-vnoremap jk <Esc>
+" vnoremap <Esc> <Nop>
+" vnoremap jk <Esc>
 " }}}
 " ================
 " }}} end keymap settings
@@ -552,6 +561,7 @@ augroup filetype_dotfiles
     autocmd BufWritePre .bashrc,bashrc call s:UpdateFileTemplate()
     autocmd BufWritePre .inputrc,inputrc call s:UpdateFileTemplate()
     autocmd BufWritePre .gitconfig,gitconfig call s:UpdateFileTemplate()
+    autocmd BufWritePre .conkyrc,conkyrc call s:UpdateFileTemplate()
 augroup END
 
 augroup filetype_python

@@ -1,3 +1,10 @@
+# ================
+# File Name: conkyrc
+# Author: Cissoid
+# Created At:
+# Last Modified: 2016-06-04 22:02:05
+# ================
+
 out_to_x no
 own_window no
 out_to_console yes
@@ -20,10 +27,11 @@ cpu_avg_samples 2
 
 TEXT
 
-# current time
 [
+    # only add indicator.
+    {"full_text": ""},
     # wireless network
-    {"full_text": "${wireless_essid wlp3s0} ⥥${downspeed wlp3s0}/s ⥣${upspeed wlp3s0}/s", "color": "\#CCCCCC"},
+    {"full_text": "${wireless_essid wlp3s0}${if_match ${downspeedf wlp3s0} != 0} ⥥${downspeed wlp3s0}/s${endif}${if_match ${upspeedf wlp3s0} != 0} ⥣${upspeed wlp3s0}/s${endif}", "color": "\#CCCCCC"},
     # battery
     {"full_text": "☢${battery_percent BAT0}% ${battery_percent BAT1}%", "color": "\#CCCCCC"},
     # brightness, roundup with awk.
