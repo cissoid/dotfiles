@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-06-05 14:30:08
+" Last Modified: 2016-06-08 17:45:32
 " ================
 
 " ================
@@ -48,6 +48,7 @@ Plugin 'nginx.vim'
 Plugin 'solarnz/thrift.vim'
 Plugin 'chikamichi/mediawiki.vim'
 Plugin 'SWIG-syntax'
+Plugin 'PotatoesMaster/i3-vim-syntax'
 
 " Theme plugins
 Plugin 'tomasr/molokai'
@@ -189,7 +190,7 @@ if s:enhanced
     let g:syntastic_c_auto_refresh_includes = 1
     let g:syntastic_c_checkers = ['gcc', 'make', 'clang_check', 'cppcheck']
 	let g:syntastic_go_checkers = ['go', 'gofmt', 'golint', 'govet']
-    let g:syntastic_python_checkers = ['python', 'flake8', 'pep8', 'pyflakes']
+    let g:syntastic_python_checkers = ['python', 'flake8']
     " let g:syntastic_python_flake8_args = '--ignore=E402,E501'
     " let g:syntastic_python_checkers = ["pylint"]
     " let g:syntastic_python_pylint_post_args = '--msg-template="{path}:{line}:{column}:{C}: [{symbol} {msg_id}] {msg}"'
@@ -313,6 +314,8 @@ highlight Normal ctermbg=none
 " }}}
 
 " ui setting {{{
+" show filename and other infos.
+set title
 " always show tab line.
 set showtabline=2
 " always show status line.
@@ -328,15 +331,23 @@ set cursorline
 set cursorcolumn
 " show a menu for filename autocomplete.
 set wildmenu
+set wildmode=list:longest,full
+set wildignore=*.o,*.swp,*.bak,*.pyc,*.pyo,*.class,*.zip
 " lazy redraw.
 set lazyredraw
+" improves smoothness of redrawing.
+set ttyfast
 " show the matching part of the pair for [] {} and ()
 set showmatch
 " set text width
 set textwidth=0
+set ambiwidth=double
 " highlight the long text
 set colorcolumn=80,120
 set ruler
+set scrolloff=10
+" invisible char when exec :list
+set listchars=tab:¦\ ,eol:¬,trail:⋅,extends:»,precedes:«
 " }}}
 
 " gui setting {{{
@@ -361,8 +372,10 @@ set softtabstop=4
 set shiftwidth=4
 " convert tab to spaces.
 set expandtab
+set smarttab
 " auto indent.
 set autoindent
+set smartindent
 " }}}
 
 " search setting. {{{
@@ -388,6 +401,11 @@ set foldnestmax=10
 
 " OSX seems don't have own backspace setting.
 set backspace=indent,eol,start
+
+" ignore error bells.
+set noerrorbells
+set novisualbell
+set t_vb=
 
 " ================
 " }}} end custom settings
@@ -477,7 +495,7 @@ nnoremap <Left> <Nop>
 nnoremap <Right> <Nop>
 nnoremap <Up> <Nop>
 nnoremap <Down> <Nop>
-" move vertically by visual line
+" move vertically by screen line.
 nnoremap j gj
 nnoremap k gk
 " space = toggle folding.
@@ -558,6 +576,7 @@ augroup filetype_dotfiles
     autocmd FileType vim setlocal foldmethod=marker foldlevel=0
     autocmd BufWritePre .vimrc,vimrc call s:UpdateFileTemplate()
 
+    autocmd FileType sh setlocal foldmethod=marker foldlevel=0
     autocmd BufWritePre .bashrc,bashrc call s:UpdateFileTemplate()
     autocmd BufWritePre .inputrc,inputrc call s:UpdateFileTemplate()
     autocmd BufWritePre .gitconfig,gitconfig call s:UpdateFileTemplate()
