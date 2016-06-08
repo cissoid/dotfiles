@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-06-08 17:45:32
+" Last Modified: 2016-06-08 18:05:59
 " ================
 
 " ================
@@ -27,73 +27,74 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
+" set rtp+=~/.vim/bundle/vim-plug
 " call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
-call vundle#begin('~/env/vim/bundle')
+" call vundle#begin('~/env/vim/bundle')
+call plug#begin('~/env/vim/bundle')
 
 " let Vundle manage Vundle, required
 " Common
-Plugin 'VundleVim/Vundle.vim'
+Plug 'VundleVim/Vundle.vim'
 
 " Easily jump between header file and source file.
-Plugin 'a.vim'
+Plug 'a.vim'
 " Vimdiff for directories.
-Plugin 'dirdiff.vim'
+Plug 'dirdiff.vim'
 " Add extra command to handle surround symbols.
-Plugin 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 
 " Language highlight.
-Plugin 'nginx.vim'
-Plugin 'solarnz/thrift.vim'
-Plugin 'chikamichi/mediawiki.vim'
-Plugin 'SWIG-syntax'
-Plugin 'PotatoesMaster/i3-vim-syntax'
+Plug 'nginx.vim'
+Plug 'solarnz/thrift.vim'
+Plug 'chikamichi/mediawiki.vim'
+Plug 'SWIG-syntax'
+Plug 'PotatoesMaster/i3-vim-syntax'
 
 " Theme plugins
-Plugin 'tomasr/molokai'
-" Plugin 'altercation/vim-colors-solarized'
+Plug 'tomasr/molokai'
+" Plug 'altercation/vim-colors-solarized'
 
 if s:enhanced
     " Show current search index.
-    Plugin 'henrik/vim-indexed-search'
+    Plug 'henrik/vim-indexed-search'
     " Show gitgutter.
-    Plugin 'airblade/vim-gitgutter'
-    " Plugin 'nathanaelkane/vim-indent-guides'
+    Plug 'airblade/vim-gitgutter'
+    " Plug 'nathanaelkane/vim-indent-guides'
 
     " File tree.
-    Plugin 'scrooloose/nerdtree'
+    Plug 'scrooloose/nerdtree'
     " Singleton nerdtree.
-    Plugin 'jistr/vim-nerdtree-tabs'
+    Plug 'jistr/vim-nerdtree-tabs'
     " Syntax check.
-    Plugin 'scrooloose/syntastic'
+    Plug 'scrooloose/syntastic'
     " Auto completion.
-    Plugin 'Valloric/YouCompleteMe'
+    Plug 'Valloric/YouCompleteMe'
     " Snippet engine.
-    Plugin 'SirVer/ultisnips'
+    Plug 'SirVer/ultisnips'
     " Show undo tree.
-    Plugin 'sjl/gundo.vim'
+    Plug 'sjl/gundo.vim'
     " Show taglist.
-    Plugin 'majutsushi/tagbar'
+    Plug 'majutsushi/tagbar'
     " Fast search file.
-    Plugin 'ctrlpvim/ctrlp.vim'
+    Plug 'ctrlpvim/ctrlp.vim'
 
     " Comment/uncomment.
-    Plugin 'scrooloose/nerdcommenter'
+    Plug 'scrooloose/nerdcommenter'
     " Auto add/remove pair symbols.
-    Plugin 'raimondi/delimitmate'
-    " Plugin 'jiangmiao/auto-pairs'
-    Plugin 'terryma/vim-multiple-cursors'
-    Plugin 'easymotion/vim-easymotion'
-    Plugin 'mattn/emmet-vim'
+    Plug 'raimondi/delimitmate'
+    " Plug 'jiangmiao/auto-pairs'
+    Plug 'terryma/vim-multiple-cursors'
+    Plug 'easymotion/vim-easymotion'
+    Plug 'mattn/emmet-vim'
     " Integrated with git.
-    Plugin 'tpope/vim-fugitive'
-    Plugin 'wesQ3/vim-windowswap'
+    Plug 'tpope/vim-fugitive'
+    Plug 'wesQ3/vim-windowswap'
     " Personal wiki.
-    Plugin 'vimwiki/vimwiki'
-    " Plugin 'fatih/vim-go'
-    Plugin 'ynkdir/vim-vimlparser'
-    Plugin 'syngan/vim-vimlint'
+    Plug 'vimwiki/vimwiki'
+    " Plug 'fatih/vim-go'
+    Plug 'ynkdir/vim-vimlparser'
+    Plug 'syngan/vim-vimlint'
 endif
 
 " Unused
@@ -120,7 +121,7 @@ endif
 " Plugin 'user/L9', {'name': 'newL9'}
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
+call plug#end()            " required
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 filetype plugin on
