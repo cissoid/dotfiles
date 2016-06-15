@@ -1,1 +1,0 @@
-/home/cissoid/env/vim/bundle/molokai/colors/molokai.vim

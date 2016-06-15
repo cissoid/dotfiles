@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-06-12 17:31:58
+" Last Modified: 2016-06-14 10:25:30
 " ================
 
 " ================
@@ -87,11 +87,11 @@ if s:enhanced
     " Snippet engine.
     Plug 'SirVer/ultisnips'
     " Auto completion.
-    Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'javascript', 'python'], 'do': './install.py --clang-completer --gocode-completer --tern-completer'}
+    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --gocode-completer --tern-completer'}
 
     " Easily jump between header file and source file.
     Plug 'a.vim', {'for': ['c', 'cpp']}
-    Plug 'mattn/emmet-vim', {'for': ['html']}
+    Plug 'mattn/emmet-vim', {'for': ['html', 'php']}
     " Plug 'fatih/vim-go'
     " Personal wiki.
     Plug 'vimwiki/vimwiki'
@@ -331,10 +331,10 @@ set softtabstop=4
 set shiftwidth=4
 " convert tab to spaces.
 set expandtab
-set smarttab
+" set smarttab
 " auto indent.
 set autoindent
-set smartindent
+" set smartindent
 " }}}
 
 " search setting. {{{
