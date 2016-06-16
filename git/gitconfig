@@ -2,7 +2,8 @@
 # File Name: .gitconfig
 # Author: Cissoid
 # Created At: 2015-09-01 09:34:00
-# Last Modified: 2016-05-04 11:07:17
+# Last Modified: 2016-06-16 17:44:04
+
 [core]
     editor = vim
 [alias]
@@ -11,6 +12,7 @@
     co = checkout
     ci = commit
     glog = log --all --graph --pretty='%C(auto)%h %d %s (%C(cyan)%an%Creset, %Cgreen%ad%Creset)'
+    dsf = "!f() { git diff --color $@ | diff-so-fancy | less -RFX; }; f"
 [color]
     branch = auto
     diff = auto
