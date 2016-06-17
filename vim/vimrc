@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-06-14 10:25:30
+" Last Modified: 2016-06-17 11:49:27
 " ================
 
 " ================
@@ -78,6 +78,7 @@ if s:enhanced
     " Show undo tree.
     Plug 'sjl/gundo.vim'
     " Plug 'jiangmiao/auto-pairs'
+    Plug 'terryma/vim-expand-region'
     Plug 'terryma/vim-multiple-cursors'
     " Integrated with git.
     Plug 'tpope/vim-fugitive'
@@ -95,6 +96,9 @@ if s:enhanced
     " Plug 'fatih/vim-go'
     " Personal wiki.
     Plug 'vimwiki/vimwiki'
+    Plug 'junegunn/goyo.vim'
+    Plug 'junegunn/limelight.vim'
+    Plug 'amix/vim-zenroom2'
 
     Plug 'syngan/vim-vimlint'
     Plug 'ynkdir/vim-vimlparser'
@@ -240,6 +244,14 @@ let g:vimwiki_list = [
     \ {'path': '~/Dropbox/Personal/wiki/', 'syntax': 'markdown', 'ext': '.md', 'auto_toc': 1}
     \ ]
 " }}}
+
+" goyo & limelight settings {{{
+let g:limelight_conceal_ctermfg = 'gray'
+let g:limelight_conceal_guifg = 'DarkGray'
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
+" }}}
+
 " ================
 " }}} end plugin settings
 " ================
@@ -609,6 +621,8 @@ augroup filetype_php
     autocmd!
     if s:enhanced
         autocmd FileType php EmmetInstall
+        call s:AddReformatLang(['php'])
+        autocmd FileType php setlocal formatprg=phpcbf\ \-\-stdin\-path\ \-\-standard\=PSR1,PSR2
     endif
 augroup END
 
