@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-06-17 11:49:27
+" Last Modified: 2016-06-17 13:22:04
 " ================
 
 " ================
@@ -277,12 +277,10 @@ set backspace=indent,eol,start
 " color setting {{{
 syntax enable
 " colorful!
-set t_Co=256
-colorscheme molokai
 " set background=dark
+colorscheme molokai
 " let g:solarized_termcolors=256
 " colorscheme solarized
-highlight Normal ctermbg=none
 " }}}
 
 " ui setting {{{
@@ -331,6 +329,9 @@ if has('gui_running')
         set guifont=Monospace\ 12
         set guioptions=
     endif
+else
+    set t_Co=256
+    highlight Normal ctermbg=none
 endif
 " }}}
 
