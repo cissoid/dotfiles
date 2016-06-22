@@ -74,7 +74,7 @@ if s:enhanced
     " File tree.
     Plug 'scrooloose/nerdtree'
     " Syntax check.
-    Plug 'scrooloose/syntastic', {'for': ['c', 'cpp', 'javascript', 'python']}
+    Plug 'scrooloose/syntastic', {'for': ['c', 'cpp', 'go', 'javascript', 'python']}
     " Show undo tree.
     Plug 'sjl/gundo.vim'
     " Plug 'jiangmiao/auto-pairs'
@@ -549,15 +549,6 @@ augroup filetype_python
         autocmd FileType python,pyrex setlocal formatprg=autopep8\ \-
         " autocmd BufWritePre *.py call Reformat()
     endif
-augroup END
-
-augroup filetype_make
-    autocmd!
-augroup END
-
-augroup filetype_cmake
-    autocmd!
-    autocmd BufNewFile,BufReadPre CMakeLists.txt setlocal filetype=cmake
 augroup END
 
 augroup filetype_clang
