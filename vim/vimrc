@@ -2,7 +2,7 @@
 " File Name: .vimrc
 " Author: Cissoid
 " Created At: 2015-07-09 13:42:00
-" Last Modified: 2016-06-17 18:37:38
+" Last Modified: 2016-06-22 18:15:20
 " ================
 
 " ================
@@ -85,6 +85,7 @@ if s:enhanced
     " Auto add/remove pair symbols.
     Plug 'raimondi/delimitmate'
     Plug 'wesQ3/vim-windowswap'
+    Plug 'Cissoid/vim-templates'
     " Snippet engine.
     Plug 'SirVer/ultisnips'
     " Auto completion.
@@ -442,34 +443,6 @@ function! s:ExecuteInShell(command)
     echo 'Shell command ' . l:command . ' executed.'
 endfunction
 command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
-
-function! s:AddFileTemplate(filetype)
-    let l:template = '~/.vim/templates/' . a:filetype . '.template'
-    let l:writecmd = '0read ' . l:template
-    silent! execute l:writecmd
-
-    let l:exec_line = '1,' . min([line('$'), 10])
-    let l:eval_regex = '\[:VIM_EVAL:\](.+)\[:END_EVAL:\]'
-    let l:eval_func = '\=eval(submatch(1))'
-    let l:execcmd = l:exec_line . 's/\v\C' . l:eval_regex . '/' . l:eval_func . '/g'
-    silent! execute l:execcmd
-endfunction
-
-function! ManualAddFileTemplate()
-    silent! call s:AddFileTemplate(&filetype)
-endfunction
-
-function! s:UpdateFileTemplate()
-    let l:exec_line = '1,' . min([line('$'), 10])
-    let l:modify_regex = '(Last Modified: )@<=([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})'
-    let l:eval_func = '\=eval("strftime(\"%Y-%m-%d %H:%M:%S\")")'
-    silent! normal! mm
-    silent! execute l:exec_line . 's/\v\C' . l:modify_regex . '/' . l:eval_func . '/'
-    silent! normal! 'm
-    silent! execute 'delmarks m'
-    silent! normal! zz
-endfunction
-
 " ================
 " }}}
 " ================
@@ -513,7 +486,6 @@ nnoremap <Leader>% :vsplit<CR>
 nnoremap <Leader>" :split<CR>
 
 nnoremap <Leader>p :set paste!<CR>
-nnoremap <Leader>at :call ManualAddFileTemplate()<CR>
 
 if s:enhanced
     nnoremap <Leader>n :NERDTreeTabsToggle<CR>
@@ -564,21 +536,13 @@ vnoremap <Down> <Nop>
 augroup filetype_dotfiles
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker foldlevel=0
-    autocmd BufWritePre .vimrc,vimrc call s:UpdateFileTemplate()
-
     autocmd FileType sh setlocal foldmethod=marker foldlevel=0
-    autocmd BufWritePre .bashrc,bashrc call s:UpdateFileTemplate()
-    autocmd BufWritePre .inputrc,inputrc call s:UpdateFileTemplate()
-    autocmd BufWritePre .gitconfig,gitconfig call s:UpdateFileTemplate()
-    autocmd BufWritePre .conkyrc,conkyrc call s:UpdateFileTemplate()
 augroup END
 
 augroup filetype_python
     autocmd!
     " enable all Python syntax highlighting features
     autocmd FileType python let python_highlight_all = 1
-    autocmd BufNewFile *.py call s:AddFileTemplate('python')
-    autocmd BufWritePre *.py call s:UpdateFileTemplate()
 
     if s:enhanced
         call s:AddReformatLang(['python', 'pyrex'])
@@ -589,22 +553,15 @@ augroup END
 
 augroup filetype_make
     autocmd!
-    autocmd BufNewFile Makefile call s:AddFileTemplate('make')
 augroup END
 
 augroup filetype_cmake
     autocmd!
     autocmd BufNewFile,BufReadPre CMakeLists.txt setlocal filetype=cmake
-    autocmd BufNewFile CMakeLists.txt call s:AddFileTemplate('cmake')
-    autocmd BufWritePre CMakeLists.txt call s:UpdateFileTemplate()
 augroup END
 
 augroup filetype_clang
     autocmd!
-    autocmd BufNewFile *.h,*.c call s:AddFileTemplate('c')
-    autocmd BufWritePre *.h,*.c call s:UpdateFileTemplate()
-    autocmd BufNewFile *.hpp,*.cpp,*.cc,*.cxx call s:AddFileTemplate('cpp')
-    autocmd BufWritePre *.hpp,*.cpp,*.cc,*.cxx call s:UpdateFileTemplate()
 
     if s:enhanced
         call s:AddReformatLang(['c', 'cpp'])
@@ -616,12 +573,10 @@ augroup END
 augroup filetype_golang
     autocmd!
     if s:enhanced
-        call s:AddReformatLang('go')
+        call s:AddReformatLang(['go'])
         autocmd FileType go setlocal formatprg=gofmt
         autocmd FileType go nnoremap <F9> :Shell go build %<CR>
         autocmd FileType go nnoremap <F10> :Shell go run %<CR>
-        autocmd BufNewFile *.go call s:AddFileTemplate('go')
-        autocmd BufWritePre *.go call s:UpdateFileTemplate()
         autocmd BufWritePre *.go call Reformat()
     endif
 augroup END
