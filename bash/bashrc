@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-06-24T16:10:09+0800
+# Last Modified: 2016-06-24T16:52:50+0800
 # ================================
 
 # Source global definitions. {{{
@@ -14,17 +14,17 @@ elif [ -r /etc/bash.bashrc ]; then
 fi
 # }}}
 
+shopt -s cdspell
+# shopt -s dirspell
+shopt -s cmdhist
 # support for **
 shopt -s globstar
-shopt -s cdspell
-shopt -s cmdhist
-# shopt -s dirspell
 
 # environment variables. {{{
-export TERM=xterm-256color
 export LC_ALL=en_US.UTF-8
 export LC_TYPES=en_US.UTF-8
 export LANG=en_US.UTF-8
+export TERM=xterm-256color
 
 # powerline settings. {{{
 export POWERLINE_BASH_CONTINUATION=1
@@ -33,9 +33,9 @@ export POWERLINE_INSTALL_PATH
 POWERLINE_INSTALL_PATH=$(pip show powerline-status | grep Location | awk '{print $2}')/powerline
 # }}}
 
+export COMPOSER_HOME=$HOME/.composer
 # export GOROOT=~/go
 export GOPATH=$HOME/env/golang
-export COMPOSER_HOME=$HOME/.composer
 
 export PATH=$PATH:$HOME/bin:$GOPATH/bin:$COMPOSER_HOME/vendor/bin
 # }}}
@@ -74,17 +74,25 @@ elif [ "$(uname)" == "Darwin" ]; then
 fi
 
 # aliases. {{{
-alias s='ssh'
-alias rm='rm -i'
 alias cp='cp -i'
-alias mv='mv -i'
-alias ls='ls --color=auto'
-alias ll='ls -l --color=auto'
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
 alias du1='du --max-depth=1'
-alias tree1='tree -L 1'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+alias ll='ls -l --color=auto'
+alias ls='ls --color=auto'
+alias mv='mv -i'
+alias rm='rm -i'
+alias s='ssh'
 # alias tmux='tmux -2'
-alias pip-upgrade-all='pip freeze | grep -Po "(.*)(?=\=\=)" | xargs pip install -U'
+alias tree1='tree -L 1'
+
+alias pip-upgrade-all='f() { \
+        exclude_regex="^(0)"; \
+        for package in $*; do \
+            exclude_regex+="|($package)"; \
+        done; \
+        exclude_regex+="$"; \
+        pip freeze | grep -Po "(.*)(?=\=\=)" | grep -iPv "$exclude_regex" | xargs pip install -U; \
+    }; f'
 # }}}
