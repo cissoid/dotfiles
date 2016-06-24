@@ -1,9 +1,9 @@
-" ================
-" File Name: .vimrc
-" Author: Cissoid
+" ================================
+" File Name: vimrc
+" Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-06-22T20:55:11+0800
-" ================
+" Last Modified: 2016-06-24T14:40:14+0800
+" ================================
 
 " ================
 " custom environment variables. {{{

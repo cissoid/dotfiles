@@ -1,10 +1,10 @@
 #!/bin/bash
-# ================
-# File Name: .bashrc
-# Author: Cissoid
+# ================================
+# File Name: bashrc
+# Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-06-22T20:55:59+0800
-# ================
+# Last Modified: 2016-06-24T14:40:01+0800
+# ================================
 
 # Source global definitions. {{{
 if [ -r /etc/bashrc ]; then
