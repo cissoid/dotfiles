@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-06-24T14:51:30+0800
+" Last Modified: 2016-06-24T15:54:09+0800
 " ================================
 
 " ================
@@ -172,7 +172,7 @@ if s:enhanced
     let g:ycm_key_detailed_diagnostics = '<Leader>yd'
     let g:ycm_key_list_select_completion = ['<Tab>', '<C-j>']
     let g:ycm_key_list_previous_completion = ['<C-k>']
-    let g:ycm_global_ycm_extra_conf = '~/.vim/data/ycm_extra_conf.py'
+    let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
     let g:ycm_confirm_extra_conf = 0
     " disable this to make syntastic work correctly.
     let g:ycm_show_diagnostics_ui = 0
