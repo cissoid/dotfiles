@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-06-24T15:54:09+0800
+" Last Modified: 2016-06-27T18:05:05+0800
 " ================================
 
 " ================
@@ -74,7 +74,7 @@ if s:enhanced
     " File tree.
     Plug 'scrooloose/nerdtree'
     " Syntax check.
-    Plug 'scrooloose/syntastic', {'for': ['c', 'cpp', 'go', 'javascript', 'python']}
+    Plug 'scrooloose/syntastic', {'for': ['c', 'cpp', 'go', 'javascript', 'python', 'vim']}
     " Show undo tree.
     Plug 'sjl/gundo.vim'
     " Plug 'jiangmiao/auto-pairs'
@@ -568,7 +568,6 @@ augroup filetype_golang
         autocmd FileType go setlocal formatprg=gofmt
         autocmd FileType go nnoremap <F9> :Shell go build %<CR>
         autocmd FileType go nnoremap <F10> :Shell go run %<CR>
-        autocmd BufWritePre *.go call Reformat()
     endif
 augroup END
 

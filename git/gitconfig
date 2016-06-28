@@ -2,7 +2,7 @@
 # File Name: gitconfig
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-06-24T14:40:26+0800
+# Last Modified: 2016-06-24T17:04:05+0800
 # ================================
 
 [core]
@@ -15,8 +15,8 @@
     glog = log --all --graph --pretty='%C(auto)%h %d %s (%C(cyan)%an%Creset, %Cgreen%ad%Creset)'
     dsf = "!f() { git diff --color $@ | diff-so-fancy | less -RFX; }; f"
     clone-github = "!f() { git clone https://github.com/$1 $2; }; f"
-    pull-all = "! \
-        f() { \
+    config-user = "!f() { git config user.name $1; git config user.email $2; }; f"
+    pull-all = "!f() { \
             for folder in `ls`; do \
                 if [ -d $folder ] && [ -d $folder/.git ]; then \
                     cd $folder; \
@@ -29,8 +29,7 @@
                 fi; \
             done; \
         }; f"
-    rewrite-author = "! \
-        f() { \
+    rewrite-author = "!f() { \
             AUTHOR=$1; \
             AUTHOR_EMAIL=$2; \
             for branch in `git branch -r | grep -Po \"(?<=origin/)([a-zA-Z0-9\\-_]*)(?=(\\s|$))\"`; do \
