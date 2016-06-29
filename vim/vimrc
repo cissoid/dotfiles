@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-06-27T18:05:05+0800
+" Last Modified: 2016-06-29T23:08:54+0800
 " ================================
 
 " ================
@@ -86,6 +86,7 @@ if s:enhanced
     Plug 'raimondi/delimitmate'
     Plug 'wesQ3/vim-windowswap'
     Plug 'cissoid/vim-templates'
+    Plug 'GlobalOptions'
     " Snippet engine.
     Plug 'SirVer/ultisnips'
     " Auto completion.
@@ -546,7 +547,7 @@ augroup filetype_python
 
     if s:enhanced
         call s:AddReformatLang(['python', 'pyrex'])
-        autocmd FileType python,pyrex setlocal formatprg=autopep8\ \-
+        autocmd FileType python,pyrex SetBufferLocal formatprg=autopep8\ \-
         " autocmd BufWritePre *.py call Reformat()
     endif
 augroup END
@@ -556,7 +557,7 @@ augroup filetype_clang
 
     if s:enhanced
         call s:AddReformatLang(['c', 'cpp'])
-        autocmd FileType c,cpp setlocal formatprg=clang\-format\ \-style=\"\{BasedOnStyle:\ Google,\ IndentWidth:\ 4\}\"
+        autocmd FileType c,cpp SetBufferLocal formatprg=clang\-format\ \-style=\"\{BasedOnStyle:\ Google,\ IndentWidth:\ 4\}\"
         " autocmd BufWritePre *.h,*.c,*.cpp call Reformat()
     endif
 augroup END
@@ -565,7 +566,7 @@ augroup filetype_golang
     autocmd!
     if s:enhanced
         call s:AddReformatLang(['go'])
-        autocmd FileType go setlocal formatprg=gofmt
+        autocmd FileType go SetBufferLocal formatprg=gofmt
         autocmd FileType go nnoremap <F9> :Shell go build %<CR>
         autocmd FileType go nnoremap <F10> :Shell go run %<CR>
     endif
@@ -576,8 +577,8 @@ augroup filetype_html
     if s:enhanced
         autocmd FileType html,css EmmetInstall
         call s:AddReformatLang(['html', 'css'])
-        autocmd FileType html setlocal formatprg=js\-beautify\ \-\-type\ html
-        autocmd FileType css setlocal formatprg=js\-beautify\ \-\-type\ css
+        autocmd FileType html SetBufferLocal formatprg=js\-beautify\ \-\-type\ html
+        autocmd FileType css SetBufferLocal formatprg=js\-beautify\ \-\-type\ css
     endif
 augroup END
 
@@ -585,7 +586,7 @@ augroup filetype_javascript
     autocmd!
     if s:enhanced
         call s:AddReformatLang('javascript')
-        autocmd FileType javascript setlocal formatprg=js\-beautify
+        autocmd FileType javascript SetBufferLocal formatprg=js\-beautify
         autocmd BufWritePre *.js call Reformat()
     endif
 augroup END
@@ -595,7 +596,7 @@ augroup filetype_php
     if s:enhanced
         autocmd FileType php EmmetInstall
         call s:AddReformatLang(['php'])
-        autocmd FileType php setlocal formatprg=phpcbf\ \-\-stdin\-path\ \-\-standard\=PSR1,PSR2
+        autocmd FileType php SetBufferLocal formatprg=phpcbf\ \-\-stdin\-path\ \-\-standard\=PSR1,PSR2
     endif
 augroup END
 
