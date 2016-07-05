@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-06-28T17:02:29+0800
+# Last Modified: 2016-07-05T18:44:36+0800
 # ================================
 
 # Source global definitions. {{{
@@ -21,6 +21,13 @@ shopt -s cmdhist
 shopt -s globstar
 
 # environment variables. {{{
+# exit_status
+PS1='$(exit_code=$?; [[ $exit_code -eq 0 ]] || printf %s "\[$(tput bold)\]\[\033[38;5;160m\][$exit_code]\[$(tput sgr0)\]")'
+PS1+="[\u@\h:\[$(tput sgr0)\]\[\033[38;5;27m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]]"
+PS1+='$(__git_ps1)'
+PS1+="\\$ \[$(tput sgr0)\]"
+export PS1
+
 export LC_ALL=en_US.UTF-8
 export LC_TYPES=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -67,9 +74,9 @@ elif [ "$(uname)" == "Darwin" ]; then
         . "$HOMEBREW_PREFIX/etc/bash_completion"
     fi
 
-    if [ -r "$(which powerline-daemon)" ]; then
-        . "${POWERLINE_INSTALL_PATH}/bindings/bash/powerline.sh"
-    fi
+    # if [ -r "$(which powerline-daemon)" ]; then
+    #     . "${POWERLINE_INSTALL_PATH}/bindings/bash/powerline.sh"
+    # fi
     # }}}
 fi
 
