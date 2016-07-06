@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-07-06T12:45:23+0800
+# Last Modified: 2016-07-06T12:51:43+0800
 # ================================
 
 # Source global definitions. {{{
@@ -32,7 +32,7 @@ export TERM=xterm-256color
 PS1='$(
     exit_code=$?;
     if [ $exit_code -ne 0 ]; then
-        printf %s "\[$(tput bold)\]" "\[\033[38;5;160m\]" "[" $exit_code "]" "\[$(tput sgr0)\]";
+        printf %s "\[$(tput bold)\]" "\[\033[48;5;160m\]" "[" $exit_code "]" "\[$(tput sgr0)\]";
     fi
 )'
 # python virtualenv
