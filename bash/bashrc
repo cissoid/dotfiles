@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-07-06T12:16:26+0800
+# Last Modified: 2016-07-06T12:45:23+0800
 # ================================
 
 # Source global definitions. {{{
@@ -48,7 +48,7 @@ PS1+="[\u@\h:\[$(tput sgr0)\]\[\033[38;5;27m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\
 PS1+='$(
     if [ ! `which git 2>/dev/null` == "" ] && [ -d `pwd`/.git ]; then
         branch=`git branch | grep -Po "(?<=\\* \\(HEAD detached at )[^\\s]+(?=\\)$)|(?<=\\* )[^\\s]+(?=$)"`;
-        changed=`git status -s`;
+        changed=`git status -s -uno`;
         if [ "$changed" == "" ]; then
             color="";
             colorreset="";
