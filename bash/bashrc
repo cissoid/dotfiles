@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-07-06T12:51:43+0800
+# Last Modified: 2016-07-06T13:14:04+0800
 # ================================
 
 # Source global definitions. {{{
@@ -39,11 +39,23 @@ PS1='$(
 PS1+='$(
     if [ ! "$VIRTUAL_ENV" == "" ]; then
         venv=`echo $VIRTUAL_ENV | grep -Po "([^/]+)$"`;
-        printf %s "(" $venv ")"
+        printf %s "(" $venv ")";
     fi
 )'
 # user, host and directory
-PS1+="[\u@\h:\[$(tput sgr0)\]\[\033[38;5;27m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]]"
+PS1+="["
+PS1+='$(
+    if [ "\u" == "root" ]; then
+        color="\[\033[38;5;196m\]";
+        colorreset="\[$(tput sgr0)\]";
+    else
+        color="\[\033[38;5;2m\]";
+        colorreset="\[$(tput sgr0)\]";
+    fi
+    printf %s $color "\u@\h" $colorreset
+)'
+PS1+=":\[$(tput bold)\]\[\033[38;5;12m\]\w\[$(tput sgr0)\]"
+PS1+="]"
 # git branch
 PS1+='$(
     if [ ! `which git 2>/dev/null` == "" ] && [ -d `pwd`/.git ]; then
