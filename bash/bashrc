@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-07-06T10:57:47+0800
+# Last Modified: 2016-07-06T11:19:23+0800
 # ================================
 
 # Source global definitions. {{{
@@ -64,10 +64,10 @@ export PS1
 # }}}
 
 # powerline settings. {{{
-export POWERLINE_BASH_CONTINUATION=1
-export POWERLINE_BASH_SELECT=1
-export POWERLINE_INSTALL_PATH
-POWERLINE_INSTALL_PATH=$(pip show powerline-status | grep Location | awk '{print $2}')/powerline
+# export POWERLINE_BASH_CONTINUATION=1
+# export POWERLINE_BASH_SELECT=1
+# export POWERLINE_INSTALL_PATH
+# POWERLINE_INSTALL_PATH=$(pip show powerline-status | grep Location | awk '{print $2}')/powerline
 # }}}
 
 export COMPOSER_HOME=$HOME/.composer

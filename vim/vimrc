@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-06-29T23:08:54+0800
+" Last Modified: 2016-07-06T11:06:22+0800
 " ================================
 
 " ================
@@ -63,6 +63,7 @@ Plug 'tpope/vim-surround'
 if s:enhanced
     " Show gitgutter.
     Plug 'airblade/vim-gitgutter'
+    Plug 'cissoid/vim-templates'
     " Fast search file.
     Plug 'ctrlpvim/ctrlp.vim'
     " quickly jump.
@@ -85,7 +86,7 @@ if s:enhanced
     " Auto add/remove pair symbols.
     Plug 'raimondi/delimitmate'
     Plug 'wesQ3/vim-windowswap'
-    Plug 'cissoid/vim-templates'
+    " Plug 'vim-airline/vim-airline'
     Plug 'GlobalOptions'
     " Snippet engine.
     Plug 'SirVer/ultisnips'
