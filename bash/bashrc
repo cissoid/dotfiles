@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-07-05T18:44:36+0800
+# Last Modified: 2016-07-06T09:04:01+0800
 # ================================
 
 # Source global definitions. {{{
@@ -22,9 +22,19 @@ shopt -s globstar
 
 # environment variables. {{{
 # exit_status
-PS1='$(exit_code=$?; [[ $exit_code -eq 0 ]] || printf %s "\[$(tput bold)\]\[\033[38;5;160m\][$exit_code]\[$(tput sgr0)\]")'
+PS1='$(
+    exit_code=$?;
+    if [ $exit_code -ne 0 ]; then
+        printf %s "\[$(tput bold)\]\[\033[38;5;160m\][$exit_code]\[$(tput sgr0)\]";
+    fi
+)'
 PS1+="[\u@\h:\[$(tput sgr0)\]\[\033[38;5;27m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]]"
-PS1+='$(__git_ps1)'
+PS1+='$(
+    if [ -d `pwd`/.git ]; then
+        branch=`git branch | grep -Po "(?<=\\*\\s)(.*)$"`;
+        printf %s "(" $branch ")";
+    fi
+)'
 PS1+="\\$ \[$(tput sgr0)\]"
 export PS1
 
@@ -58,10 +68,10 @@ if [ "$(uname)" == "Linux" ]; then
       fi
     fi
     
-    if [ -f "$(which powerline-daemon)" ]; then
-        flock -xn /tmp/powerline-daemon.lock powerline-daemon -q
-        . "${POWERLINE_INSTALL_PATH}/bindings/bash/powerline.sh"
-    fi
+    # if [ -f "$(which powerline-daemon)" ]; then
+    #     flock -xn /tmp/powerline-daemon.lock powerline-daemon -q
+    #     . "${POWERLINE_INSTALL_PATH}/bindings/bash/powerline.sh"
+    # fi
     # }}}
 
 elif [ "$(uname)" == "Darwin" ]; then
