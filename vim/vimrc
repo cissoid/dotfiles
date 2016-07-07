@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-07-07T10:43:45+0800
+" Last Modified: 2016-07-07T12:01:51+0800
 " ================================
 
 " ================
@@ -21,11 +21,11 @@ let s:format_filetypes = []
 " ================
 " powerline settings {{{
 " ================
-if s:enhanced
-    python from powerline.vim import setup as powerline_setup
-    python powerline_setup()
-    python del powerline_setup
-endif
+" if s:enhanced && has('python')
+"     python from powerline.vim import setup as powerline_setup
+"     python powerline_setup()
+"     python del powerline_setup
+" endif
 " ================
 " }}} end powerline settings.
 " ================
@@ -86,12 +86,15 @@ if s:enhanced
     " Auto add/remove pair symbols.
     Plug 'raimondi/delimitmate'
     Plug 'wesQ3/vim-windowswap'
-    " Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
     Plug 'GlobalOptions'
-    " Snippet engine.
-    Plug 'SirVer/ultisnips'
-    " Auto completion.
-    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --gocode-completer --tern-completer'}
+    if has('python')
+        " Snippet engine.
+        Plug 'SirVer/ultisnips'
+        " Auto completion.
+        Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --gocode-completer --tern-completer'}
+    endif
 
     " Easily jump between header file and source file.
     Plug 'a.vim', {'for': ['c', 'cpp']}
@@ -129,6 +132,13 @@ let NERDTreeChDirMode = 2
 let NERDTreeShowBookmarks = 1
 " let NERDTreeShowLineNumbers = 1
 " }}}
+
+" airline settings {{{
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_theme='powerlineish'
+" }}}
+
 
 " syntastic settings, this MUST set after powerline settings. {{{
 if s:enhanced
@@ -353,7 +363,8 @@ set listchars=tab:¦\ ,eol:¬,trail:⋅,extends:»,precedes:«
 " gui setting {{{
 if has('gui_running')
     if has('macunix')
-        set guifont=Ubuntu\ Mono\ derivative\ Powerline:h16
+        " set guifont=Ubuntu\ Mono\ derivative\ Powerline:h16
+        set guifont=Consolas:h15
         set guioptions=
     elseif has('unix')
         set guifont=Monospace\ 12
@@ -446,7 +457,7 @@ function! s:ExecuteInShell(command)
 endfunction
 command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
 
-command! Wsudo :w !sudo tee %
+command! SudoW :w !sudo tee % >/dev/null
 " ================
 " }}}
 " ================
