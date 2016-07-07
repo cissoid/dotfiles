@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-07-06T11:06:22+0800
+" Last Modified: 2016-07-07T10:43:45+0800
 " ================================
 
 " ================
@@ -445,6 +445,8 @@ function! s:ExecuteInShell(command)
     echo 'Shell command ' . l:command . ' executed.'
 endfunction
 command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
+
+command! Wsudo :w !sudo tee %
 " ================
 " }}}
 " ================
