@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-07-07T12:01:51+0800
+" Last Modified: 2016-07-07T12:10:03+0800
 " ================================
 
 " ================
@@ -137,8 +137,10 @@ let NERDTreeShowBookmarks = 1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_theme='powerlineish'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = '|'
 " }}}
-
 
 " syntastic settings, this MUST set after powerline settings. {{{
 if s:enhanced
