@@ -1,4 +1,7 @@
 #!/bin/bash
+SRC_DIR=`dirname \`realpath ${0}\``
+TAR_DIR=$HOME
+
 install_maps=(
     # c, cpp
     "yaourt"        "clang-check"       "clang"
@@ -29,6 +32,11 @@ install_maps=(
     "composer"      "phpcs"             "squizlabs/php_codesniffer"
 )
 
+config_maps=(
+    "$SRC_DIR/flake8/flake8"  "$TAR_DIR/.config/flake8"
+    "$SRC_DIR/tern/tern-config" "$TAR_DIR/.tern-project"
+)
+
 for(( i=0; i<${#install_maps[@]}; i=i+3 ))
 do
     installer=${install_maps[i]}
@@ -42,13 +50,29 @@ do
                 yaourt -S "$linter_name"
                 ;;
             "pip")
-                sudo pip install "$linter_name"
+                pip install "$linter_name"
                 ;;
             "npm")
-                sudo npm install -g "$linter_name"
+                npm install -g "$linter_name"
                 ;;
             "composer")
                 composer global require "$linter_name"
         esac
     fi
+done
+
+linkto () {
+    if [ -d $2 -o -f $2 ]
+    then
+        echo "$2 exist, ignore it..."
+        return 1
+    fi
+    ln -s $1 $2
+}
+
+for(( i=0; i<${#config_maps[@]}; i=i+2 ));
+do
+    src=${config_maps[i]}
+    dest=${config_maps[i+1]}
+    linkto $src $dest
 done
