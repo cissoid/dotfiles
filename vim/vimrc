@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-07-07T15:26:40+0800
+" Last Modified: 2016-07-08T11:58:44+0800
 " ================================
 
 " ================
@@ -63,6 +63,7 @@ Plug 'tpope/vim-surround'
 if s:enhanced
     " Show gitgutter.
     Plug 'airblade/vim-gitgutter'
+    Plug 'cissoid/vim-fullwidth-punct-convertor'
     Plug 'cissoid/vim-templates'
     " Fast search file.
     Plug 'ctrlpvim/ctrlp.vim'

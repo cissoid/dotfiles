@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-07-07T16:51:53+0800
+# Last Modified: 2016-07-08T15:52:56+0800
 # ================================
 
 # Source global definitions. {{{
@@ -146,3 +146,5 @@ alias pip-upgrade-all='f() { \
         pip freeze | grep -Po "(.*)(?=\=\=)" | grep -iPv "$exclude_regex" | xargs pip install -U; \
     }; f'
 # }}}
+
+alias backup='f() { tar -zcvf $1_`date +"%Y%m%d%H%M%S"`.tar.gz $1; }; f'
