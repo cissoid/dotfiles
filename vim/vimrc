@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-07-08T16:21:19+0800
+" Last Modified: 2016-07-11T10:14:54+0800
 " ================================
 scriptencoding utf-8
 
@@ -365,7 +365,7 @@ set colorcolumn=80,120
 set ruler
 set scrolloff=10
 " invisible char when exec :list
-set list
+" set list
 set listchars=tab:¦\ ,eol:¬,trail:⋅,extends:»,precedes:«
 " }}}
 
