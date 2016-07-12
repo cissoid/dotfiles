@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-07-11T10:14:54+0800
+" Last Modified: 2016-07-12T16:13:25+0800
 " ================================
 scriptencoding utf-8
 
@@ -70,6 +70,7 @@ if s:enhanced
     Plug 'ctrlpvim/ctrlp.vim'
     " quickly jump.
     Plug 'easymotion/vim-easymotion'
+    Plug 'godlygeek/tabular'
     " Singleton nerdtree.
     Plug 'jistr/vim-nerdtree-tabs'
     " Show taglist.
@@ -571,6 +572,7 @@ augroup filetype_python
     if s:enhanced
         call s:AddReformatLang(['python', 'pyrex'])
         autocmd FileType python,pyrex SetBufferLocal formatprg=autopep8\ \-
+        " autocmd FileType python,pyrex SetBufferLocal formatprg=yapf\ \-\-
         " autocmd BufWritePre *.py call Reformat()
     endif
 augroup END
