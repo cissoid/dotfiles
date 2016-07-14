@@ -2,7 +2,7 @@
 # File Name: gitconfig
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-06-24T17:04:05+0800
+# Last Modified: 2016-07-14T17:22:22+0800
 # ================================
 
 [core]
@@ -56,7 +56,7 @@
 [grep]
     lineNumber = true
 [log]
-    date = "format:%Y-%m-%d %H:%M:%S"
+    date = "format:%F %T"
 [user]
 	useConfigOnly = true
 
