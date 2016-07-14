@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-07-12T16:13:25+0800
+" Last Modified: 2016-07-14T16:49:34+0800
 " ================================
 scriptencoding utf-8
 
@@ -73,12 +73,14 @@ if s:enhanced
     Plug 'godlygeek/tabular'
     " Singleton nerdtree.
     Plug 'jistr/vim-nerdtree-tabs'
+    Plug 'junegunn/vim-easy-align'
     " Show taglist.
     Plug 'majutsushi/tagbar'
+    Plug 'plasticboy/vim-markdown'
     " File tree.
     Plug 'scrooloose/nerdtree'
     " Syntax check.
-    Plug 'scrooloose/syntastic', {'for': ['c', 'cpp', 'go', 'javascript', 'python', 'vim']}
+    Plug 'scrooloose/syntastic', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python', 'vim']}
     " Show undo tree.
     Plug 'sjl/gundo.vim'
     " Plug 'jiangmiao/auto-pairs'
@@ -178,6 +180,8 @@ if s:enhanced
     let g:syntastic_markdown_checkers = ['textlint']
     let g:syntastic_sh_shellcheck_args = '-x -eSC1090,SC1091'
     let g:syntastic_vim_checkers = ['vimlint', 'vint']
+    let g:syntastic_php_checkers = ['php', 'phpcs']
+    let g:syntastic_php_phpcs_args = '--standard=PSR1,PSR2'
 endif
 " }}}
 
@@ -300,6 +304,11 @@ let g:limelight_conceal_guifg = 'DarkGray'
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 " }}}
+
+" vim-markdown settings {{{
+let g:vim_markdown_no_default_key_mappings = 1
+" }}}
+"
 
 " ================
 " }}} end plugin settings
@@ -523,6 +532,7 @@ if s:enhanced
     nnoremap <Leader>yd :YcmCompleter GetDoc<CR>
     nnoremap <Leader>w<Space> :VimwikiToggleListItem<CR>
     nnoremap <Leader>fa :call Reformat()<CR>
+    nmap ga <Plug>(EasyAlign)
 endif
 " }}}
 
@@ -547,6 +557,9 @@ vnoremap <Up> <Nop>
 vnoremap <Down> <Nop>
 " vnoremap <Esc> <Nop>
 " vnoremap jk <Esc>
+if s:enhanced
+    vnoremap ga <Plug>(EasyAlign)
+endif
 " }}}
 " ================
 " }}} end keymap settings
