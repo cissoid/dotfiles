@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-07-14T16:49:34+0800
+" Last Modified: 2016-07-16T13:59:42+0800
 " ================================
 scriptencoding utf-8
 
@@ -95,10 +95,13 @@ if s:enhanced
     Plug 'vim-airline/vim-airline-themes'
     Plug 'GlobalOptions'
     if has('python')
+        python import sys, vim
+        python vim.command('let g:python_exeutable = %s' % sys.executable)
+        python del sys, vim
         " Snippet engine.
         Plug 'SirVer/ultisnips'
         " Auto completion.
-        Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --gocode-completer --tern-completer'}
+        Plug 'Valloric/YouCompleteMe', {'do': g:python_exeutable . 'install.py --clang-completer --gocode-completer --tern-completer'}
     endif
 
     " Easily jump between header file and source file.
