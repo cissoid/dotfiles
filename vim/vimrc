@@ -96,7 +96,7 @@ if s:enhanced
     Plug 'GlobalOptions'
     if has('python')
         python import sys, vim
-        python vim.command('let g:python_exeutable = %s' % sys.executable)
+        python vim.command('let g:python_exeutable = \'%s\'' % sys.executable)
         python del sys, vim
         " Snippet engine.
         Plug 'SirVer/ultisnips'
