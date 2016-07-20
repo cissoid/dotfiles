@@ -2,7 +2,15 @@
 # File Name: inputrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-06-24T14:40:21+0800
+# Last Modified: 2016-07-20T18:34:21+0800
 # ================================
 
 set completion-ignore-case on
+set editing-mode vi
+set show-mode-in-prompt on
+
+$if mode=vi
+    set keymap vi-insert
+    "jk": vi-movement-mode
+    "\C-w": backward-kill-word
+$endif
