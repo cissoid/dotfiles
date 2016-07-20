@@ -2,7 +2,7 @@
 # File Name: gitconfig
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-07-15T11:23:46+0800
+# Last Modified: 2016-07-19T17:34:24+0800
 # ================================
 
 [core]
@@ -12,10 +12,10 @@
     st = status
     co = checkout
     ci = commit
-    glog = log --all --graph --pretty='%C(auto)%h %d %s (%C(cyan)%an%Creset, %Cgreen%ad%Creset)'
-    dsf = "!f() { git diff --color $@ | diff-so-fancy | less -RFX; }; f"
     clone-github = "!f() { git clone https://github.com/$1 $2; }; f"
     config-user = "!f() { git config user.name $1; git config user.email $2; }; f"
+    dsf = "!f() { git diff --color $@ | diff-so-fancy | less -RFX; }; f"
+    glog = log --all --graph --pretty='%C(auto)%h %d %s (%C(cyan)%an%Creset, %Cgreen%ad%Creset)'
     refresh-all = "!f() { \
             for folder in `ls`; do \
                 if [ -d $folder ] && [ -d $folder/.git ]; then \

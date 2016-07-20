@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-07-14T16:49:34+0800
+" Last Modified: 2016-07-20T10:14:38+0800
 " ================================
 scriptencoding utf-8
 
@@ -49,14 +49,17 @@ Plug 'PotatoesMaster/i3-vim-syntax', {'for': 'i3'}
 " }}}
 
 " common vim extended. {{{
+Plug 'christoomey/vim-sort-motion'
 " Vimdiff for directories.
 Plug 'dirdiff.vim', {'on': 'DirDiff'}
 " Show current search index.
 Plug 'henrik/vim-indexed-search'
 " Comment/uncomment.
 Plug 'scrooloose/nerdcommenter'
+Plug 'tomtom/tcomment_vim'
 " Add extra command to handle surround symbols.
 Plug 'tpope/vim-surround'
+Plug 'wellle/targets.vim'
 " Plug 'nathanaelkane/vim-indent-guides'
 " }}}
 
@@ -80,7 +83,7 @@ if s:enhanced
     " File tree.
     Plug 'scrooloose/nerdtree'
     " Syntax check.
-    Plug 'scrooloose/syntastic', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python', 'vim']}
+    Plug 'scrooloose/syntastic', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python']}
     " Show undo tree.
     Plug 'sjl/gundo.vim'
     " Plug 'jiangmiao/auto-pairs'
@@ -98,7 +101,7 @@ if s:enhanced
         " Snippet engine.
         Plug 'SirVer/ultisnips'
         " Auto completion.
-        Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --gocode-completer --tern-completer'}
+        Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python'], 'do': './install.py --clang-completer --gocode-completer --tern-completer'}
     endif
 
     " Easily jump between header file and source file.
@@ -352,6 +355,7 @@ set laststatus=2
 set noshowmode
 " show line number.
 set number
+set relativenumber
 " show command in bottom bar, no use for powerline.
 set showcmd
 " highlight current line.
@@ -493,8 +497,8 @@ nnoremap <Right> <Nop>
 nnoremap <Up> <Nop>
 nnoremap <Down> <Nop>
 " move vertically by screen line.
-nnoremap j gj
-nnoremap k gk
+nnoremap <silent> <expr> j (v:count == 0 ? 'gj': 'j')
+nnoremap <silent> <expr> k (v:count == 0 ? 'gk': 'k')
 " space = toggle folding.
 nnoremap <Space> za
 " highlight last inserted text
