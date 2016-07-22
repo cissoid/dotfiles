@@ -2,15 +2,21 @@
 # File Name: inputrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-07-20T18:34:21+0800
+# Last Modified: 2016-07-22T11:19:29+0800
 # ================================
 
+set colored-stats on
 set completion-ignore-case on
-set editing-mode vi
+set expand-tilde off
 set show-mode-in-prompt on
+set skip-completed-text on
+set visible-stats on
 
+set bind-tty-special-chars off
+set editing-mode vi
 $if mode=vi
     set keymap vi-insert
     "jk": vi-movement-mode
     "\C-w": backward-kill-word
+    # TAB: menu-complete
 $endif
