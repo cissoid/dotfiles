@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-07-20T18:22:10+0800
+" Last Modified: 2016-07-30T11:45:34+0800
 " ================================
 scriptencoding utf-8
 
@@ -44,7 +44,7 @@ Plug 'tomasr/molokai'
 Plug 'chikamichi/mediawiki.vim', {'for': 'wiki'}
 Plug 'nginx.vim', {'for': 'nginx'}
 Plug 'solarnz/thrift.vim', {'for': 'thrift'}
-Plug 'SWIG-syntax', {'for': 'swig'}
+" Plug 'blockloop/vim-swigjs', {'for': 'swig'}
 Plug 'PotatoesMaster/i3-vim-syntax', {'for': 'i3'}
 " }}}
 
@@ -56,7 +56,7 @@ Plug 'dirdiff.vim', {'on': 'DirDiff'}
 Plug 'henrik/vim-indexed-search'
 " Comment/uncomment.
 Plug 'scrooloose/nerdcommenter'
-Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-commentary'
 " Add extra command to handle surround symbols.
 Plug 'tpope/vim-surround'
 Plug 'wellle/targets.vim'
