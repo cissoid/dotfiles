@@ -2,7 +2,7 @@
 # File Name: gitconfig
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-07-19T17:34:24+0800
+# Last Modified: 2016-08-02T18:29:47+0800
 # ================================
 
 [core]
@@ -16,34 +16,34 @@
     config-user = "!f() { git config user.name $1; git config user.email $2; }; f"
     dsf = "!f() { git diff --color $@ | diff-so-fancy | less -RFX; }; f"
     glog = log --all --graph --pretty='%C(auto)%h %d %s (%C(cyan)%an%Creset, %Cgreen%ad%Creset)'
-    refresh-all = "!f() { \
-            for folder in `ls`; do \
-                if [ -d $folder ] && [ -d $folder/.git ]; then \
-                    cd $folder; \
+    refresh-all = "!f() {                                               \
+            for folder in `ls`; do                                      \
+                if [ -d $folder ] && [ -d $folder/.git ]; then          \
+                    cd $folder;                                         \
                     branch=`git branch | grep -Po \"(?<=\\*).*(?=$)\"`; \
-                    echo ====START $folder $branch====; \
-                    git pull --prune; \
-                    git pull origin $branch; \
-                    git gc --prune; \
-                    echo ====END $folder $branch====; \
-                    cd ..; \
-                fi; \
-            done; \
+                    echo ====START $folder $branch====;                 \
+                    git pull --prune;                                   \
+                    git pull origin $branch;                            \
+                    git gc --prune;                                     \
+                    echo ====END $folder $branch====;                   \
+                    cd ..;                                              \
+                fi;                                                     \
+            done;                                                       \
         }; f"
-    rewrite-author = "!f() { \
-            AUTHOR=$1; \
-            AUTHOR_EMAIL=$2; \
+    rewrite-author = "!f() {                                                                           \
+            AUTHOR=$1;                                                                                 \
+            AUTHOR_EMAIL=$2;                                                                           \
             for branch in `git branch -r | grep -Po \"(?<=origin/)([a-zA-Z0-9\\-_]*)(?=(\\s|$))\"`; do \
-                if [ ! \"$branch\" == \"HEAD\" ]; then \
-                    echo ====START $branch====; \
-                    git checkout $branch; \
-                    git pull origin $branch; \
-                    git filter-branch -f --commit-filter \" \
-                        GIT_AUTHOR_NAME=$AUTHOR GIT_AUTHOR_EMAIL=$AUTHOR_EMAIL \
-                        GIT_COMMITTER_NAME=$AUTHOR GIT_COMMITTER_EMAIL=$AUTHOR_EMAIL \
-                        git commit-tree \\\"\\$@\\\"\"; \
-                fi; \
-            done; \
+                if [ ! \"$branch\" == \"HEAD\" ]; then                                                 \
+                    echo ====START $branch====;                                                        \
+                    git checkout $branch;                                                              \
+                    git pull origin $branch;                                                           \
+                    git filter-branch -f --commit-filter \"                                            \
+                        GIT_AUTHOR_NAME=$AUTHOR GIT_AUTHOR_EMAIL=$AUTHOR_EMAIL                         \
+                        GIT_COMMITTER_NAME=$AUTHOR GIT_COMMITTER_EMAIL=$AUTHOR_EMAIL                   \
+                        git commit-tree \\\"\\$@\\\"\";                                                \
+                fi;                                                                                    \
+            done;                                                                                      \
         }; f"
 [color]
     branch = auto
