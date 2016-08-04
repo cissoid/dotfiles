@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-08-02T17:30:49+0800
+" Last Modified: 2016-08-04T15:41:26+0800
 " ================================
 scriptencoding utf-8
 
@@ -80,6 +80,8 @@ if s:enhanced
     " Show taglist.
     Plug 'majutsushi/tagbar'
     Plug 'plasticboy/vim-markdown'
+    Plug 'raimondi/delimitmate'
+    Plug 'rking/ag.vim'
     " File tree.
     Plug 'scrooloose/nerdtree'
     " Syntax check.
@@ -92,11 +94,10 @@ if s:enhanced
     " Integrated with git.
     Plug 'tpope/vim-fugitive'
     " Auto add/remove pair symbols.
-    Plug 'raimondi/delimitmate'
     Plug 'wesQ3/vim-windowswap'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
-    Plug 'GlobalOptions'
+    " Plug 'GlobalOptions'
     if has('python')
         python import sys, vim
         python vim.command('let g:python_executable = \'%s\'' % sys.executable)
@@ -591,10 +592,9 @@ augroup filetype_python
     autocmd FileType python let python_highlight_all = 1
 
     if s:enhanced
-        " call s:AddReformatLang(['python', 'pyrex'])
-        autocmd FileType python,pyrex SetBufferLocal formatprg=autopep8\ \-
+        autocmd BufEnter * if &filetype ==# 'python' | set formatprg=autopep8\ \- | endif
+        autocmd BufLeave * if &filetype ==# 'python' | set formatprg= | endif
         " autocmd FileType python,pyrex SetBufferLocal formatprg=yapf\ \-\-
-        " autocmd BufWritePre *.py call Reformat()
     endif
 augroup END
 
@@ -602,17 +602,17 @@ augroup filetype_clang
     autocmd!
 
     if s:enhanced
-        " call s:AddReformatLang(['c', 'cpp'])
-        autocmd FileType c,cpp SetBufferLocal formatprg=clang\-format\ \-style=\"\{BasedOnStyle:\ Google,\ IndentWidth:\ 4\}\"
-        " autocmd BufWritePre *.h,*.c,*.cpp call Reformat()
+        autocmd BufEnter * if index(['c', 'cpp'], &filetype) >= 0 | set formatprg=clang\-format\ \-style=\"\{BasedOnStyle:\ Google,\ IndentWidth:\ 4\}\" | endif
+        autocmd BufLeave * if index(['c', 'cpp'], &filetype) >= 0 | set formatprg= | endif
     endif
 augroup END
 
 augroup filetype_golang
     autocmd!
     if s:enhanced
-        " call s:AddReformatLang(['go'])
-        autocmd FileType go SetBufferLocal formatprg=gofmt
+        autocmd BufEnter * if &filetype ==# 'go' | set formatprg=gofmt | endif
+        autocmd BufLeave * if &filetype ==# 'go' | set formatprg= | endif
+
         autocmd FileType go nnoremap <F9> :Shell go build %<CR>
         autocmd FileType go nnoremap <F10> :Shell go run %<CR>
     endif
@@ -621,19 +621,26 @@ augroup END
 augroup filetype_html
     autocmd!
     if s:enhanced
-        autocmd FileType html,css EmmetInstall
-        " call s:AddReformatLang(['html', 'css'])
-        autocmd FileType html SetBufferLocal formatprg=js\-beautify\ \-\-type\ html
-        autocmd FileType css SetBufferLocal formatprg=js\-beautify\ \-\-type\ css
+        autocmd FileType html EmmetInstall
+        autocmd BufEnter * if &filetype ==# 'html' | set formatprg=js\-beautify\ \-\-type\ html | endif
+        autocmd BufLeave * if &filetype ==# 'html' | set formatprg= | endif
+    endif
+augroup END
+
+augroup filetype_css
+    autocmd!
+    if s:enhanced
+        autocmd FileType css EmmetInstall
+        autocmd BufEnter * if &filetype ==# 'css' | set formatprg=js\-beautify\ \-\-type\ css | endif
+        autocmd BufLeave * if &filetype ==# 'css' | set formatprg= | endif
     endif
 augroup END
 
 augroup filetype_javascript
     autocmd!
     if s:enhanced
-        " call s:AddReformatLang('javascript')
-        autocmd FileType javascript SetBufferLocal formatprg=js\-beautify
-        autocmd BufWritePre *.js call Reformat()
+        autocmd BufEnter * if &filetype ==# 'javascript' | set formatprg=js\-beautify | endif
+        autocmd BufLeave * if &filetype ==# 'javascript' | set formatprg= | endif
     endif
 augroup END
 
@@ -641,8 +648,8 @@ augroup filetype_php
     autocmd!
     if s:enhanced
         autocmd FileType php EmmetInstall
-        " call s:AddReformatLang(['php'])
-        autocmd FileType php SetBufferLocal formatprg=phpcbf\ \-\-stdin\-path\ \-\-standard\=PSR1,PSR2
+        autocmd BufEnter * if &filetype ==# 'php' | set formatprg=phpcbf\ \-\-stdin\-path\ \-\-standard\=PSR1,PSR2 | endif
+        autocmd BufLeave * if &filetype ==# 'php' | set formatprg= | endif
     endif
 augroup END
 
