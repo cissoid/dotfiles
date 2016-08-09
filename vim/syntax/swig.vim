@@ -1,7 +1,7 @@
 " File Name: swig.vim
 " Author: cissoid
 " Created At: 2016-08-03T17:10:13+0800
-" Last Modified: 2016-08-05T13:44:11+0800
+" Last Modified: 2016-08-05T13:56:35+0800
 scriptencoding utf-8
 
 if exists("b:current_syntax")
@@ -27,7 +27,7 @@ syntax match swigNumber '\v\C[0-9]+' contained
 syntax match swigNumber '\v\C0x[0-9a-fA-F]+' contained
 syntax match swigFloat '\v\C[0-9]+\.[0-9]+(e[0-9]+)?' contained
 syntax keyword swigBoolean true false contained
-syntax match swigOperator '\v\C\=\|'
+syntax match swigOperator '\v\C[\=\|]'
 syntax cluster swigType contains=swigString,swigNumber,swigFloat,swigBoolean,swigOperator
 
 syntax match swigFilterPipe '\v\C\|\s*' contained

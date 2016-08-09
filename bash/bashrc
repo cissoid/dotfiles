@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-08-03T16:55:46+0800
+# Last Modified: 2016-08-09T11:39:29+0800
 # ================================
 
 # Source global definitions. {{{
@@ -147,4 +147,6 @@ alias pip-upgrade-all='f() {                                                    
     }; f'
 
 alias backup='f() { tar -zcvf $1_`date +"%Y%m%d%H%M%S"`.tar.gz $1; }; f'
+
+alias proxycall='http_proxy=http://127.0.0.1:1081 https_proxy=$http_proxy $*'
 # }}}
