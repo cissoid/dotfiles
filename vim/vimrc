@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-08-04T15:43:39+0800
+" Last Modified: 2016-08-05T14:47:09+0800
 " ================================
 scriptencoding utf-8
 
@@ -528,7 +528,7 @@ nnoremap <C-k> k<C-y>
 nnoremap <Leader>% :vsplit<CR>
 nnoremap <Leader>" :split<CR>
 
-nnoremap <Leader>p :set paste!<CR>
+nnoremap gP :set paste!<CR>
 
 if s:enhanced
     nnoremap <Leader>n :NERDTreeTabsToggle<CR>
