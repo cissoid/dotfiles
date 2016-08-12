@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-08-09T11:39:29+0800
+# Last Modified: 2016-08-12T16:31:29+0800
 # ================================
 
 # Source global definitions. {{{
@@ -39,7 +39,7 @@ PS1='$(
 # python virtualenv
 PS1+='$(
     if [ ! "$VIRTUAL_ENV" == "" ]; then
-        venv=`echo $VIRTUAL_ENV | grep -Po "([^/]+)$"`;
+        venv=`basename $VIRTUAL_ENV`;
         printf %s "(" $venv ")";
     fi
 )'
