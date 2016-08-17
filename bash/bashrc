@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-08-12T16:31:29+0800
+# Last Modified: 2016-08-17T10:43:03+0800
 # ================================
 
 # Source global definitions. {{{
@@ -136,6 +136,15 @@ alias rm='rm -i'
 alias s='ssh'
 # alias tmux='tmux -2'
 alias tree1='tree -L 1'
+
+alias man='LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+    LESS_TERMCAP_md=$(printf "\e[1;31m")        \
+    LESS_TERMCAP_me=$(printf "\e[0m")           \
+    LESS_TERMCAP_se=$(printf "\e[0m")           \
+    LESS_TERMCAP_so=$(printf "\e[1;44;33m")     \
+    LESS_TERMCAP_ue=$(printf "\e[0m")           \
+    LESS_TERMCAP_us=$(printf "\e[1;32m")        \
+    man'
 
 alias pip-upgrade-all='f() {                                                                      \
         exclude_regex="^(0)";                                                                     \
