@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-08-05T14:47:09+0800
+" Last Modified: 2016-08-23T18:27:12+0800
 " ================================
 scriptencoding utf-8
 
@@ -79,7 +79,8 @@ if s:enhanced
     Plug 'junegunn/vim-easy-align'
     " Show taglist.
     Plug 'majutsushi/tagbar'
-    Plug 'plasticboy/vim-markdown'
+    Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown']}
+    Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
     Plug 'raimondi/delimitmate'
     Plug 'rking/ag.vim'
     " File tree.
@@ -99,8 +100,8 @@ if s:enhanced
     Plug 'vim-airline/vim-airline-themes'
     " Plug 'GlobalOptions'
     if has('python')
-        python import sys, vim
-        python vim.command('let g:python_executable = \'%s\'' % sys.executable)
+        python import os, sys, vim
+        python vim.command('let g:python_executable = \'%s\'' % os.path.join(sys.exec_prefix, 'bin', 'python'))
         python del sys, vim
         " Snippet engine.
         Plug 'SirVer/ultisnips'
@@ -314,6 +315,8 @@ autocmd! User GoyoLeave Limelight!
 
 " vim-markdown settings {{{
 let g:vim_markdown_no_default_key_mappings = 1
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_toc_autofit = 1
 " }}}
 "
 
