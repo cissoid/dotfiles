@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-08-17T10:43:03+0800
+# Last Modified: 2016-08-24T16:57:10+0800
 # ================================
 
 # Source global definitions. {{{
@@ -14,8 +14,8 @@ elif [ -r /etc/bash.bashrc ]; then
 fi
 # }}}
 
-shopt -s cdspell
-# shopt -s dirspell
+# shopt -s cdspell
+shopt -s dirspell
 shopt -s cmdhist
 # support for **
 shopt -s globstar

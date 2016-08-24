@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-08-23T18:27:12+0800
+" Last Modified: 2016-08-23T18:37:50+0800
 " ================================
 scriptencoding utf-8
 
@@ -89,6 +89,7 @@ if s:enhanced
     Plug 'scrooloose/syntastic', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python']}
     " Show undo tree.
     Plug 'sjl/gundo.vim'
+    " Plug 'spf13/PIV', {'for': ['php']}
     " Plug 'jiangmiao/auto-pairs'
     Plug 'terryma/vim-expand-region'
     Plug 'terryma/vim-multiple-cursors'
