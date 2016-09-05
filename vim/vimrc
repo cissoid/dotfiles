@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-08-23T18:37:50+0800
+" Last Modified: 2016-09-05T15:49:20+0800
 " ================================
 scriptencoding utf-8
 
@@ -91,7 +91,7 @@ if s:enhanced
     Plug 'sjl/gundo.vim'
     " Plug 'spf13/PIV', {'for': ['php']}
     " Plug 'jiangmiao/auto-pairs'
-    Plug 'terryma/vim-expand-region'
+    " Plug 'terryma/vim-expand-region'
     Plug 'terryma/vim-multiple-cursors'
     " Integrated with git.
     Plug 'tpope/vim-fugitive'
@@ -116,9 +116,9 @@ if s:enhanced
     " Plug 'fatih/vim-go'
     " Personal wiki.
     Plug 'vimwiki/vimwiki'
-    Plug 'junegunn/goyo.vim'
-    Plug 'junegunn/limelight.vim'
-    Plug 'amix/vim-zenroom2'
+    " Plug 'junegunn/goyo.vim'
+    " Plug 'junegunn/limelight.vim'
+    " Plug 'amix/vim-zenroom2'
 
     Plug 'syngan/vim-vimlint'
     Plug 'ynkdir/vim-vimlparser'
@@ -174,7 +174,7 @@ if s:enhanced
     let g:syntastic_c_check_header = 1
     let g:syntastic_c_auto_refresh_includes = 1
     let g:syntastic_c_checkers = ['gcc', 'make', 'clang_check', 'cppcheck']
-	let g:syntastic_go_checkers = ['go', 'gofmt', 'golint', 'govet']
+	let g:syntastic_go_checkers = ['go', 'gofmt', 'govet'] " golint
     let g:syntastic_python_checkers = ['python', 'flake8']
     " let g:syntastic_python_flake8_args = '--ignore=E402,E501'
     " let g:syntastic_python_checkers = ["pylint"]
