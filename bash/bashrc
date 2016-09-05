@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-08-24T16:57:10+0800
+# Last Modified: 2016-09-05T17:29:46+0800
 # ================================
 
 # Source global definitions. {{{
@@ -158,4 +158,27 @@ alias pip-upgrade-all='f() {                                                    
 alias backup='f() { tar -zcvf $1_`date +"%Y%m%d%H%M%S"`.tar.gz $1; }; f'
 
 alias proxycall='http_proxy=http://127.0.0.1:1081 https_proxy=$http_proxy $*'
+
+alias curls='curl -i -w"                         \n\
+Connection                                       \n\
+----------------                                 \n\
+local              : %{local_ip}:%{local_port}   \n\
+remote             : %{remote_ip}:%{remote_port} \n\
+                                                 \n\
+Size                                             \n\
+----------------                                 \n\
+size_request       : %{size_request}             \n\
+size_download      : %{size_download}            \n\
+speed_download     : %{speed_download}           \n\
+                                                 \n\
+Time                                             \n\
+----------------                                 \n\
+time_namelookup    : %{time_namelookup}          \n\
+time_connect       : %{time_connect}             \n\
+time_appconnect    : %{time_appconnect}          \n\
+time_pretransfer   : %{time_pretransfer}         \n\
+time_redirect      : %{time_redirect}            \n\
+time_starttransfer : %{time_starttransfer}       \n\
+time_total         : %{time_total}               \n\
+" $*'
 # }}}
