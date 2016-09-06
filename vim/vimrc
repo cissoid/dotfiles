@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-09-05T15:49:20+0800
+" Last Modified: 2016-09-06T15:59:18+0800
 " ================================
 scriptencoding utf-8
 
@@ -34,6 +34,18 @@ let s:enhanced = 1
 " ================
 " plugin manager settings {{{
 " ================
+
+function TagbarHook(info)
+    !go get -u 'github.com/jstemmer/gotags'
+endfunction
+
+function YcmHook(info)
+    python import os, sys, vim
+    python vim.command('let l:python_executable = \'%s\'' % os.path.join(sys.exec_prefix, 'bin', 'python'))
+    python del os, sys, vim
+    !l:python_executable . ' install.py --clang-completer --gocode-completer --tern-completer'
+endfunction
+
 call plug#begin('~/env/vim/bundle')
 " themes. {{{
 Plug 'tomasr/molokai'
@@ -78,7 +90,7 @@ if s:enhanced
     Plug 'jistr/vim-nerdtree-tabs'
     Plug 'junegunn/vim-easy-align'
     " Show taglist.
-    Plug 'majutsushi/tagbar'
+    Plug 'majutsushi/tagbar', {'do': function('TagbarHook')}
     Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown']}
     Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
     Plug 'raimondi/delimitmate'
@@ -101,13 +113,10 @@ if s:enhanced
     Plug 'vim-airline/vim-airline-themes'
     " Plug 'GlobalOptions'
     if has('python')
-        python import os, sys, vim
-        python vim.command('let g:python_executable = \'%s\'' % os.path.join(sys.exec_prefix, 'bin', 'python'))
-        python del sys, vim
         " Snippet engine.
         Plug 'SirVer/ultisnips'
         " Auto completion.
-        Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python'], 'do': g:python_executable . ' install.py --clang-completer --gocode-completer --tern-completer'}
+        Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python'], 'do': function('YcmHook')}
     endif
 
     " Easily jump between header file and source file.
