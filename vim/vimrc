@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-09-06T15:59:18+0800
+" Last Modified: 2016-09-07T12:07:11+0800
 " ================================
 scriptencoding utf-8
 
@@ -593,11 +593,11 @@ endif
 " now.
 " ================
 
-augroup filetype_dotfiles
-    autocmd!
-    autocmd FileType vim setlocal foldmethod=marker foldlevel=0
-    autocmd FileType sh setlocal foldmethod=marker foldlevel=0
-augroup END
+" augroup filetype_dotfiles
+"     autocmd!
+"     autocmd FileType vim setlocal foldmethod=marker foldlevel=0
+"     autocmd FileType sh setlocal foldmethod=marker foldlevel=0
+" augroup END
 
 augroup filetype_python
     autocmd!
@@ -669,3 +669,5 @@ augroup END
 " ================
 " }}}
 " ================
+
+" vim: foldmethod=marker foldlevel=0

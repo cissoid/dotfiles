@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-09-05T17:29:46+0800
+# Last Modified: 2016-09-09T17:36:59+0800
 # ================================
 
 # Source global definitions. {{{
@@ -182,3 +182,5 @@ time_starttransfer : %{time_starttransfer}       \n\
 time_total         : %{time_total}               \n\
 " $*'
 # }}}
+
+# vim: foldmethod=marker foldlevel=0
