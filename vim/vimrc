@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-09-07T12:07:11+0800
+" Last Modified: 2016-09-22T17:05:08+0800
 " ================================
 scriptencoding utf-8
 
@@ -35,15 +35,16 @@ let s:enhanced = 1
 " plugin manager settings {{{
 " ================
 
-function TagbarHook(info)
+function! TagbarHook(info)
     !go get -u 'github.com/jstemmer/gotags'
 endfunction
 
-function YcmHook(info)
+function! YcmHook(info)
     python import os, sys, vim
     python vim.command('let l:python_executable = \'%s\'' % os.path.join(sys.exec_prefix, 'bin', 'python'))
     python del os, sys, vim
-    !l:python_executable . ' install.py --clang-completer --gocode-completer --tern-completer'
+    let l:command = '!' . l:python_executable . ' install.py --clang-completer --gocode-completer --tern-completer'
+    execute l:command
 endfunction
 
 call plug#begin('~/env/vim/bundle')
