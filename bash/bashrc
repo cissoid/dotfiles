@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-09-09T17:36:59+0800
+# Last Modified: 2016-10-11T14:39:42+0800
 # ================================
 
 # Source global definitions. {{{
@@ -33,7 +33,11 @@ export PROMPT_DIRTRIM=3
 PS1='$(
     exit_code=$?;
     if [ $exit_code -ne 0 ]; then
-        printf %s "\[$(tput bold)\]" "\[\033[48;5;160m\]" "[" $exit_code "]" "\[$(tput sgr0)\]";
+        bold="\e[1m";
+        foreground="\e[97m";
+        background="\e[48;5;160m";
+        reset="\e[0m";
+        printf %s $bold $foreground $background "[" $exit_code "]" $reset;
     fi
 )'
 # python virtualenv
@@ -47,32 +51,38 @@ PS1+='$(
 PS1+="["
 PS1+='$(
     if [ "\u" == "root" ]; then
-        color="\[\033[38;5;196m\]";
-        colorreset="\[$(tput sgr0)\]";
+        foreground="\e[38;5;196m";
     else
-        color="\[\033[38;5;2m\]";
-        colorreset="\[$(tput sgr0)\]";
+        foreground="\e[38;5;2m";
     fi
-    printf %s $color "\u@\h" $colorreset
+    reset="\e[0m";
+    printf %s $foreground "\u@\h" $reset;
 )'
-PS1+=":\[$(tput bold)\]\[\033[38;5;12m\]\w\[$(tput sgr0)\]"
+PS1+=":"
+PS1+='$(
+    bold="\e[1m";
+    foreground="\e[38;5;12m";
+    reset="\e[0m";
+    printf %s $bold $foreground "\w" $reset;
+)'
 PS1+="]"
 # git branch
 PS1+='$(
-    if [ ! `which git 2>/dev/null` == "" ] && [ "`git rev-parse --is-inside-work-tree 2>/dev/null`" == "true" ]; then
+    git_path=`which git 2>/dev/null`;
+    inside_repo=`git rev-parse --is-inside-work-tree 2>/dev/null`;
+    if [ ! "$git_path" == "" ] && [ "$inside_repo" == "true" ]; then
         branch=`git branch | grep -Po "(?<=\\* \\(HEAD detached at )[^\\s]+(?=\\)$)|(?<=\\* )[^\\s]+(?=$)"`;
         changed=`git status -s -uno`;
         if [ "$changed" == "" ]; then
-            color="";
-            colorreset="";
+            foreground="";
         else
-            color="\[\033[38;5;220m\]";
-            colorreset="\[$(tput sgr0)\]";
+            foreground="\e[38;5;220m";
         fi
-        printf %s "(" $color $branch $colorreset ")";
+        reset="\e[0m";
+        printf %s "(" $foreground $branch $reset ")";
     fi
 )'
-PS1+="\\$ \[$(tput sgr0)\]"
+PS1+="\\$ "
 export PS1
 # }}}
 
