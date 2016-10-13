@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-10-11T14:39:42+0800
+# Last Modified: 2016-10-13T14:56:07+0800
 # ================================
 
 # Source global definitions. {{{
@@ -29,14 +29,17 @@ export TERM=xterm-256color
 export PROMPT_DIRTRIM=3
 
 # PS1 settings. {{{
+# non-printable characters should be surrounded by \[\].
+# use tput instead of raw ascii escape character.
+# see http://stackoverflow.com/questions/5087036/bashrc-break-second-line-entered-in-shell-eats-up-first-line
 # exit_status
 PS1='$(
     exit_code=$?;
     if [ $exit_code -ne 0 ]; then
-        bold="\e[1m";
-        foreground="\e[97m";
-        background="\e[48;5;160m";
-        reset="\e[0m";
+        bold="\[$(tput bold)\]";
+        foreground="\[$(tput setaf 15)\]";
+        background="\[$(tput setab 160)\]";
+        reset="\[$(tput sgr0)\]";
         printf %s $bold $foreground $background "[" $exit_code "]" $reset;
     fi
 )'
@@ -51,18 +54,18 @@ PS1+='$(
 PS1+="["
 PS1+='$(
     if [ "\u" == "root" ]; then
-        foreground="\e[38;5;196m";
+        foreground="\[$(tput setaf 196)\]";
     else
-        foreground="\e[38;5;2m";
+        foreground="\[$(tput setaf 2)\]";
     fi
-    reset="\e[0m";
+    reset="\[$(tput sgr0)\]";
     printf %s $foreground "\u@\h" $reset;
 )'
 PS1+=":"
 PS1+='$(
-    bold="\e[1m";
-    foreground="\e[38;5;12m";
-    reset="\e[0m";
+    bold="\[$(tput bold)\]";
+    foreground="\[$(tput setaf 12)\]";
+    reset="\[$(tput sgr0)\]";
     printf %s $bold $foreground "\w" $reset;
 )'
 PS1+="]"
@@ -74,11 +77,11 @@ PS1+='$(
         branch=`git branch | grep -Po "(?<=\\* \\(HEAD detached at )[^\\s]+(?=\\)$)|(?<=\\* )[^\\s]+(?=$)"`;
         changed=`git status -s -uno`;
         if [ "$changed" == "" ]; then
-            foreground="";
+            foreground="\[$(tput setaf 15)\]";
         else
-            foreground="\e[38;5;220m";
+            foreground="\[$(tput setaf 220)\]";
         fi
-        reset="\e[0m";
+        reset="\[$(tput sgr0)\]";
         printf %s "(" $foreground $branch $reset ")";
     fi
 )'
