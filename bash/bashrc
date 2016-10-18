@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-10-13T14:56:07+0800
+# Last Modified: 2016-10-18T12:06:01+0800
 # ================================
 
 # Source global definitions. {{{
@@ -27,6 +27,8 @@ export LC_TYPES=en_US.UTF-8
 export LANG=en_US.UTF-8
 export TERM=xterm-256color
 export PROMPT_DIRTRIM=3
+export HISTSIZE=65535
+export HISTFILESIZE=65535
 
 # PS1 settings. {{{
 # non-printable characters should be surrounded by \[\].
@@ -172,28 +174,30 @@ alias backup='f() { tar -zcvf $1_`date +"%Y%m%d%H%M%S"`.tar.gz $1; }; f'
 
 alias proxycall='http_proxy=http://127.0.0.1:1081 https_proxy=$http_proxy $*'
 
-alias curls='curl -i -w"                         \n\
-Connection                                       \n\
-----------------                                 \n\
-local              : %{local_ip}:%{local_port}   \n\
-remote             : %{remote_ip}:%{remote_port} \n\
-                                                 \n\
-Size                                             \n\
-----------------                                 \n\
-size_request       : %{size_request}             \n\
-size_download      : %{size_download}            \n\
-speed_download     : %{speed_download}           \n\
-                                                 \n\
-Time                                             \n\
-----------------                                 \n\
-time_namelookup    : %{time_namelookup}          \n\
-time_connect       : %{time_connect}             \n\
-time_appconnect    : %{time_appconnect}          \n\
-time_pretransfer   : %{time_pretransfer}         \n\
-time_redirect      : %{time_redirect}            \n\
-time_starttransfer : %{time_starttransfer}       \n\
-time_total         : %{time_total}               \n\
+alias curls='curl -i -w"                        \n\
+Connection                                      \n\
+----------------                                \n\
+local               %{local_ip}:%{local_port}   \n\
+remote              %{remote_ip}:%{remote_port} \n\
+                                                \n\
+Size                                            \n\
+----------------                                \n\
+size_request        %{size_request}             \n\
+size_download       %{size_download}            \n\
+speed_download      %{speed_download}           \n\
+                                                \n\
+Time                                            \n\
+----------------                                \n\
+time_namelookup     %{time_namelookup}          \n\
+time_connect        %{time_connect}             \n\
+time_appconnect     %{time_appconnect}          \n\
+time_pretransfer    %{time_pretransfer}         \n\
+time_redirect       %{time_redirect}            \n\
+time_starttransfer  %{time_starttransfer}       \n\
+time_total          %{time_total}               \n\
 " $*'
+
+alias bash_stats='fc -l 1 | awk '\''{ CMD[$2]++; count++; } END { for (a in CMD) print CMD[a] " " CMD[a] / count * 100 "% " a; }'\'' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl | head -n20'
 # }}}
 
 # vim: foldmethod=marker foldlevel=0

@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-09-28T16:28:40+0800
+" Last Modified: 2016-10-18T11:23:56+0800
 " ================================
 scriptencoding utf-8
 
@@ -55,6 +55,7 @@ Plug 'tomasr/molokai'
 
 " language highlight. {{{
 Plug 'chikamichi/mediawiki.vim', {'for': 'wiki'}
+Plug 'leafgarland/typescript-vim'
 Plug 'nginx.vim', {'for': 'nginx'}
 Plug 'solarnz/thrift.vim', {'for': 'thrift'}
 " Plug 'blockloop/vim-swigjs', {'for': 'swig'}
