@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-10-18T12:06:01+0800
+# Last Modified: 2016-10-21T15:16:30+0800
 # ================================
 
 # Source global definitions. {{{
@@ -139,6 +139,7 @@ elif [ "$(uname)" == "Darwin" ]; then
 fi
 
 # aliases. {{{
+alias ..='cd ..'
 alias cp='cp -i'
 alias du1='du --max-depth=1'
 alias egrep='egrep --color=auto'
