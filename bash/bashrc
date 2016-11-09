@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-10-21T15:16:30+0800
+# Last Modified: 2016-11-03T17:58:10+0800
 # ================================
 
 # Source global definitions. {{{
@@ -152,6 +152,7 @@ alias rm='rm -i'
 alias s='ssh'
 # alias tmux='tmux -2'
 alias tree1='tree -L 1'
+alias vi=vim
 
 alias man='LESS_TERMCAP_mb=$(printf "\e[1;31m") \
     LESS_TERMCAP_md=$(printf "\e[1;31m")        \

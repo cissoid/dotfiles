@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-10-24T11:54:33+0800
+" Last Modified: 2016-11-08T10:23:45+0800
 " ================================
 scriptencoding utf-8
 
@@ -55,9 +55,10 @@ Plug 'tomasr/molokai'
 
 " language highlight. {{{
 Plug 'chikamichi/mediawiki.vim', {'for': 'wiki'}
-Plug 'leafgarland/typescript-vim'
+Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
 Plug 'nginx.vim', {'for': 'nginx'}
 Plug 'solarnz/thrift.vim', {'for': 'thrift'}
+Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
 " Plug 'blockloop/vim-swigjs', {'for': 'swig'}
 Plug 'PotatoesMaster/i3-vim-syntax', {'for': 'i3'}
 " }}}
@@ -89,7 +90,7 @@ if s:enhanced
     Plug 'easymotion/vim-easymotion'
     Plug 'godlygeek/tabular'
     " Singleton nerdtree.
-    Plug 'jistr/vim-nerdtree-tabs'
+    Plug 'jistr/vim-nerdtree-tabs', {'on': ['NERDTreeTabsToggle']}
     Plug 'junegunn/vim-easy-align'
     " Show taglist.
     Plug 'majutsushi/tagbar', {'do': function('TagbarHook')}
@@ -98,11 +99,11 @@ if s:enhanced
     Plug 'raimondi/delimitmate'
     Plug 'rking/ag.vim'
     " File tree.
-    Plug 'scrooloose/nerdtree'
+    Plug 'scrooloose/nerdtree', {'on': ['NERDTree', 'NERDTreeTabsToggle']}
     " Syntax check.
     Plug 'scrooloose/syntastic', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python']}
     " Show undo tree.
-    Plug 'sjl/gundo.vim'
+    Plug 'sjl/gundo.vim', {'on': ['GundoToggle']}
     " Plug 'spf13/PIV', {'for': ['php']}
     " Plug 'jiangmiao/auto-pairs'
     " Plug 'terryma/vim-expand-region'
@@ -119,7 +120,7 @@ if s:enhanced
         " Snippet engine.
         Plug 'SirVer/ultisnips'
         " Auto completion.
-        Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python'], 'do': function('YcmHook')}
+        Plug 'Valloric/YouCompleteMe', {'on': ['YcmCompleter'], 'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python'], 'do': function('YcmHook')}
     endif
 
     " Easily jump between header file and source file.
@@ -197,7 +198,7 @@ if s:enhanced
     "     \ 'regex': '\s(E401)\s'
     "     \ }
     let g:syntastic_css_checkers = ['csslint', 'recess', 'stylelint']
-    let g:syntastic_javascript_checkers = ['eslint', 'jslint', 'jshint'] " standard
+    let g:syntastic_javascript_checkers = ['eslint'] " jslint, jshint, standard
     let g:syntastic_markdown_checkers = ['textlint']
     let g:syntastic_sh_shellcheck_args = '-x -eSC1090,SC1091'
     let g:syntastic_vim_checkers = ['vimlint', 'vint']
@@ -552,6 +553,7 @@ if s:enhanced
     nnoremap <Leader>n :NERDTreeTabsToggle<CR>
     nnoremap <Leader>u :GundoToggle<CR>
     nnoremap <Leader>t :TagbarToggle<CR>
+    nnoremap <Leader>gt :TagbarOpen('j')<CR>
     nnoremap <Leader>ss :SyntasticReset<CR>
     nnoremap <Leader>sw :call WindowSwap#EasyWindowSwap()<CR>
     nnoremap <Leader>yg :YcmCompleter GoTo<CR>
