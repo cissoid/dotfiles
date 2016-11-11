@@ -5,6 +5,11 @@ if [ ! `which stow` ]; then
 
     if [ "$(uname)" == "Darwin" ]; then
         brew install stow
+    elif [ "$(lsb_release -i | awk '{print $3}')" == "Ubuntu" ]; then
+        sudo apt install stow
+    else
+        echo Unknown platform.
+        exit -1
     fi
 fi
 
