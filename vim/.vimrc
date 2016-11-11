@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-11-08T10:23:45+0800
+" Last Modified: 2016-11-09T15:25:08+0800
 " ================================
 scriptencoding utf-8
 
@@ -60,7 +60,7 @@ Plug 'nginx.vim', {'for': 'nginx'}
 Plug 'solarnz/thrift.vim', {'for': 'thrift'}
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
 " Plug 'blockloop/vim-swigjs', {'for': 'swig'}
-Plug 'PotatoesMaster/i3-vim-syntax', {'for': 'i3'}
+" Plug 'PotatoesMaster/i3-vim-syntax', {'for': 'i3'}
 " }}}
 
 " common vim extended. {{{
