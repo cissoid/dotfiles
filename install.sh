@@ -18,6 +18,8 @@ function install_stow() {
             brew install stow
         elif [ "$platform" == "Ubuntu" ]; then
             sudo apt install stow
+	elif [ "$platform" == "Arch" ]; then
+		yaourt -S stow
         else
             echo "Unknown platform."
             exit 1
