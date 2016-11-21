@@ -30,18 +30,35 @@ function install_stow() {
 function install() {
     install_stow
 
-    stow bash
-    stow git
-    stow tmux
-    stow vim
+    stow -t $HOME bash
+    stow -t $HOME git
+    stow -t $HOME tmux
+    stow -t $HOME vim
 
     local platform=$(get_platform)
     if [ "$platform" == "macOS" ]; then
         stow -t "$HOME/Library/Application Support/Code/User" vscode
     fi
 
-    stow formatters
-    stow linters
+    stow -t $HOME formatters
+    stow -t $HOME linters
+}
+
+function uninstall() {
+    install_stow
+
+    stow -D -t $HOME bash
+    stow -D -t $HOME git
+    stow -D -t $HOME tmux
+    stow -D -t $HOME vim
+
+    local platform=$(get_platform)
+    if [ "$platform" == "macOS" ]; then
+        stow -D -t "$HOME/Library/Application Support/Code/User" vscode
+    fi
+
+    stow -D -t $HOME formatters
+    stow -D -t $HOME linters
 }
 
 function install_linter() {
@@ -66,6 +83,9 @@ function usage() {
 case "$1" in 
     "")
         install $*
+        ;;
+    "uninstall")
+        uninstall $*
         ;;
     "linter")
         install_linter $*
