@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-11-09T15:25:08+0800
+" Last Modified: 2016-12-07T16:21:29+0800
 " ================================
 scriptencoding utf-8
 
@@ -55,6 +55,7 @@ Plug 'tomasr/molokai'
 
 " language highlight. {{{
 Plug 'chikamichi/mediawiki.vim', {'for': 'wiki'}
+Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
 Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
 Plug 'nginx.vim', {'for': 'nginx'}
 Plug 'solarnz/thrift.vim', {'for': 'thrift'}
@@ -100,8 +101,6 @@ if s:enhanced
     Plug 'rking/ag.vim'
     " File tree.
     Plug 'scrooloose/nerdtree', {'on': ['NERDTree', 'NERDTreeTabsToggle']}
-    " Syntax check.
-    Plug 'scrooloose/syntastic', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python']}
     " Show undo tree.
     Plug 'sjl/gundo.vim', {'on': ['GundoToggle']}
     " Plug 'spf13/PIV', {'for': ['php']}
@@ -114,6 +113,8 @@ if s:enhanced
     Plug 'wesQ3/vim-windowswap'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+    " Syntax check.
+    Plug 'vim-syntastic/syntastic'  " {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python', 'vim']}
     Plug 'Xuyuanp/nerdtree-git-plugin'
     " Plug 'GlobalOptions'
     if has('python')
@@ -132,9 +133,6 @@ if s:enhanced
     " Plug 'junegunn/goyo.vim'
     " Plug 'junegunn/limelight.vim'
     " Plug 'amix/vim-zenroom2'
-
-    Plug 'syngan/vim-vimlint'
-    Plug 'ynkdir/vim-vimlparser'
 endif
 " }}}
 call plug#end()
@@ -201,7 +199,7 @@ if s:enhanced
     let g:syntastic_javascript_checkers = ['eslint'] " jslint, jshint, standard
     let g:syntastic_markdown_checkers = ['textlint']
     let g:syntastic_sh_shellcheck_args = '-x -eSC1090,SC1091'
-    let g:syntastic_vim_checkers = ['vimlint', 'vint']
+    let g:syntastic_vim_checkers = ['vint']
     let g:syntastic_php_checkers = ['php', 'phpcs']
     let g:syntastic_php_phpcs_args = '--standard=PSR1,PSR2'
 endif
@@ -321,10 +319,10 @@ let g:vimwiki_list = [
 " }}}
 
 " goyo & limelight settings {{{
-let g:limelight_conceal_ctermfg = 'gray'
-let g:limelight_conceal_guifg = 'DarkGray'
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
+" let g:limelight_conceal_ctermfg = 'gray'
+" let g:limelight_conceal_guifg = 'DarkGray'
+" autocmd! User GoyoEnter Limelight
+" autocmd! User GoyoLeave Limelight!
 " }}}
 
 " vim-markdown settings {{{
@@ -473,7 +471,7 @@ set foldnestmax=10
 " endfunction
 
 function! Reformat()
-    if (&formatprg != '')
+    if (&formatprg !=# '')
     " if (index(s:format_filetypes, &filetype) >= 0)
         " mark current location
         silent! normal! mm

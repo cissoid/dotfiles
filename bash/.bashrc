@@ -3,10 +3,10 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-11-03T17:58:10+0800
+# Last Modified: 2016-12-19T14:40:24+0800
 # ================================
 
-# Source global definitions. {{{
+# source global definitions. {{{
 if [ -r /etc/bashrc ]; then
 	. /etc/bashrc
 elif [ -r /etc/bash.bashrc ]; then
@@ -124,7 +124,8 @@ if [ "$(uname)" == "Linux" ]; then
 
 elif [ "$(uname)" == "Darwin" ]; then
     # OS X specific config. {{{
-    HOMEBREW_PREFIX=$(brew --prefix)
+    # HOMEBREW_PREFIX=$(brew --prefix)
+    HOMEBREW_PREFIX="/usr/local"
     export PATH=$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$HOMEBREW_PREFIX/Cellar/gettext/0.19.8.1/bin:$PATH
     export MANPATH=$HOMEBREW_PREFIX/opt/coreutils/libexec/gnuman:$HOMEBREW_PREFIX/Cellar/gettext/share/man:$MANPATH
 

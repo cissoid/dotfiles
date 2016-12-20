@@ -2,7 +2,7 @@
 # File Name: gitconfig
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-08-02T18:29:47+0800
+# Last Modified: 2016-11-24T18:44:23+0800
 # ================================
 
 [core]
@@ -22,8 +22,8 @@
                     cd $folder;                                         \
                     branch=`git branch | grep -Po \"(?<=\\*).*(?=$)\"`; \
                     echo ====START $folder $branch====;                 \
-                    git pull --prune;                                   \
-                    git pull origin $branch;                            \
+                    git pull --prune --progress;                        \
+                    git pull --progress origin $branch;                 \
                     git gc --prune;                                     \
                     echo ====END $folder $branch====;                   \
                     cd ..;                                              \
