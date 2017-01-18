@@ -38,6 +38,8 @@ function install() {
     local platform=$(get_platform)
     if [ "$platform" == "macOS" ]; then
         stow -t "$HOME/Library/Application Support/Code/User" vscode
+    elif [ "$platform" == "Arch" ]; then
+        stow -t $HOME i3
     fi
 
     stow -t $HOME formatters
