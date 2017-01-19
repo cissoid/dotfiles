@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2016-12-07T16:21:29+0800
+" Last Modified: 2017-01-11T16:23:14+0800
 " ================================
 scriptencoding utf-8
 
@@ -100,9 +100,10 @@ if s:enhanced
     Plug 'raimondi/delimitmate'
     Plug 'rking/ag.vim'
     " File tree.
-    Plug 'scrooloose/nerdtree', {'on': ['NERDTree', 'NERDTreeTabsToggle']}
+    Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeTabsToggle']}
     " Show undo tree.
     Plug 'sjl/gundo.vim', {'on': ['GundoToggle']}
+    Plug 'skywind3000/asyncrun.vim'
     " Plug 'spf13/PIV', {'for': ['php']}
     " Plug 'jiangmiao/auto-pairs'
     " Plug 'terryma/vim-expand-region'
@@ -341,6 +342,7 @@ let g:vim_markdown_toc_autofit = 1
 " ================
 " set encoding
 set encoding=utf-8
+set fileencodings=ucs-bom,utf-8,utf-16,gbk,default,latin1
 " improved.
 set nocompatible
 " enable filetype detection.
@@ -548,7 +550,7 @@ nnoremap <Leader>" :split<CR>
 nnoremap gP :set paste!<CR>
 
 if s:enhanced
-    nnoremap <Leader>n :NERDTreeTabsToggle<CR>
+    nnoremap <Leader>n :NERDTreeToggle<CR>
     nnoremap <Leader>u :GundoToggle<CR>
     nnoremap <Leader>t :TagbarToggle<CR>
     nnoremap <Leader>gt :TagbarOpen('j')<CR>

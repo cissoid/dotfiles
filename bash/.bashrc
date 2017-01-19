@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-12-19T14:40:24+0800
+# Last Modified: 2017-01-18T13:32:46+0800
 # ================================
 
 # source global definitions. {{{
@@ -201,6 +201,7 @@ time_total          %{time_total}               \n\
 " $*'
 
 alias bash_stats='fc -l 1 | awk '\''{ CMD[$2]++; count++; } END { for (a in CMD) print CMD[a] " " CMD[a] / count * 100 "% " a; }'\'' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl | head -n20'
+alias calcavg='awk '\''{ sum+=$1; } END { print "COUNT:", NR, "AVG:", sum/NR; }'\'''
 # }}}
 
 # vim: foldmethod=marker foldlevel=0
