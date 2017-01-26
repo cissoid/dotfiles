@@ -56,16 +56,16 @@ bindsym $mod+f fullscreen toggle
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 # toggle tiling / floating
-bindsym $mod+Shift+Space floating toggle
+bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
-bindsym $mod+Space focus mode_toggle
+bindsym $mod+space focus mode_toggle
 # focus the parent container
 bindsym $mod+a focus parent
 
-bindsym $mod+Minus exec ponymix decrease 10
-bindsym $mod+Plus exec ponymix increase 10
-bindsym $mod+Shift+Minus exec xbacklight -dec 10
-bindsym $mod+Shift+Plus exec xbacklight -inc 10
+bindsym $mod+minus exec ponymix decrease 10
+bindsym $mod+plus exec ponymix increase 10
+bindsym $mod+Shift+minus exec xbacklight -dec 10
+bindsym $mod+Shift+plus exec xbacklight -inc 10
 
 # focus the child container
 # bindsym $mod+d focus child
