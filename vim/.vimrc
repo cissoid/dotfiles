@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2017-01-11T16:23:14+0800
+" Last Modified: 2017-01-28T10:36:53+0800
 " ================================
 scriptencoding utf-8
 
@@ -653,6 +653,10 @@ augroup filetype_css
         autocmd FileType css EmmetInstall
         autocmd BufEnter * if &filetype ==# 'css' | set formatprg=js\-beautify\ \-\-type\ css | endif
         autocmd BufLeave * if &filetype ==# 'css' | set formatprg= | endif
+        autocmd BufEnter * if &filetype ==# 'scss' | set formatprg=sass\-convert\ \-\-indent\ 4\ \-\F\ scss\ \-T\ scss | endif
+        autocmd BufLeave * if &filetype ==# 'scss' | set formatprg= | endif
+        autocmd BufEnter * if &filetype ==# 'sass' | set formatprg=sass\-convert\ \-\-indent\ 4\ \-\F\ sass\ \-T\ sass | endif
+        autocmd BufLeave * if &filetype ==# 'sass' | set formatprg= | endif
     endif
 augroup END
 
