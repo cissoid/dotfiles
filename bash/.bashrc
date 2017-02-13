@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2017-01-18T13:32:46+0800
+# Last Modified: 2017-02-08T18:54:18+0800
 # ================================
 
 # source global definitions. {{{
@@ -101,8 +101,9 @@ export PS1
 export COMPOSER_HOME=$HOME/.composer
 # export GOROOT=~/go
 export GOPATH=$HOME/env/golang
+export CARGO_PATH=$HOME/.cargo/bin
 
-export PATH=$PATH:$HOME/bin:$GOPATH/bin:$COMPOSER_HOME/vendor/bin
+export PATH=$PATH:$HOME/bin:$GOPATH/bin:$COMPOSER_HOME/vendor/bin:$CARGO_PATH
 # }}}
 
 
