@@ -2,11 +2,12 @@
 # File Name: gitconfig
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2016-11-24T18:44:23+0800
+# Last Modified: 2017-02-17T13:42:20+0800
 # ================================
 
 [core]
     editor = vim
+    excludesfile = $HOME/.gitignore
 [alias]
     br = branch
     st = status
@@ -45,6 +46,33 @@
                 fi;                                                                                    \
             done;                                                                                      \
         }; f"
+    ignore-global = "!f() {                                                                                               \
+        GLOBAL_GITIGNORE=`eval echo \\`git config --global --get core.excludesfile\\``;                                   \
+        LANGS=(                                                                                                           \
+            Global/Dropbox                                                                                                \
+            Global/Linux                                                                                                  \
+            Global/Redis                                                                                                  \
+            Global/Vim                                                                                                    \
+            Global/VirtualEnv                                                                                             \
+            Global/Windows                                                                                                \
+            Global/macOS                                                                                                  \
+            Autotools                                                                                                     \
+            C++                                                                                                           \
+            C                                                                                                             \
+            CMake                                                                                                         \
+            Go                                                                                                            \
+            Python                                                                                                        \
+        );                                                                                                                \
+        echo \"# vim: foldmethod=marker\" > $GLOBAL_GITIGNORE;                                                            \
+        for lang in ${LANGS[@]}; do                                                                                       \
+            echo \"\" >> $GLOBAL_GITIGNORE;                                                                               \
+            echo \"# $lang {{{\" >> $GLOBAL_GITIGNORE;                                                                    \
+            echo \"\" >> $GLOBAL_GITIGNORE;                                                                               \
+            wget -O - \"https://raw.githubusercontent.com/github/gitignore/master/$lang.gitignore\" >> $GLOBAL_GITIGNORE; \
+            echo \"\" >> $GLOBAL_GITIGNORE;                                                                               \
+            echo \"# }}}\" >> $GLOBAL_GITIGNORE;                                                                          \
+        done;                                                                                                             \
+    }; f"
 [color]
     branch = auto
     diff = auto

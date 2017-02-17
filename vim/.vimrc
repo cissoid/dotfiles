@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2017-01-28T10:36:53+0800
+" Last Modified: 2017-02-08T19:08:01+0800
 " ================================
 scriptencoding utf-8
 
@@ -58,6 +58,7 @@ Plug 'chikamichi/mediawiki.vim', {'for': 'wiki'}
 Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
 Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
 Plug 'nginx.vim', {'for': 'nginx'}
+Plug 'rust-lang/rust.vim', {'for': 'rust'}
 Plug 'solarnz/thrift.vim', {'for': 'thrift'}
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
 " Plug 'blockloop/vim-swigjs', {'for': 'swig'}
@@ -547,6 +548,8 @@ nnoremap <C-k> k<C-y>
 nnoremap <Leader>% :vsplit<CR>
 nnoremap <Leader>" :split<CR>
 
+nnoremap gb :bnext<CR>
+nnoremap gB :bprevious<CR>
 nnoremap gP :set paste!<CR>
 
 if s:enhanced
@@ -635,6 +638,14 @@ augroup filetype_golang
 
         autocmd FileType go nnoremap <F9> :Shell go build %<CR>
         autocmd FileType go nnoremap <F10> :Shell go run %<CR>
+    endif
+augroup END
+
+augroup filetype_rust
+    autocmd!
+    if s:enhanced
+        autocmd BufEnter * if &filetype ==# 'rust' | set formatprg=rustfmt | endif
+        autocmd BufLeave * if &filetype ==# 'rust' | set formatprg= | endif
     endif
 augroup END
 
