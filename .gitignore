@@ -6,3 +6,6 @@ sublime/TabsExtra
 
 # vim ignore
 vim/bundle
+vim/.vim/.netrwhist
+vim/.vim/autoload/plug.vim.old
+vim/.vim/view/

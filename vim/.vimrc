@@ -2,39 +2,25 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2017-02-08T19:08:01+0800
+" Last Modified: 2017-03-03T12:18:04+0800
 " ================================
 scriptencoding utf-8
 
 " ================
 " custom environment variables. {{{
 " ================
-" If set, use some more excellent extensions, but maybe unusable in server
+" If set, load some more excellent extensions, but maybe unusable in server
 " environment.
 let s:enhanced = 1
-" Add filetypes which could be formatted, so that Reformat() will take
-" effects.
-" let s:format_filetypes = []
 " ================
 " }}} end custom environment variables.
-" ================
-
-" ================
-" powerline settings {{{
-" ================
-" if s:enhanced && has('python')
-"     python from powerline.vim import setup as powerline_setup
-"     python powerline_setup()
-"     python del powerline_setup
-" endif
-" ================
-" }}} end powerline settings.
 " ================
 
 " ================
 " plugin manager settings {{{
 " ================
 
+" plugin hook function. {{{
 function! TagbarHook(info)
     !go get -u 'github.com/jstemmer/gotags'
 endfunction
@@ -46,8 +32,10 @@ function! YcmHook(info)
     let l:command = '!' . l:python_executable . ' install.py --clang-completer --gocode-completer --tern-completer'
     execute l:command
 endfunction
+" }}}
 
 call plug#begin('~/env/vim/bundle')
+
 " themes. {{{
 Plug 'tomasr/molokai'
 " Plug 'altercation/vim-colors-solarized'
@@ -66,6 +54,7 @@ Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
 " }}}
 
 " common vim extended. {{{
+" Add extra commands to sort text.
 Plug 'christoomey/vim-sort-motion'
 " Vimdiff for directories.
 Plug 'dirdiff.vim', {'on': 'DirDiff'}
@@ -465,27 +454,20 @@ set foldnestmax=10
 " ================
 " custom functions. {{{
 " ================
-" function! s:AddReformatLang(filetypes)
-"     if (type(a:filetypes) == 3) " expect list
-"         call extend(s:format_filetypes, a:filetypes)
-"     elseif (type(a:filetypes) == 1) " expect string
-"         call add(s:format_filetypes, a:filetypes)
-"     endif
-" endfunction
-
 function! Reformat()
     if (&formatprg !=# '')
-    " if (index(s:format_filetypes, &filetype) >= 0)
         " mark current location
-        silent! normal! mm
+        " silent! normal! mm
+        silent! execute 'mkview'
         " format all
         silent! normal! gggqG
         " move cursor back
-        silent! normal! 'm
+        " silent! normal! 'm
+        silent! execute 'loadview'
         " clear mark
-        silent! execute 'delmarks m'
+        " silent! execute 'delmarks m'
         " center current line
-        silent! normal! zz
+        " silent! normal! zz
     endif
 endfunction
 
