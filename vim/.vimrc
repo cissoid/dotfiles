@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2017-03-03T12:18:04+0800
+" Last Modified: 2017-04-01T16:27:25+0800
 " ================================
 scriptencoding utf-8
 
@@ -73,6 +73,7 @@ Plug 'wellle/targets.vim'
 if s:enhanced
     " Show gitgutter.
     Plug 'airblade/vim-gitgutter'
+    Plug 'cissoid/vim-formatters'
     Plug 'cissoid/vim-fullwidth-punct-convertor'
     Plug 'cissoid/vim-templates'
     " Fast search file.
@@ -112,7 +113,7 @@ if s:enhanced
         " Snippet engine.
         Plug 'SirVer/ultisnips'
         " Auto completion.
-        Plug 'Valloric/YouCompleteMe', {'on': ['YcmCompleter'], 'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python'], 'do': function('YcmHook')}
+        Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python'], 'do': function('YcmHook')}
     endif
 
     " Easily jump between header file and source file.
@@ -317,9 +318,11 @@ let g:vimwiki_list = [
 " }}}
 
 " vim-markdown settings {{{
-let g:vim_markdown_no_default_key_mappings = 1
 let g:vim_markdown_conceal = 0
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_no_default_key_mappings = 1
 let g:vim_markdown_toc_autofit = 1
+let g:vim_markdown_toml_frontmatter = 1
 " }}}
 "
 
@@ -454,23 +457,6 @@ set foldnestmax=10
 " ================
 " custom functions. {{{
 " ================
-function! Reformat()
-    if (&formatprg !=# '')
-        " mark current location
-        " silent! normal! mm
-        silent! execute 'mkview'
-        " format all
-        silent! normal! gggqG
-        " move cursor back
-        " silent! normal! 'm
-        silent! execute 'loadview'
-        " clear mark
-        " silent! execute 'delmarks m'
-        " center current line
-        " silent! normal! zz
-    endif
-endfunction
-
 " capture shell output and display in a window.
 function! s:ExecuteInShell(command)
     let l:command = join(map(split(a:command), 'expand(v:val)'))
@@ -545,7 +531,6 @@ if s:enhanced
     nnoremap <Leader>yt :YcmCompleter GetType<CR>
     nnoremap <Leader>yd :YcmCompleter GetDoc<CR>
     nnoremap <Leader>w<Space> :VimwikiToggleListItem<CR>
-    nnoremap <Leader>fa :call Reformat()<CR>
     nmap ga <Plug>(EasyAlign)
 endif
 " }}}
@@ -595,39 +580,13 @@ augroup filetype_python
     autocmd!
     " enable all Python syntax highlighting features
     autocmd FileType python let python_highlight_all = 1
-
-    if s:enhanced
-        autocmd BufEnter * if &filetype ==# 'python' | set formatprg=autopep8\ \- | endif
-        autocmd BufLeave * if &filetype ==# 'python' | set formatprg= | endif
-        " autocmd FileType python,pyrex SetBufferLocal formatprg=yapf\ \-\-
-    endif
-augroup END
-
-augroup filetype_clang
-    autocmd!
-
-    if s:enhanced
-        autocmd BufEnter * if index(['c', 'cpp'], &filetype) >= 0 | set formatprg=clang\-format\ \-style=\"\{BasedOnStyle:\ Google,\ IndentWidth:\ 4\}\" | endif
-        autocmd BufLeave * if index(['c', 'cpp'], &filetype) >= 0 | set formatprg= | endif
-    endif
 augroup END
 
 augroup filetype_golang
     autocmd!
     if s:enhanced
-        autocmd BufEnter * if &filetype ==# 'go' | set formatprg=gofmt | endif
-        autocmd BufLeave * if &filetype ==# 'go' | set formatprg= | endif
-
         autocmd FileType go nnoremap <F9> :Shell go build %<CR>
         autocmd FileType go nnoremap <F10> :Shell go run %<CR>
-    endif
-augroup END
-
-augroup filetype_rust
-    autocmd!
-    if s:enhanced
-        autocmd BufEnter * if &filetype ==# 'rust' | set formatprg=rustfmt | endif
-        autocmd BufLeave * if &filetype ==# 'rust' | set formatprg= | endif
     endif
 augroup END
 
@@ -635,8 +594,6 @@ augroup filetype_html
     autocmd!
     if s:enhanced
         autocmd FileType html EmmetInstall
-        autocmd BufEnter * if &filetype ==# 'html' | set formatprg=js\-beautify\ \-\-type\ html | endif
-        autocmd BufLeave * if &filetype ==# 'html' | set formatprg= | endif
     endif
 augroup END
 
@@ -644,20 +601,6 @@ augroup filetype_css
     autocmd!
     if s:enhanced
         autocmd FileType css EmmetInstall
-        autocmd BufEnter * if &filetype ==# 'css' | set formatprg=js\-beautify\ \-\-type\ css | endif
-        autocmd BufLeave * if &filetype ==# 'css' | set formatprg= | endif
-        autocmd BufEnter * if &filetype ==# 'scss' | set formatprg=sass\-convert\ \-\-indent\ 4\ \-\F\ scss\ \-T\ scss | endif
-        autocmd BufLeave * if &filetype ==# 'scss' | set formatprg= | endif
-        autocmd BufEnter * if &filetype ==# 'sass' | set formatprg=sass\-convert\ \-\-indent\ 4\ \-\F\ sass\ \-T\ sass | endif
-        autocmd BufLeave * if &filetype ==# 'sass' | set formatprg= | endif
-    endif
-augroup END
-
-augroup filetype_javascript
-    autocmd!
-    if s:enhanced
-        autocmd BufEnter * if &filetype ==# 'javascript' | set formatprg=js\-beautify | endif
-        autocmd BufLeave * if &filetype ==# 'javascript' | set formatprg= | endif
     endif
 augroup END
 
@@ -665,8 +608,6 @@ augroup filetype_php
     autocmd!
     if s:enhanced
         autocmd FileType php EmmetInstall
-        autocmd BufEnter * if &filetype ==# 'php' | set formatprg=phpcbf\ \-\-stdin\-path\ \-\-standard\=PSR1,PSR2 | endif
-        autocmd BufLeave * if &filetype ==# 'php' | set formatprg= | endif
     endif
 augroup END
 

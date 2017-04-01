@@ -2,7 +2,7 @@
 # File Name: gitconfig
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2017-02-17T13:42:20+0800
+# Last Modified: 2017-03-20T15:57:54+0800
 # ================================
 
 [core]
@@ -82,6 +82,11 @@
     showBranch = auto
     status = auto
     ui = auto
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
 [grep]
     lineNumber = true
 [log]
