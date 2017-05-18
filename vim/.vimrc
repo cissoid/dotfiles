@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2017-04-01T16:27:25+0800
+" Last Modified: 2017-05-03T18:09:20+0800
 " ================================
 scriptencoding utf-8
 
@@ -77,24 +77,24 @@ if s:enhanced
     Plug 'cissoid/vim-fullwidth-punct-convertor'
     Plug 'cissoid/vim-templates'
     " Fast search file.
-    Plug 'ctrlpvim/ctrlp.vim'
+    " Plug 'ctrlpvim/ctrlp.vim'
     " quickly jump.
     Plug 'easymotion/vim-easymotion'
     Plug 'godlygeek/tabular'
     " Singleton nerdtree.
     Plug 'jistr/vim-nerdtree-tabs', {'on': ['NERDTreeTabsToggle']}
-    Plug 'junegunn/vim-easy-align'
+    " Plug 'junegunn/vim-easy-align'
     " Show taglist.
     Plug 'majutsushi/tagbar', {'do': function('TagbarHook')}
-    Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown']}
-    Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
+    Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown', 'vimwiki']}
+    Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'vimwiki']}
     Plug 'raimondi/delimitmate'
-    Plug 'rking/ag.vim'
+    " Plug 'rking/ag.vim'
     " File tree.
     Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeTabsToggle']}
     " Show undo tree.
-    Plug 'sjl/gundo.vim', {'on': ['GundoToggle']}
-    Plug 'skywind3000/asyncrun.vim'
+    " Plug 'sjl/gundo.vim', {'on': ['GundoToggle']}
+    " Plug 'skywind3000/asyncrun.vim'
     " Plug 'spf13/PIV', {'for': ['php']}
     " Plug 'jiangmiao/auto-pairs'
     " Plug 'terryma/vim-expand-region'
@@ -117,7 +117,7 @@ if s:enhanced
     endif
 
     " Easily jump between header file and source file.
-    Plug 'a.vim', {'for': ['c', 'cpp']}
+    " Plug 'a.vim', {'for': ['c', 'cpp']}
     Plug 'mattn/emmet-vim', {'for': ['html', 'css', 'swig', 'php']}
     " Plug 'fatih/vim-go'
     " Personal wiki.
@@ -176,7 +176,11 @@ if s:enhanced
 
     let g:syntastic_c_check_header = 1
     let g:syntastic_c_auto_refresh_includes = 1
-    let g:syntastic_c_checkers = ['gcc', 'make', 'clang_check', 'cppcheck']
+    let g:syntastic_c_include_dirs = [getcwd()]
+    let g:syntastic_make_include_dirs = [getcwd()]
+    let g:syntastic_c_checkers = ['clang_check', 'gcc', 'cppcheck']
+    let g:syntastic_cpp_checkers = ['clang_check', 'g++', 'cppcheck']
+    let g:syntastic_cpp_include_dirs = [getcwd()]
 	let g:syntastic_go_checkers = ['go', 'gofmt', 'govet'] " golint
     let g:syntastic_python_checkers = ['python', 'flake8']
     " let g:syntastic_python_flake8_args = '--ignore=E402,E501'
@@ -258,19 +262,19 @@ endif
 " }}}
 
 " ctrlp settings {{{
-if s:enhanced
-    " show window in bottom, and sort from top to bottom.
-    let g:ctrlp_match_window = 'bottom,order:ttb'
-    " open match file in new buffer.
-    let g:ctrlp_switch_buffer = 0
-    " support change working directory.
-    let g:ctrlp_working_path_mode = 0
-    " use ag to speed up.
-    if executable('ag')
-        let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-        let g:ctrlp_use_caching = 0
-    endif
-endif
+" if s:enhanced
+"     " show window in bottom, and sort from top to bottom.
+"     let g:ctrlp_match_window = 'bottom,order:ttb'
+"     " open match file in new buffer.
+"     let g:ctrlp_switch_buffer = 0
+"     " support change working directory.
+"     let g:ctrlp_working_path_mode = 0
+"     " use ag to speed up.
+"     if executable('ag')
+"         let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+"         let g:ctrlp_use_caching = 0
+"     endif
+" endif
 " }}}
 
 " nerdcommenter settings {{{
@@ -297,17 +301,17 @@ endif
 " }}}
 
 " vim-go settings {{{
-if s:enhanced
-    let g:go_fmt_fail_silently = 1
-    let g:go_list_type = 'quickfix'
-endif
+" if s:enhanced
+"     let g:go_fmt_fail_silently = 1
+"     let g:go_list_type = 'quickfix'
+" endif
 " }}}
 
 " vimwiki settings {{{
 let g:vimwiki_global_ext = 0
 let g:vimwiki_list = [
     \ {'path': '~/Dropbox/Personal/wiki/', 'syntax': 'markdown', 'ext': '.md', 'auto_toc': 1}
-    \ ]
+\ ]
 " }}}
 
 " goyo & limelight settings {{{
@@ -485,10 +489,10 @@ command! SudoW :w !sudo tee % >/dev/null
 
 " nmap {{{
 " hard mode
-nnoremap <Left> <Nop>
-nnoremap <Right> <Nop>
-nnoremap <Up> <Nop>
-nnoremap <Down> <Nop>
+" nnoremap <Left> <Nop>
+" nnoremap <Right> <Nop>
+" nnoremap <Up> <Nop>
+" nnoremap <Down> <Nop>
 " move vertically by screen line.
 nnoremap <silent> <expr> j (v:count == 0 ? 'gj': 'j')
 nnoremap <silent> <expr> k (v:count == 0 ? 'gk': 'k')
@@ -537,11 +541,11 @@ endif
 
 " imap {{{
 " hard mode
-inoremap <Left> <Nop>
-inoremap <Right> <Nop>
-inoremap <Up> <Nop>
-inoremap <Down> <Nop>
-inoremap <Esc> <Nop>
+" inoremap <Left> <Nop>
+" inoremap <Right> <Nop>
+" inoremap <Up> <Nop>
+" inoremap <Down> <Nop>
+" inoremap <Esc> <Nop>
 inoremap jk <Esc>
 
 if s:enhanced
@@ -550,10 +554,10 @@ endif
 " }}}
 
 " vmap {{{
-vnoremap <Left> <Nop>
-vnoremap <Right> <Nop>
-vnoremap <Up> <Nop>
-vnoremap <Down> <Nop>
+" vnoremap <Left> <Nop>
+" vnoremap <Right> <Nop>
+" vnoremap <Up> <Nop>
+" vnoremap <Down> <Nop>
 " vnoremap <Esc> <Nop>
 " vnoremap jk <Esc>
 if s:enhanced
