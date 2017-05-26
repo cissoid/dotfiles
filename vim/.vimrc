@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2017-05-03T18:09:20+0800
+" Last Modified: 2017-05-18T15:59:03+0800
 " ================================
 scriptencoding utf-8
 
@@ -45,7 +45,7 @@ Plug 'tomasr/molokai'
 Plug 'chikamichi/mediawiki.vim', {'for': 'wiki'}
 Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
 Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
-Plug 'nginx.vim', {'for': 'nginx'}
+Plug 'vim-scripts/nginx.vim', {'for': 'nginx'}
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
 Plug 'solarnz/thrift.vim', {'for': 'thrift'}
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
@@ -57,7 +57,7 @@ Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
 " Add extra commands to sort text.
 Plug 'christoomey/vim-sort-motion'
 " Vimdiff for directories.
-Plug 'dirdiff.vim', {'on': 'DirDiff'}
+Plug 'will133/vim-dirdiff', {'on': 'DirDiff'}
 " Show current search index.
 Plug 'henrik/vim-indexed-search'
 " Comment/uncomment.
