@@ -2,7 +2,7 @@
 # File Name: gitconfig
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2017-05-16T14:54:08+0800
+# Last Modified: 2017-06-20T16:36:39+0800
 # ================================
 
 [core]
@@ -15,7 +15,7 @@
     ci = commit
     clone-github = "!f() { git clone https://github.com/$1 $2; }; f"
     config-user = "!f() { git config user.name $1; git config user.email $2; }; f"
-    dsf = "!f() { git diff --color $@ | diff-so-fancy | less -RFX; }; f"
+    dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd $GIT_PREFIX; git diff --color $@ | diff-so-fancy | less -RFX; }; f"
     glog = log --all --graph --pretty='%C(auto)%h %d %s (%C(cyan)%an%Creset, %Cgreen%ad%Creset)'
     refresh-all = "!f() {                                               \
             for folder in `ls`; do                                      \
@@ -46,33 +46,42 @@
                 fi;                                                                                    \
             done;                                                                                      \
         }; f"
-    ignore-global = "!f() {                                                                                               \
-        GLOBAL_GITIGNORE=`eval echo \\`git config --global --get core.excludesfile\\``;                                   \
-        LANGS=(                                                                                                           \
-            Global/Dropbox                                                                                                \
-            Global/Linux                                                                                                  \
-            Global/Redis                                                                                                  \
-            Global/Vim                                                                                                    \
-            Global/VirtualEnv                                                                                             \
-            Global/Windows                                                                                                \
-            Global/macOS                                                                                                  \
-            Autotools                                                                                                     \
-            C++                                                                                                           \
-            C                                                                                                             \
-            CMake                                                                                                         \
-            Go                                                                                                            \
-            Python                                                                                                        \
-        );                                                                                                                \
-        echo \"# vim: foldmethod=marker\" > $GLOBAL_GITIGNORE;                                                            \
-        for lang in ${LANGS[@]}; do                                                                                       \
-            echo \"\" >> $GLOBAL_GITIGNORE;                                                                               \
-            echo \"# $lang {{{\" >> $GLOBAL_GITIGNORE;                                                                    \
-            echo \"\" >> $GLOBAL_GITIGNORE;                                                                               \
-            wget -O - \"https://raw.githubusercontent.com/github/gitignore/master/$lang.gitignore\" >> $GLOBAL_GITIGNORE; \
-            echo \"\" >> $GLOBAL_GITIGNORE;                                                                               \
-            echo \"# }}}\" >> $GLOBAL_GITIGNORE;                                                                          \
-        done;                                                                                                             \
-    }; f"
+    ignore-get = "!/usr/bin/env bash -c 'f() {                                                                     \
+        GITIGNORE=\"./.gitignore\";                                                                                \
+        declare -A LANGS=(                                                                                         \
+            [\"linux\"]=\"Global/Linux\"                                                                           \
+            [\"macos\"]=\"Global/macOS\"                                                                           \
+            [\"windows\"]=\"Global/Windows\"                                                                       \
+            [\"ansible\"]=\"Global/Ansible\"                                                                       \
+            [\"eclipse\"]=\"Global/Eclipse\"                                                                       \
+            [\"emacs\"]=\"Global/Emacs\"                                                                           \
+            [\"redis\"]=\"Global/Redis\"                                                                           \
+            [\"sublime\"]=\"Global/SublimeText\"                                                                   \
+            [\"vim\"]=\"Global/Vim\"                                                                               \
+            [\"cmake\"]=\"CMake\"                                                                                  \
+            [\"make\"]=\"Autotools\"                                                                               \
+            [\"c\"]=\"C\"                                                                                          \
+            [\"cpp\"]=\"C++\"                                                                                      \
+            [\"go\"]=\"Go\"                                                                                        \
+            [\"java\"]=\"Java\"                                                                                    \
+            [\"node\"]=\"Node\"                                                                                    \
+            [\"python\"]=\"Python\"                                                                                \
+            [\"sass\"]=\"Sass\"                                                                                    \
+        );                                                                                                         \
+        echo \"# vim: foldmethod=marker\" > $GITIGNORE;                                                            \
+        for arg in $@; do                                                                                          \
+            lang=${LANGS[$arg]};                                                                                   \
+            if [ \"$lang\" == \"\" ]; then                                                                         \
+                continue;                                                                                          \
+            fi;                                                                                                    \
+            echo \"\" >> $GITIGNORE;                                                                               \
+            echo \"# $lang {{{\" >> $GITIGNORE;                                                                    \
+            echo \"\" >> $GITIGNORE;                                                                               \
+            wget -O - \"https://raw.githubusercontent.com/github/gitignore/master/$lang.gitignore\" >> $GITIGNORE; \
+            echo \"\" >> $GITIGNORE;                                                                               \
+            echo \"# }}}\" >> $GITIGNORE;                                                                          \
+        done;                                                                                                      \
+    }; f $0 $*'"
 [color]
     branch = auto
     diff = auto

@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2017-05-10T17:30:16+0800
+# Last Modified: 2017-06-08T10:51:14+0800
 # ================================
 
 # source global definitions. {{{
@@ -155,7 +155,7 @@ alias s='ssh'
 # alias tmux='tmux -2'
 alias tree1='tree -L 1'
 alias vi=vim
-alias goex='GOPATH=$(pwd):$GOPATH '
+alias goenv='GOPATH=$(pwd):$GOPATH '
 
 alias man='LESS_TERMCAP_mb=$(printf "\e[1;31m") \
     LESS_TERMCAP_md=$(printf "\e[1;31m")        \
