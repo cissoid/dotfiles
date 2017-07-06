@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2017-05-18T15:59:03+0800
+" Last Modified: 2017-07-06T15:29:00+0800
 " ================================
 scriptencoding utf-8
 
@@ -25,8 +25,20 @@ function! TagbarHook(info)
     !go get -u 'github.com/jstemmer/gotags'
 endfunction
 
+function! AleHook(info)
+    !pip install -U cmakelint autopep8 flake8 proselint yamllint vim-vint
+    !npm install -g csslint stylelint eslint sass-lint
+    !gem install mdl sqlint
+
+    if has('maxunix')
+        !brew install shellcheck cppcheck tidy-html5
+    endif
+
+endfunction
+
 function! YcmHook(info)
     python import os, sys, vim
+    let l:python_executable = ''
     python vim.command('let l:python_executable = \'%s\'' % os.path.join(sys.exec_prefix, 'bin', 'python'))
     python del os, sys, vim
     let l:command = '!' . l:python_executable . ' install.py --clang-completer --gocode-completer --tern-completer'
@@ -106,14 +118,13 @@ if s:enhanced
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     " Syntax check.
-    Plug 'vim-syntastic/syntastic'  " {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python', 'vim']}
+    " Plug 'vim-syntastic/syntastic'  " {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python', 'vim']}
+    Plug 'w0rp/ale'
     Plug 'Xuyuanp/nerdtree-git-plugin'
     " Plug 'GlobalOptions'
     if has('python')
         " Snippet engine.
         Plug 'SirVer/ultisnips'
-        " Auto completion.
-        Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python'], 'do': function('YcmHook')}
     endif
 
     " Easily jump between header file and source file.
@@ -125,6 +136,18 @@ if s:enhanced
     " Plug 'junegunn/goyo.vim'
     " Plug 'junegunn/limelight.vim'
     " Plug 'amix/vim-zenroom2'
+
+    if has('nvim')
+        " plugins for neovim.
+        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+        Plug 'Shougo/neco-syntax'
+        Plug 'zchee/deoplete-jedi'
+    else
+        if has('python')
+            " Auto completion.
+            Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python'], 'do': function('YcmHook')}
+        endif
+    endif
 endif
 " }}}
 call plug#end()
@@ -141,12 +164,12 @@ let g:gitgutter_max_signs = 1000
 " }}}
 
 " nerdtree settings {{{
-let NERDTreeIgnore = ['\.pyc$', '\~$']
-let NERDTreeCaseSensitiveSort = 1
+let g:NERDTreeIgnore = ['\.pyc$', '\~$']
+let g:NERDTreeCaseSensitiveSort = 1
 " always change cwd when nerdtree change root node.
-let NERDTreeChDirMode = 2
+let g:NERDTreeChDirMode = 2
 " show bookmarks on open.
-let NERDTreeShowBookmarks = 1
+let g:NERDTreeShowBookmarks = 1
 " let NERDTreeShowLineNumbers = 1
 " }}}
 
@@ -164,40 +187,47 @@ let g:airline#extensions#whitespace#enabled = 0
 " }}}
 
 " syntastic settings, this MUST set after powerline settings. {{{
+" if s:enhanced
+"     set statusline+=%#warningmsg#
+"     set statusline+=%{SyntasticStatuslineFlag()}
+"     set statusline+=%*
+
+"     let g:syntastic_always_populate_loc_list = 1
+"     let g:syntastic_auto_loc_list = 1
+"     " let g:syntastic_check_on_open = 1
+"     let g:syntastic_check_on_wq = 0
+
+"     let g:syntastic_c_check_header = 1
+"     let g:syntastic_c_auto_refresh_includes = 1
+"     let g:syntastic_c_include_dirs = [getcwd()]
+"     let g:syntastic_make_include_dirs = [getcwd()]
+"     let g:syntastic_c_checkers = ['clang_check', 'gcc', 'cppcheck']
+"     let g:syntastic_cpp_checkers = ['clang_check', 'g++', 'cppcheck']
+"     let g:syntastic_cpp_include_dirs = [getcwd()]
+"     let g:syntastic_go_checkers = ['go', 'gofmt', 'govet'] " golint
+"     let g:syntastic_python_checkers = ['python', 'flake8']
+"     " let g:syntastic_python_flake8_args = '--ignore=E402,E501'
+"     " let g:syntastic_python_checkers = ["pylint"]
+"     " let g:syntastic_python_pylint_post_args = '--msg-template="{path}:{line}:{column}:{C}: [{symbol} {msg_id}] {msg}"'
+"     " let g:syntastic_python_pylint_args = '--disable=C0103,C0111,C0411,C0412,C0413,R0201'
+"     " let g:syntastic_python_flake8_quiet_messages = {
+"     "     \ 'type': 'style',
+"     "     \ 'regex': '\s(E401)\s'
+"     "     \ }
+"     let g:syntastic_css_checkers = ['csslint', 'recess', 'stylelint']
+"     let g:syntastic_javascript_checkers = ['eslint'] " jslint, jshint, standard
+"     let g:syntastic_markdown_checkers = ['textlint']
+"     let g:syntastic_sh_shellcheck_args = '-x -eSC1090,SC1091'
+"     let g:syntastic_vim_checkers = ['vint']
+"     let g:syntastic_php_checkers = ['php', 'phpcs']
+"     let g:syntastic_php_phpcs_args = '--standard=PSR1,PSR2'
+" endif
+" }}}
+
+" ale settings. {{{
 if s:enhanced
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
-
-    let g:syntastic_always_populate_loc_list = 1
-    let g:syntastic_auto_loc_list = 1
-    " let g:syntastic_check_on_open = 1
-    let g:syntastic_check_on_wq = 0
-
-    let g:syntastic_c_check_header = 1
-    let g:syntastic_c_auto_refresh_includes = 1
-    let g:syntastic_c_include_dirs = [getcwd()]
-    let g:syntastic_make_include_dirs = [getcwd()]
-    let g:syntastic_c_checkers = ['clang_check', 'gcc', 'cppcheck']
-    let g:syntastic_cpp_checkers = ['clang_check', 'g++', 'cppcheck']
-    let g:syntastic_cpp_include_dirs = [getcwd()]
-	let g:syntastic_go_checkers = ['go', 'gofmt', 'govet'] " golint
-    let g:syntastic_python_checkers = ['python', 'flake8']
-    " let g:syntastic_python_flake8_args = '--ignore=E402,E501'
-    " let g:syntastic_python_checkers = ["pylint"]
-    " let g:syntastic_python_pylint_post_args = '--msg-template="{path}:{line}:{column}:{C}: [{symbol} {msg_id}] {msg}"'
-    " let g:syntastic_python_pylint_args = '--disable=C0103,C0111,C0411,C0412,C0413,R0201'
-    " let g:syntastic_python_flake8_quiet_messages = {
-    "     \ 'type': 'style',
-    "     \ 'regex': '\s(E401)\s'
-    "     \ }
-    let g:syntastic_css_checkers = ['csslint', 'recess', 'stylelint']
-    let g:syntastic_javascript_checkers = ['eslint'] " jslint, jshint, standard
-    let g:syntastic_markdown_checkers = ['textlint']
-    let g:syntastic_sh_shellcheck_args = '-x -eSC1090,SC1091'
-    let g:syntastic_vim_checkers = ['vint']
-    let g:syntastic_php_checkers = ['php', 'phpcs']
-    let g:syntastic_php_phpcs_args = '--standard=PSR1,PSR2'
+    let g:ale_open_list = 1
+    let g:ale_set_quickfix = 1
 endif
 " }}}
 
@@ -280,8 +310,8 @@ endif
 " nerdcommenter settings {{{
 if s:enhanced
     " Add extra space after comment character.
-    let NERDSpaceDelims = 1
-    let NERDRemoveExtraSpaces = 1
+    let g:NERDSpaceDelims = 1
+    let g:NERDRemoveExtraSpaces = 1
     let g:NERDCustomDelimiters = {
         \ 'python': {'left': '#', 'leftAlt': '#'}
         \ }
@@ -328,7 +358,16 @@ let g:vim_markdown_no_default_key_mappings = 1
 let g:vim_markdown_toc_autofit = 1
 let g:vim_markdown_toml_frontmatter = 1
 " }}}
-"
+
+" deoplete settings {{{
+if has('nvim')
+    let g:deoplete#enable_at_startup = 1
+    let g:deoplete#enable_ignore_case = 1
+    let g:deoplete#enable_smart_case = 1
+    let g:deoplete#enable_camel_case = 1
+    let g:deoplete#auto_complete_start_length = 1
+endif
+" }}}
 
 " ================
 " }}} end plugin settings
@@ -338,10 +377,14 @@ let g:vim_markdown_toml_frontmatter = 1
 " base settings {{{
 " ================
 " set encoding
+" vint: -ProhibitEncodingOptionAfterScriptEncoding
 set encoding=utf-8
+" vint: +ProhibitEncodingOptionAfterScriptEncoding
 set fileencodings=ucs-bom,utf-8,utf-16,gbk,default,latin1
 " improved.
+" vint: -ProhibitSetNoCompatible
 set nocompatible
+" vint: +ProhibitSetNoCompatible
 " enable filetype detection.
 filetype on
 filetype plugin on
@@ -525,11 +568,13 @@ nnoremap gB :bprevious<CR>
 nnoremap gP :set paste!<CR>
 
 if s:enhanced
+    nmap <Leader>fa <Plug>Reformat
     nnoremap <Leader>n :NERDTreeToggle<CR>
     nnoremap <Leader>u :GundoToggle<CR>
     nnoremap <Leader>t :TagbarToggle<CR>
     nnoremap <Leader>gt :TagbarOpen('j')<CR>
-    nnoremap <Leader>ss :SyntasticReset<CR>
+    " nnoremap <Leader>ss :SyntasticReset<CR>
+    nnoremap <Leader>ss :cclose<CR>
     nnoremap <Leader>sw :call WindowSwap#EasyWindowSwap()<CR>
     nnoremap <Leader>yg :YcmCompleter GoTo<CR>
     nnoremap <Leader>yt :YcmCompleter GetType<CR>
