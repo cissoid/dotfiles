@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2017-07-06T15:29:00+0800
+" Last Modified: 2017-07-31T17:22:38+0800
 " ================================
 scriptencoding utf-8
 
@@ -227,7 +227,12 @@ let g:airline#extensions#whitespace#enabled = 0
 " ale settings. {{{
 if s:enhanced
     let g:ale_open_list = 1
-    let g:ale_set_quickfix = 1
+    " let g:ale_set_quickfix = 1
+    let g:ale_lint_on_text_changed = 'never'
+
+    let g:ale_linters = {
+    \     'go': ['go build', 'gofmt', 'go vet']
+    \ }
 endif
 " }}}
 
@@ -287,6 +292,14 @@ if s:enhanced
         \ },
         \ 'ctagsbin'  : 'gotags',
         \ 'ctagsargs' : '-sort -silent'
+    \ }
+    let g:tagbar_type_markdown = {
+        \ 'ctagstype' : 'markdown',
+        \ 'kinds' : [
+            \ 'h:Heading_L1',
+            \ 'i:Heading_L2',
+            \ 'k:Heading_L3'
+        \ ]
     \ }
 endif
 " }}}
@@ -574,7 +587,7 @@ if s:enhanced
     nnoremap <Leader>t :TagbarToggle<CR>
     nnoremap <Leader>gt :TagbarOpen('j')<CR>
     " nnoremap <Leader>ss :SyntasticReset<CR>
-    nnoremap <Leader>ss :cclose<CR>
+    nnoremap <Leader>ss :lclose<CR>
     nnoremap <Leader>sw :call WindowSwap#EasyWindowSwap()<CR>
     nnoremap <Leader>yg :YcmCompleter GoTo<CR>
     nnoremap <Leader>yt :YcmCompleter GetType<CR>

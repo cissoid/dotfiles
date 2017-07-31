@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2017-06-08T10:51:14+0800
+# Last Modified: 2017-07-31T18:30:22+0800
 # ================================
 
 # source global definitions. {{{
@@ -166,17 +166,6 @@ alias man='LESS_TERMCAP_mb=$(printf "\e[1;31m") \
     LESS_TERMCAP_us=$(printf "\e[1;32m")        \
     man'
 
-alias pip-upgrade-all='f() {                                                                      \
-        exclude_regex="^(0)";                                                                     \
-        for package in $*; do                                                                     \
-            exclude_regex+="|($package)";                                                         \
-        done;                                                                                     \
-        exclude_regex+="$";                                                                       \
-        pip freeze | grep -Po "(.*)(?=\=\=)" | grep -iPv "$exclude_regex" | xargs pip install -U; \
-    }; f'
-
-alias backup='f() { tar -zcvf $1_`date +"%Y%m%d%H%M%S"`.tar.gz $1; }; f'
-
 alias proxycall='http_proxy=http://127.0.0.1:1081 https_proxy=$http_proxy'
 
 alias curls='curl -i -w"                        \n\
@@ -206,5 +195,28 @@ alias bash_stats='fc -l 1 | awk '\''{ CMD[$2]++; count++; } END { for (a in CMD)
 alias calcavg='awk '\''{ sum+=$1; } END { print "COUNT:", NR, "AVG:", sum/NR; }'\'''
 alias code_stats='wc -l **/*.* | awk '\''{ n=split($2,a,"."); counter[a[n]]+=$1; } END { for (ft in counter) print ft ":\t" counter[ft]; }'\'' | sort -nrk2'
 # }}}
+
+function pip-upgrade-all() {
+    exclude_regex="^(0)"
+    for package in $*; do
+        exclude_regex+="|($package)"
+    done
+    exclude_regex+="$"
+    pip freeze | grep -Po "[^=]+?(?==)" | grep -iPv "$exclude_regex" | xargs pip install -U
+}
+
+function backup() {
+    tar -zcvf $1_`date +"%Y%m%d%H%M%S"`.tar.gz $1
+}
+
+function auto_init() {
+    autoscan
+    mv configure.{scan,ac}
+    vim $_
+    aclocal
+    autoconf
+    vim Makefile.am
+    automake --add-missing
+}
 
 # vim: foldmethod=marker foldlevel=0
