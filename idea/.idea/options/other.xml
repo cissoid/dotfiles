@@ -1,0 +1,5 @@
+<application>
+  <component name="PyCodeInsightSettings">
+    <option name="SHOW_IMPORT_POPUP" value="true" />
+  </component>
+</application>

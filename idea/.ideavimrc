@@ -1,0 +1,22 @@
+" ================================
+" File Name: .ideavimrc
+" Author: cissoid
+" Created At: 2017-06-22T18:13:09+0800
+" Last Modified: 2017-06-22T18:32:11+0800
+" ================================
+scriptencoding utf-8
+
+nnoremap <silent> <expr> j (v:count == 0 ? 'gj': 'j')
+nnoremap <silent> <expr> k (v:count == 0 ? 'gk': 'k')
+nnoremap <Space> za
+ 
+nnoremap <S-j> <C-d>
+nnoremap <S-k> <C-u>
+nnoremap <C-j> j<C-e>
+nnoremap <C-k> k<C-y>
+
+nnoremap <Leader>fa :action ReformatCode<CR>
+
+inoremap jk <Esc>
+inoremap <C-j> :action Down<CR>
+inoremap <C-k> :action Up<CR>
