@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2017-07-31T17:22:38+0800
+" Last Modified: 2017-10-20T14:10:44+0800
 " ================================
 scriptencoding utf-8
 
@@ -54,15 +54,8 @@ Plug 'tomasr/molokai'
 " }}}
 
 " language highlight. {{{
-Plug 'chikamichi/mediawiki.vim', {'for': 'wiki'}
-Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
-Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
-Plug 'vim-scripts/nginx.vim', {'for': 'nginx'}
-Plug 'rust-lang/rust.vim', {'for': 'rust'}
-Plug 'solarnz/thrift.vim', {'for': 'thrift'}
-Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
-" Plug 'blockloop/vim-swigjs', {'for': 'swig'}
-" Plug 'PotatoesMaster/i3-vim-syntax', {'for': 'i3'}
+" Plug 'chikamichi/mediawiki.vim', {'for': 'wiki'}
+Plug 'sheerun/vim-polyglot'
 " }}}
 
 " common vim extended. {{{
@@ -125,6 +118,7 @@ if s:enhanced
     if has('python')
         " Snippet engine.
         Plug 'SirVer/ultisnips'
+        Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python'], 'do': function('YcmHook')}
     endif
 
     " Easily jump between header file and source file.
@@ -137,17 +131,17 @@ if s:enhanced
     " Plug 'junegunn/limelight.vim'
     " Plug 'amix/vim-zenroom2'
 
-    if has('nvim')
-        " plugins for neovim.
-        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-        Plug 'Shougo/neco-syntax'
-        Plug 'zchee/deoplete-jedi'
-    else
-        if has('python')
-            " Auto completion.
-            Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python'], 'do': function('YcmHook')}
-        endif
-    endif
+    " if has('nvim')
+    "     " plugins for neovim.
+    "     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    "     Plug 'Shougo/neco-syntax'
+    "     Plug 'zchee/deoplete-jedi'
+    " else
+    "     if has('python')
+    "         " Auto completion.
+    "         Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python'], 'do': function('YcmHook')}
+    "     endif
+    " endif
 endif
 " }}}
 call plug#end()
@@ -231,7 +225,9 @@ if s:enhanced
     let g:ale_lint_on_text_changed = 'never'
 
     let g:ale_linters = {
-    \     'go': ['go build', 'gofmt', 'go vet']
+    \     'go': ['go build', 'gofmt', 'go vet'],
+    \     'python': ['flake8', 'pylint'],
+    \     'scss': ['scsslint', 'stylelint']
     \ }
 endif
 " }}}
@@ -296,10 +292,15 @@ if s:enhanced
     let g:tagbar_type_markdown = {
         \ 'ctagstype' : 'markdown',
         \ 'kinds' : [
-            \ 'h:Heading_L1',
-            \ 'i:Heading_L2',
-            \ 'k:Heading_L3'
-        \ ]
+            \ 'h:Header'
+        \ ],
+        \ 'sro': '.',
+        \ 'kind2scope' : {
+            \ 'h' : 'Header'
+        \ },
+        \ 'scope2kind' : {
+            \ 'Header' : 'h'
+        \ }
     \ }
 endif
 " }}}
@@ -373,13 +374,17 @@ let g:vim_markdown_toml_frontmatter = 1
 " }}}
 
 " deoplete settings {{{
-if has('nvim')
-    let g:deoplete#enable_at_startup = 1
-    let g:deoplete#enable_ignore_case = 1
-    let g:deoplete#enable_smart_case = 1
-    let g:deoplete#enable_camel_case = 1
-    let g:deoplete#auto_complete_start_length = 1
-endif
+" if has('nvim')
+"     let g:deoplete#enable_at_startup = 1
+"     let g:deoplete#enable_ignore_case = 1
+"     let g:deoplete#enable_smart_case = 1
+"     let g:deoplete#enable_camel_case = 1
+"     let g:deoplete#auto_complete_start_length = 1
+" endif
+" }}}
+
+" polyglot settings {{{
+let g:polyglot_disabled = ['c', 'cpp', 'go', 'javascript', 'python']
 " }}}
 
 " ================

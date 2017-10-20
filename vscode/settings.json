@@ -1,20 +1,27 @@
-// 将设置放入此文件中以覆盖默认设置
 {
-    // 编辑器
-        "editor.fontFamily": "Consolas",
-        "editor.fontSize": 14,
-        "editor.rulers": [80, 120],
-        "editor.renderIndentGuides": true,
+    // Editor
+    "editor.fontFamily": "Consolas",
+    "editor.fontSize": 14,
+    "editor.rulers": [80, 120],
+    "editor.smoothScrolling": true,
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": true,
+        "strings": true
+    },
+    "editor.cursorBlinking": "smooth",
+    "editor.renderIndentGuides": true,
         
     // 遥测
-        "telemetry.enableTelemetry": false,
-        "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false,
     
     // Vim Configuration
-        "vim.otherModesKeyBindingsNonRecursive": [
-        ],
-        "vim.insertModeKeyBindingsNonRecursive": [
-            {"before": ["j", "k"], "after": ["<Esc>"]}
-        ],
-        "vim.useSystemClipboard": true
+    "vim.otherModesKeyBindingsNonRecursive": [
+    ],
+    "vim.insertModeKeyBindingsNonRecursive": [
+        {"before": ["j", "k"], "after": ["<Esc>"]}
+    ],
+    "vim.useSystemClipboard": true,
+    "vim.disableAnnoyingNeovimMessage": true
 }
