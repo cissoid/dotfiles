@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2017-10-20T14:10:44+0800
+" Last Modified: 2017-10-24T18:42:01+0800
 " ================================
 scriptencoding utf-8
 
@@ -223,12 +223,13 @@ if s:enhanced
     let g:ale_open_list = 1
     " let g:ale_set_quickfix = 1
     let g:ale_lint_on_text_changed = 'never'
-
     let g:ale_linters = {
+    \     'c': ['clang', 'cppcheck', 'clang-check', 'clang-tidy'],
     \     'go': ['go build', 'gofmt', 'go vet'],
     \     'python': ['flake8', 'pylint'],
     \     'scss': ['scsslint', 'stylelint']
     \ }
+    let g:ale_c_clang_options = '-std=c11 -Wall -I. -I./src'
 endif
 " }}}
 
