@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2017-10-24T18:42:01+0800
+" Last Modified: 2017-10-28T19:58:23+0800
 " ================================
 scriptencoding utf-8
 
@@ -230,6 +230,9 @@ if s:enhanced
     \     'scss': ['scsslint', 'stylelint']
     \ }
     let g:ale_c_clang_options = '-std=c11 -Wall -I. -I./src'
+    let g:ale_c_gcc_options = '-std=c11 -Wall -I. -I./src'
+    let g:ale_cpp_clang_options = '-std=c++14 -Wall -I. -I./src'
+    let g:ale_cpp_gcc_options = '-std=c++14 -Wall -I. -I./src'
 endif
 " }}}
 
