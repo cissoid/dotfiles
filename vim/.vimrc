@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2017-10-28T19:58:23+0800
+" Last Modified: 2017-11-15T14:57:39+0800
 " ================================
 scriptencoding utf-8
 
@@ -222,6 +222,7 @@ let g:airline#extensions#whitespace#enabled = 0
 if s:enhanced
     let g:ale_open_list = 1
     " let g:ale_set_quickfix = 1
+    let g:ale_lint_on_enter = 0
     let g:ale_lint_on_text_changed = 'never'
     let g:ale_linters = {
     \     'c': ['clang', 'cppcheck', 'clang-check', 'clang-tidy'],
@@ -233,6 +234,12 @@ if s:enhanced
     let g:ale_c_gcc_options = '-std=c11 -Wall -I. -I./src'
     let g:ale_cpp_clang_options = '-std=c++14 -Wall -I. -I./src'
     let g:ale_cpp_gcc_options = '-std=c++14 -Wall -I. -I./src'
+
+    " auto close location list when buffer close.
+    augroup ale
+        autocmd!
+        autocmd BufWinLeave * if empty(&bt) | lclose | endif
+    augroup END
 endif
 " }}}
 
