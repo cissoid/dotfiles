@@ -2,7 +2,7 @@
 # File Name: gitconfig
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2017-06-20T16:36:39+0800
+# Last Modified: 2017-11-23T16:39:09+0800
 # ================================
 
 [core]
@@ -30,6 +30,36 @@
                     cd ..;                                              \
                 fi;                                                     \
             done;                                                       \
+        }; f"
+    pull-all = "!f() {                                                                                                \
+            for folder in `ls`; do                                                                                    \
+                if [ -d $folder ] && [ -d $folder/.git ]; then                                                        \
+                    echo ====START $folder====;                                                                       \
+                    cd $folder;                                                                                       \
+                    currentbranch=`git branch | grep -Po \"(?<=\\*).*(?=$)\"`;                                        \
+                    git pull origin --prune --progress;                                                               \
+                    for branch in `git branch --remotes | grep -Po \"(?<=origin/)([a-zA-Z0-9\\-_]*)(?=(\\s|$))\"`; do \
+                        if [ ! \"$branch\" == \"HEAD\" ]; then                                                        \
+                            git checkout $branch && git merge;                                                        \
+                        fi;                                                                                           \
+                    done;                                                                                             \
+                    git checkout $currentbranch;                                                                      \
+                    git gc --prune;                                                                                   \
+                    cd ..;                                                                                            \
+                    echo ====END $folder====;                                                                         \
+                fi;                                                                                                   \
+            done;                                                                                                     \
+        }; f"
+    backup-all = "!f() {                                       \
+            for folder in `ls`; do                             \
+                if [ -d $folder ] && [ -d $folder/.git ]; then \
+                    echo ====START $folder====;                \
+                    cd $folder;                                \
+                    git push --mirror backup;                  \
+                    cd ..;                                     \
+                    echo ====END $folder====;                  \
+                fi;                                            \
+            done;                                              \
         }; f"
     rewrite-author = "!f() {                                                                           \
             AUTHOR=$1;                                                                                 \
