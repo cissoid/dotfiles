@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2017-11-15T14:57:39+0800
+" Last Modified: 2017-12-11T17:24:33+0800
 " ================================
 scriptencoding utf-8
 
@@ -130,6 +130,7 @@ if s:enhanced
     " Plug 'junegunn/goyo.vim'
     " Plug 'junegunn/limelight.vim'
     " Plug 'amix/vim-zenroom2'
+    Plug 'wakatime/vim-wakatime'
 
     " if has('nvim')
     "     " plugins for neovim.
