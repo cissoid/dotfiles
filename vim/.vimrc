@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2017-12-11T17:24:33+0800
+" Last Modified: 2017-12-18T10:06:28+0800
 " ================================
 scriptencoding utf-8
 
@@ -23,6 +23,7 @@ let s:enhanced = 1
 " plugin hook function. {{{
 function! TagbarHook(info)
     !go get -u 'github.com/jstemmer/gotags'
+    !pip install -U markdown2ctags
 endfunction
 
 function! AleHook(info)
@@ -276,6 +277,8 @@ if s:enhanced
     let g:tagbar_sort = 0
     let g:tagbar_type_go = {
         \ 'ctagstype' : 'go',
+        \ 'ctagsbin'  : 'gotags',
+        \ 'ctagsargs' : '-sort -silent',
         \ 'kinds'     : [
             \ 'p:package',
             \ 'i:imports:1',
@@ -297,22 +300,21 @@ if s:enhanced
         \ 'scope2kind' : {
             \ 'ctype' : 't',
             \ 'ntype' : 'n'
-        \ },
-        \ 'ctagsbin'  : 'gotags',
-        \ 'ctagsargs' : '-sort -silent'
+        \ }
     \ }
     let g:tagbar_type_markdown = {
         \ 'ctagstype' : 'markdown',
+        \ 'ctagsbin': 'markdown2ctags',
+        \ 'ctagsargs': '-f - --sort=yes',
         \ 'kinds' : [
-            \ 'h:Header'
+            \ 's:sections',
+            \ 'i:images',
         \ ],
-        \ 'sro': '.',
+        \ 'sro': '|',
         \ 'kind2scope' : {
-            \ 'h' : 'Header'
+            \ 's' : 'section'
         \ },
-        \ 'scope2kind' : {
-            \ 'Header' : 'h'
-        \ }
+        \ 'sort': 0
     \ }
 endif
 " }}}
