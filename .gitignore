@@ -14,3 +14,9 @@ vim/.vim/view/
 idea/.idea/port
 idea/.idea/port.lock
 idea/.idea/*.key
+idea/.idea/options/*.xml
+!idea/.idea/options/editor.codeinsight.xml
+!idea/.idea/options/editor.xml
+idea/.idea/options/keymap.xml
+!idea/.idea/options/ui.lnf.xml
+!idea/.idea/options/vim_settings.xml

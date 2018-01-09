@@ -1,0 +1,57 @@
+<application>
+  <component name="VimSettings">
+    <state version="4" enabled="true" />
+    <globalmarks />
+    <filemarks>
+      <file name="$USER_HOME$/PycharmProjects/shorturl/main.py" timestamp="1503387966184">
+        <mark key="'" line="0" column="0" />
+        <mark key="[" line="5" column="26" />
+        <mark key="]" line="6" column="7" />
+        <mark key="." line="6" column="7" />
+        <mark key="^" line="6" column="7" />
+      </file>
+      <file name="$USER_HOME$/Library/Preferences/CLion2017.1/idea.properties" timestamp="1503461746982">
+        <mark key="[" line="1" column="0" />
+        <mark key="]" line="1" column="0" />
+        <mark key="." line="1" column="0" />
+      </file>
+    </filemarks>
+    <jumps>
+      <jump line="0" column="0" filename="$USER_HOME$/PycharmProjects/shorturl/main.py" />
+    </jumps>
+    <registers>
+      <register name="1" type="4">
+        <text encoding="base64">CmlkZWEuY29uZmlnLnBhdGg9JHt1c2VyLmhvbWV9Ly5pZGVh</text>
+      </register>
+      <register name="&quot;" type="4">
+        <text encoding="base64">CmlkZWEuY29uZmlnLnBhdGg9JHt1c2VyLmhvbWV9Ly5pZGVh</text>
+      </register>
+      <register name="2" type="4">
+        <text encoding="base64">OAo=</text>
+      </register>
+      <register name="3" type="2">
+        <text encoding="base64">aWYgX19uYW1lX18gPT0gJ19fbWFpbl9fJzoKICAgIG1haW4K</text>
+      </register>
+      <register name=":" type="4">
+        <text>w</text>
+      </register>
+      <register name="-" type="4">
+        <text>o</text>
+      </register>
+    </registers>
+    <search>
+      <last-dir>0</last-dir>
+      <show-last>false</show-last>
+    </search>
+    <history>
+      <history-search />
+      <history-cmd>
+        <entry>action ReformatCode</entry>
+        <entry>w</entry>
+      </history-cmd>
+      <history-expr />
+      <history-input />
+    </history>
+    <shortcut-conflicts />
+  </component>
+</application>
