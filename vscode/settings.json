@@ -10,12 +10,7 @@
         "strings": true
     },
     "editor.cursorBlinking": "smooth",
-    "editor.renderIndentGuides": true,
-        
-    // 遥测
-    "telemetry.enableTelemetry": false,
-    "telemetry.enableCrashReporter": false,
-    
+
     // Vim Configuration
     "vim.otherModesKeyBindingsNonRecursive": [
     ],
@@ -23,5 +18,13 @@
         {"before": ["j", "k"], "after": ["<Esc>"]}
     ],
     "vim.useSystemClipboard": true,
-    "vim.disableAnnoyingNeovimMessage": true
+    "vim.disableAnnoyingNeovimMessage": true,
+
+    // Python Configuration
+    "python.venvPath": "~/pyvenv",
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false
 }
