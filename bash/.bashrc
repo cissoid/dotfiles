@@ -3,14 +3,14 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2018-01-18T17:21:54+0800
+# Last Modified: 2018-01-18T17:29:13+0800
 # ================================
 
 function __ts() {
     if [ -x /usr/local/bin/gdate ]; then  # macOS
         echo $(/usr/local/bin/gdate +%s.%N)
     else
-        echo date +%s.%N
+        echo $(date +%s.%N)
     fi
 }
 
