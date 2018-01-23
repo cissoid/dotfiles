@@ -3,8 +3,14 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2018-01-18T17:29:13+0800
+# Last Modified: 2018-01-23T18:29:48+0800
 # ================================
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+    *) return;;
+esac
 
 function __ts() {
     if [ -x /usr/local/bin/gdate ]; then  # macOS
