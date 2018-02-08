@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2017-12-18T10:06:28+0800
+" Last Modified: 2018-01-30T16:07:08+0800
 " ================================
 scriptencoding utf-8
 
@@ -42,7 +42,7 @@ function! YcmHook(info)
     let l:python_executable = ''
     python vim.command('let l:python_executable = \'%s\'' % os.path.join(sys.exec_prefix, 'bin', 'python'))
     python del os, sys, vim
-    let l:command = '!' . l:python_executable . ' install.py --clang-completer --gocode-completer --tern-completer'
+    let l:command = '!' . l:python_executable . ' install.py --clang-completer --gocode-completer  --js-completer --rust-completer'
     execute l:command
 endfunction
 " }}}
@@ -119,7 +119,7 @@ if s:enhanced
     if has('python')
         " Snippet engine.
         Plug 'SirVer/ultisnips'
-        Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python'], 'do': function('YcmHook')}
+        Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python', 'rust'], 'do': function('YcmHook')}
     endif
 
     " Easily jump between header file and source file.
