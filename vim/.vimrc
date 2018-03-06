@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2018-01-30T16:07:08+0800
+" Last Modified: 2018-03-06T10:38:15+0800
 " ================================
 scriptencoding utf-8
 
@@ -38,11 +38,20 @@ function! AleHook(info)
 endfunction
 
 function! YcmHook(info)
-    python import os, sys, vim
-    let l:python_executable = ''
-    python vim.command('let l:python_executable = \'%s\'' % os.path.join(sys.exec_prefix, 'bin', 'python'))
-    python del os, sys, vim
-    let l:command = '!' . l:python_executable . ' install.py --clang-completer --gocode-completer  --js-completer --rust-completer'
+    if has('python')
+        python import os, sys, vim
+        let l:python_executable = ''
+        python vim.command('let l:python_executable = \'{}\''.format(os.path.join(sys.exec_prefix, 'bin', 'python')))
+        python del os, sys, vim
+    elseif has('python3')
+        python3 import os, sys, vim
+        let l:python_executable = ''
+        python3 vim.command('let l:python_executable = \'{}\''.format(os.path.join(sys.exec_prefix, 'bin', 'python3')))
+        python3 del os, sys, vim
+    else
+        echo 'Vim built with no python support'
+    endif
+    let l:command = '!' . l:python_executable . ' install.py --clang-completer --go-completer  --js-completer --rust-completer'
     execute l:command
 endfunction
 " }}}
@@ -116,7 +125,7 @@ if s:enhanced
     Plug 'w0rp/ale'
     Plug 'Xuyuanp/nerdtree-git-plugin'
     " Plug 'GlobalOptions'
-    if has('python')
+    if has('python') || has('python3')
         " Snippet engine.
         Plug 'SirVer/ultisnips'
         Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python', 'rust'], 'do': function('YcmHook')}
@@ -230,7 +239,7 @@ if s:enhanced
     \     'c': ['clang', 'cppcheck', 'clang-check', 'clang-tidy'],
     \     'go': ['go build', 'gofmt', 'go vet'],
     \     'python': ['flake8', 'pylint'],
-    \     'scss': ['scsslint', 'stylelint']
+    \     'scss': ['scsslint']
     \ }
     let g:ale_c_clang_options = '-std=c11 -Wall -I. -I./src'
     let g:ale_c_gcc_options = '-std=c11 -Wall -I. -I./src'
@@ -261,6 +270,7 @@ if s:enhanced
     let g:ycm_confirm_extra_conf = 0
     " disable this to make syntastic work correctly.
     let g:ycm_show_diagnostics_ui = 0
+    let g:ycm_python_binary_path = 'python'
 endif
 " }}}
 
