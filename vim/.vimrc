@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2018-03-06T10:38:15+0800
+" Last Modified: 2018-05-15T16:44:20+0800
 " ================================
 scriptencoding utf-8
 
@@ -380,6 +380,7 @@ let g:vimwiki_global_ext = 0
 let g:vimwiki_list = [
     \ {'path': '~/Dropbox/Personal/wiki/', 'syntax': 'markdown', 'ext': '.md', 'auto_toc': 1}
 \ ]
+let g:vimwiki_listsyms = ' .oOx'
 " }}}
 
 " goyo & limelight settings {{{
