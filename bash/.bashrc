@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2018-01-23T18:29:48+0800
+# Last Modified: 2018-06-04T17:56:11+0800
 # ================================
 
 # If not running interactively, don't do anything
@@ -90,7 +90,10 @@ function __set_ps1() {
     )'
     # python virtualenv
     PS1+='$(
-        if [ ! "$VIRTUAL_ENV" == "" ]; then
+        pyenv_path=$(which pyenv 2>/dev/null);
+        if [ ! "$pyenv_path" == "" ]; then
+            printf %s "(" $(pyenv version | grep -Po "(?<=^)[^\\s]+") ")";
+        elif [ ! "$VIRTUAL_ENV" == "" ]; then
             printf %s "(" $(basename $VIRTUAL_ENV) ")";
         fi
     )'
