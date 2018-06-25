@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2018-06-04T17:56:11+0800
+# Last Modified: 2018-06-14T14:05:18+0800
 # ================================
 
 # If not running interactively, don't do anything
@@ -71,6 +71,7 @@ function __set_environment_variables() {
     export PROMPT_DIRTRIM=3  # strip when pwd too long.
     export HISTSIZE=65535
     export HISTFILESIZE=65535
+    export VIRTUAL_ENV_DISABLE_PROMPT=1
 }
 
 function __set_ps1() {
@@ -90,10 +91,10 @@ function __set_ps1() {
     )'
     # python virtualenv
     PS1+='$(
-        pyenv_path=$(which pyenv 2>/dev/null);
-        if [ ! "$pyenv_path" == "" ]; then
-            printf %s "(" $(pyenv version | grep -Po "(?<=^)[^\\s]+") ")";
-        elif [ ! "$VIRTUAL_ENV" == "" ]; then
+        # pyenv_path=$(which pyenv 2>/dev/null);
+        # if [ ! "$pyenv_path" == "" ]; then
+        #     printf %s "(" $(pyenv version | grep -Po "(?<=^)[^\\s]+") ")";
+        if [ ! "$VIRTUAL_ENV" == "" ]; then
             printf %s "(" $(basename $VIRTUAL_ENV) ")";
         fi
     )'
@@ -132,7 +133,7 @@ function __set_ps1() {
             printf %s "(" $foreground $branch $reset ")";
         fi
     )'
-    PS1+="\\$ "
+    PS1+="\n\\$ "
     export PS1
 }
 

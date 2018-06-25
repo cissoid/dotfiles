@@ -2,9 +2,11 @@
 " File Name: .ideavimrc
 " Author: cissoid
 " Created At: 2017-06-22T18:13:09+0800
-" Last Modified: 2017-06-22T18:32:11+0800
+" Last Modified: 2018-06-06T10:40:11+0800
 " ================================
 scriptencoding utf-8
+
+set surround
 
 nnoremap <silent> <expr> j (v:count == 0 ? 'gj': 'j')
 nnoremap <silent> <expr> k (v:count == 0 ? 'gk': 'k')
@@ -16,6 +18,8 @@ nnoremap <C-j> j<C-e>
 nnoremap <C-k> k<C-y>
 
 nnoremap <Leader>fa :action ReformatCode<CR>
+nnoremap <Leader>t :action FileStructurePopup<CR>
+nnoremap <Leader>n :action ActivateProjectToolWindow<CR>
 
 inoremap jk <Esc>
 inoremap <C-j> :action Down<CR>

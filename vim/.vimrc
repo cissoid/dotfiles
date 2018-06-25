@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2018-05-31T13:58:27+0800
+" Last Modified: 2018-06-22T16:13:52+0800
 " ================================
 scriptencoding utf-8
 
@@ -34,7 +34,6 @@ function! AleHook(info)
     if has('maxunix')
         !brew install shellcheck cppcheck tidy-html5
     endif
-
 endfunction
 
 function! YcmHook(info)
@@ -326,6 +325,25 @@ if s:enhanced
         \ },
         \ 'sort': 0
     \ }
+    let g:tagbar_type_thrift = {
+        \ 'ctagstype' : 'thrift',
+        \ 'kinds' : [
+            \ 'u:union:0:1',
+            \ 'e:enum:0:1',
+            \ 'm:member:1:0',
+            \ 's:struct:0:1',
+            \ 'a:value:1:0',
+            \ 'v:service:0:1',
+            \ 'f:function:1:0',
+        \ ],
+        \ 'sro': '.',
+        \ 'kind2scope' : {
+            \ 'e' : 'enum',
+            \ 's' : 'struct',
+            \ 'v' : 'service'
+        \ },
+        \ 'sort': 0
+    \ }
 endif
 " }}}
 
@@ -501,7 +519,7 @@ if has('gui_running')
     endif
 else
     set t_Co=256
-    highlight Normal ctermbg=none
+    " highlight Normal ctermbg=none
 endif
 " }}}
 
