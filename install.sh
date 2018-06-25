@@ -9,10 +9,10 @@ function get_platform() {
 }
 
 function link() {
-    for name in $(ls -A "${1}"); do
-        # ln -sf "${1}/${name}" "${2}"
+    # for name in $(ls -A "${1}"); do
+    #     ln -sf "${1}/${name}" "${2}"
+    # done
 	stow -t "${2}" "${1}"
-    done
 }
 
 declare -A stow_map
@@ -22,6 +22,7 @@ function init() {
     stow_map["git"]="${HOME}"
     stow_map["tmux"]="${HOME}"
     stow_map["vim"]="${HOME}"
+    stow_map["ctags"]="${HOME}"
 
     # formaters
     stow_map["autopep8"]="${HOME}"

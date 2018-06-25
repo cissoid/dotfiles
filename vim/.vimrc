@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2018-06-22T16:13:52+0800
+" Last Modified: 2018-06-25T18:51:21+0800
 " ================================
 scriptencoding utf-8
 
@@ -326,21 +326,28 @@ if s:enhanced
         \ 'sort': 0
     \ }
     let g:tagbar_type_thrift = {
-        \ 'ctagstype' : 'thrift',
-        \ 'kinds' : [
-            \ 'u:union:0:1',
-            \ 'e:enum:0:1',
-            \ 'm:member:1:0',
-            \ 's:struct:0:1',
-            \ 'a:value:1:0',
-            \ 'v:service:0:1',
-            \ 'f:function:1:0',
+        \ 'ctagstype': 'thrift',
+        \ 'kinds': [
+            \ 'e:enum',
+            \ 'a:value',
+            \ 's:struct',
+            \ 'm:member',
+            \ 'x:exception',
+            \ 'v:service',
+            \ 'f:function',
         \ ],
         \ 'sro': '.',
-        \ 'kind2scope' : {
-            \ 'e' : 'enum',
+        \ 'kind2scope': {
             \ 's' : 'struct',
-            \ 'v' : 'service'
+            \ 'e' : 'enum',
+            \ 'v' : 'service',
+            \ 'x' : 'exception',
+        \ },
+        \ 'scope2kind': {
+            \ 'struct': 's',
+            \ 'enum': 'e',
+            \ 'service': 'v',
+            \ 'exception': 'x',
         \ },
         \ 'sort': 0
     \ }
