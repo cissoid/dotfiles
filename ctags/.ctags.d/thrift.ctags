@@ -4,22 +4,22 @@
 
 --langdef=thrift
 --map-thrift=.thrift
-
---kinddef-thrift=s,struct,structs
---kinddef-thrift=m,member,members
---regex-thrift=/^[ \t]*struct[ \t]+([a-zA-Z0-9_]+)/\1/s/{scope=push}
---regex-thrift=/^[ \t]*[0-9]+:[ \t]+((required)|(optional))?[ \t]+([a-zA-Z0-9_]+)[ \t]+([a-zA-Z0-9_]+)/\5/m/{scope=ref}
---regex-thrift=/^[ \t]*(\})///{scope=pop}{placeholder}
-
---kinddef-thrift=v,service,services
---kinddef-thrift=f,function,functions
---regex-thrift=/^[ \t]*service[ \t]+([a-zA-Z0-9_]+)/\1/v/{scope=push}
---regex-thrift=/^[ \t]*[a-zA-Z0-9_<>]+[ \t]+([a-zA-Z0-9_]+)[ \t]*\(/\1/f/{scope=ref}
+--regex-thrift=/^[[:blank:]]*(\})///{scope=pop}{placeholder}
 
 --kinddef-thrift=e,enum,enums
 --kinddef-thrift=a,value,values
---regex-thrift=/^[ \t]*enum[ \t]+([a-zA-Z0-9_]+)/\1/e,enum/{scope=push}
---regex-thrift=/^[ \t]*([a-zA-Z0-9_]+)[ \t]*=/\1/a,value/{scope=ref}
+--regex-thrift=/^[[:blank:]]*enum[[:blank:]]+([a-zA-Z0-9_]+)/\1/e,enum/{scope=push}
+--regex-thrift=/^[[:blank:]]*([a-zA-Z0-9_]+)[[:blank:]]*=/\1/a,value/{scope=ref}
+
+--kinddef-thrift=s,struct,structs
+--kinddef-thrift=m,member,members
+--regex-thrift=/^[[:blank:]]*struct[[:blank:]]+([a-zA-Z0-9_]+)/\1/s/{scope=push}
+--regex-thrift=/^[[:blank:]]*[0-9]+:[[:blank:]]+((required)|(optional))?[[:blank:]]+([a-zA-Z0-9_]+)[[:blank:]]+([a-zA-Z0-9_]+)/\5 -> \4/m/{scope=ref}
+
+--kinddef-thrift=v,service,services
+--kinddef-thrift=f,function,functions
+--regex-thrift=/^[[:blank:]]*service[[:blank:]]+([a-zA-Z0-9_]+)/\1/v/{scope=push}
+--regex-thrift=/^[[:blank:]]*([a-zA-Z0-9_<>]+)[[:blank:]]+([a-zA-Z0-9_]+[[:blank:]]*\([^\)]*\))/\2 -> \1/f/{scope=ref}
 
 --kinddef-thrift=x,exception,exceptions
---regex-thrift=/^[ \t]*exception[ \t]+([a-zA-Z0-9_]+)/\1/x,exception/{scope=push}
+--regex-thrift=/^[[:blank:]]*exception[[:blank:]]+([a-zA-Z0-9_]+)/\1/x,exception/{scope=push}
