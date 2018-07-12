@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2018-06-25T18:51:21+0800
+" Last Modified: 2018-07-04T10:27:48+0800
 " ================================
 scriptencoding utf-8
 
@@ -103,7 +103,7 @@ if s:enhanced
     Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown', 'vimwiki']}
     Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'vimwiki']}
     Plug 'raimondi/delimitmate'
-    " Plug 'rking/ag.vim'
+    Plug 'rking/ag.vim'
     " File tree.
     Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeTabsToggle']}
     " Show undo tree.

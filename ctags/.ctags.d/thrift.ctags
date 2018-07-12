@@ -14,12 +14,12 @@
 --kinddef-thrift=s,struct,structs
 --kinddef-thrift=m,member,members
 --regex-thrift=/^[[:blank:]]*struct[[:blank:]]+([a-zA-Z0-9_]+)/\1/s/{scope=push}
---regex-thrift=/^[[:blank:]]*[0-9]+:[[:blank:]]+((required)|(optional))?[[:blank:]]+([a-zA-Z0-9_]+)[[:blank:]]+([a-zA-Z0-9_]+)/\5 -> \4/m/{scope=ref}
+--regex-thrift=/^[[:blank:]]*[0-9]+:[[:blank:]]+((required)|(optional))?[[:blank:]]+([a-zA-Z0-9_<>]+)[[:blank:]]+([a-zA-Z0-9_]+)/\5 -> \4/m/{scope=ref}
 
 --kinddef-thrift=v,service,services
 --kinddef-thrift=f,function,functions
 --regex-thrift=/^[[:blank:]]*service[[:blank:]]+([a-zA-Z0-9_]+)/\1/v/{scope=push}
---regex-thrift=/^[[:blank:]]*([a-zA-Z0-9_<>]+)[[:blank:]]+([a-zA-Z0-9_]+[[:blank:]]*\([^\)]*\))/\2 -> \1/f/{scope=ref}
+--regex-thrift=/^[[:blank:]]*([a-zA-Z0-9_<>,[:blank:]]+)[[:blank:]]+([a-zA-Z0-9_]+[[:blank:]]*\([^\)]*\))/\2 -> \1/f/{scope=ref}
 
 --kinddef-thrift=x,exception,exceptions
 --regex-thrift=/^[[:blank:]]*exception[[:blank:]]+([a-zA-Z0-9_]+)/\1/x,exception/{scope=push}
