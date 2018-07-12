@@ -26,6 +26,7 @@ function init() {
 
     # formaters
     stow_map["autopep8"]="${HOME}"
+    stow_map["yapf"]="${HOME}"
     stow_map["js-beautify"]="${HOME}"
 
     # linters

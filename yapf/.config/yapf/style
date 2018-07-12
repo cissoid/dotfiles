@@ -1,0 +1,10 @@
+[style]
+based_on_style=google
+
+blank_line_before_nested_class_or_def=True
+coalesce_brackets=True
+column_limit=120
+dedent_closing_brackets=True
+join_multiple_lines=False
+spaces_around_power_operator=True
+split_complex_comprehension=True
