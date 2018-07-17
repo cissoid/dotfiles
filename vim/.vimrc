@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2018-07-04T10:27:48+0800
+" Last Modified: 2018-07-17T11:17:37+0800
 " ================================
 scriptencoding utf-8
 
@@ -516,9 +516,9 @@ set listchars=tab:¦\ ,eol:¬,trail:⋅,extends:»,precedes:«
 
 " gui setting {{{
 if has('gui_running')
-    if has('macunix')
+    if has('mac')
         " set guifont=Ubuntu\ Mono\ derivative\ Powerline:h16
-        set guifont=Consolas:h15
+        set guifont=Monaco:h15
         set guioptions=
     elseif has('unix')
         set guifont=Monospace\ 12
@@ -596,7 +596,7 @@ command! SudoW :w !sudo tee % >/dev/null
 " ================
 " keymap settings {{{
 " ================
-" let mapleader=","
+let mapleader=";"
 
 " nmap {{{
 " hard mode

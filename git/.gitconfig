@@ -2,7 +2,7 @@
 # File Name: gitconfig
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2018-01-18T17:34:31+0800
+# Last Modified: 2018-07-17T11:29:56+0800
 # ================================
 
 [core]
@@ -98,7 +98,7 @@
             [\"python\"]=\"Python\"                                                                                \
             [\"sass\"]=\"Sass\"                                                                                    \
         );                                                                                                         \
-        echo \"# vim: foldmethod=marker\" > $GITIGNORE;                                                            \
+        echo \"# vim: foldmethod=marker foldlevel=0\" > $GITIGNORE;                                                            \
         for arg in $@; do                                                                                          \
             lang=${LANGS[$arg]};                                                                                   \
             if [ \"$lang\" == \"\" ]; then                                                                         \
