@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2018-07-17T11:17:37+0800
+" Last Modified: 2018-07-17T15:27:37+0800
 " ================================
 scriptencoding utf-8
 
@@ -596,7 +596,7 @@ command! SudoW :w !sudo tee % >/dev/null
 " ================
 " keymap settings {{{
 " ================
-let mapleader=";"
+" let mapleader=";"
 
 " nmap {{{
 " hard mode
