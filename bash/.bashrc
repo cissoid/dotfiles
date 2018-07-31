@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2018-06-14T14:05:18+0800
+# Last Modified: 2018-07-31T16:59:17+0800
 # ================================
 
 # If not running interactively, don't do anything
@@ -14,20 +14,20 @@ esac
 
 function __ts() {
     if [ -x /usr/local/bin/gdate ]; then  # macOS
-        echo $(/usr/local/bin/gdate +%s.%N)
+        /usr/local/bin/gdate +%s.%N
     else
-        echo $(date +%s.%N)
+        date +%s.%N
     fi
 }
 
 function __timeit() {
     # Args: level, label, func, args
-    __level=$1
-    __label=$2
-    __func=$3
+    local __level=$1
+    local __label=$2
+    local __func=$3
     shift 3
 
-    for (( i=0; i<$__level; i++ )); do
+    for (( i=0; i<__level; i++ )); do
         echo -n '-'
     done
     echo -n '> '
@@ -36,16 +36,12 @@ function __timeit() {
         echo ""
     fi
 
+    local __start_time
     __start_time=$(__ts)
-    eval $__func $*
+    $__func "$*"
+    local __end_time
     __end_time=$(__ts)
-    printf "%.6fs\n" $(echo "$__end_time-$__start_time" | bc)
-
-    unset __level
-    unset __label
-    unset __func
-    unset __start_time
-    unset __end_time
+    printf "%.6fs\\n" "$(echo "$__end_time-$__start_time" | bc)"
 }
 
 function __load_global_bashrc() {
@@ -133,7 +129,7 @@ function __set_ps1() {
             printf %s "(" $foreground $branch $reset ")";
         fi
     )'
-    PS1+="\n\\$ "
+    PS1+="\\n\\$ "
     export PS1
 }
 
@@ -226,13 +222,14 @@ function __set_alias_ex() {
 }
 
 function __load_local_bashrc() {
-    if [ -f ~/.bashrc_local ]; then
-        source ~/.bashrc_local
+    if [ -f "$HOME"/.bashrc_local ]; then
+        source "$HOME"/.bashrc_local
     fi
 }
 
 function __init() {
-    __st=$(__ts)
+    local start_time
+    start_time=$(__ts)
     __timeit 3 "loading global bashrc" __load_global_bashrc
     __timeit 3 "set shopt" __set_custom_shopt
     __timeit 3 "set environment variables" __set_environment_variables
@@ -242,10 +239,9 @@ function __init() {
     __timeit 3 "set alias" __set_alias
     __timeit 3 "set alias ex" __set_alias_ex
     __timeit 3 "loading local bashrc" __load_local_bashrc
-    __et=$(__ts)
-    printf " --> total %.6fs\n" $(echo "$__et-$__st" | bc)
-    unset __st
-    unset __et
+    local end_time
+    end_time=$(__ts)
+    printf " --> total %.6fs\\n" "$(echo "$end_time-$start_time" | bc)"
 }
 
 function __uninit() {
@@ -266,7 +262,7 @@ function __uninit() {
 
 function pip-upgrade-all() {
     exclude_regex="^(0)"
-    for package in $*; do
+    for package in "$@"; do
         exclude_regex+="|($package)"
     done
     exclude_regex+="$"
@@ -274,13 +270,13 @@ function pip-upgrade-all() {
 }
 
 function backup() {
-    tar -zcvf $1_`date +"%Y%m%d%H%M%S"`.tar.gz $1
+    tar -zcvf "$1"_"$(date +"%Y%m%d%H%M%S")".tar.gz "$1"
 }
 
 function auto_init() {
     autoscan
     mv configure.{scan,ac}
-    vim $_
+    vim "$_"
     aclocal
     autoconf
     vim Makefile.am
