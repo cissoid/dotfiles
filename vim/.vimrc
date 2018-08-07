@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2018-08-07T15:12:50+0800
+" Last Modified: 2018-08-07T15:35:17+0800
 " ================================
 scriptencoding utf-8
 
@@ -164,14 +164,12 @@ endif
 " }}}
 
 " nerdcommenter settings {{{
-if s:enhanced
-    " Add extra space after comment character.
-    let g:NERDSpaceDelims = 1
-    let g:NERDRemoveExtraSpaces = 1
-    let g:NERDCustomDelimiters = {
-        \ 'python': {'left': '#', 'leftAlt': '#'}
-        \ }
-endif
+" Add extra space after comment character.
+let g:NERDSpaceDelims = 1
+let g:NERDRemoveExtraSpaces = 1
+let g:NERDCustomDelimiters = {
+    \ 'python': {'left': '#', 'leftAlt': '#'}
+    \ }
 " }}}
 
 " nerdtree settings {{{
@@ -494,13 +492,11 @@ nnoremap <Leader>sv :w<CR>:source $MYVIMRC<CR>:q<CR>
 nnoremap <C-j> j<C-e>
 nnoremap <C-k> k<C-y>
 
-nnoremap <Leader>% :vsplit<CR>
-nnoremap <Leader>" :split<CR>
-
 nnoremap gb :bnext<CR>
 nnoremap gB :bprevious<CR>
 nnoremap gP :set paste!<CR>
 
+nmap <Leader>fa <Plug>Reformat
 nnoremap <Leader>n :NERDTreeToggle<CR>
 noremap <silent> <C-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <C-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
@@ -509,7 +505,6 @@ noremap <silent> <C-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
 
 if s:enhanced
     " nnoremap <Leader>ss :SyntasticReset<CR>
-    nmap <Leader>fa <Plug>Reformat
     nmap ga <Plug>(EasyAlign)
     nnoremap <C-p> :FZF<CR>
     nnoremap <Leader>gt :TagbarOpen('j')<CR>
