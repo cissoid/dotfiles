@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2018-08-06T17:42:08+0800
+" Last Modified: 2018-08-07T15:12:50+0800
 " ================================
 scriptencoding utf-8
 
@@ -68,9 +68,16 @@ Plug 'sheerun/vim-polyglot'
 " common vim extended. {{{
 " Plug 'nathanaelkane/vim-indent-guides'
 Plug 'christoomey/vim-sort-motion' " gs-
+Plug 'cissoid/vim-formatters'
 Plug 'jistr/vim-nerdtree-tabs', {'on': ['NERDTreeTabsToggle']} " singleton nerdtree across tabs.
+Plug 'kana/vim-textobj-user' | Plug 'kana/vim-textobj-indent' " textobj for indented blocks, required by vim-sort-motion
+Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown', 'vimwiki']}
+Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'vimwiki']}
+Plug 'raimondi/delimitmate'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeTabsToggle']}
+Plug 'terryma/vim-multiple-cursors'
+Plug 'terryma/vim-smooth-scroll'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround' " cs- / ds-
 Plug 'vim-airline/vim-airline'
@@ -88,22 +95,15 @@ if s:enhanced
     Plug 'SirVer/ultisnips'
     Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python', 'rust'], 'do': function('YcmHook')}
     Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'cissoid/vim-formatters'
     Plug 'cissoid/vim-templates'
     Plug 'easymotion/vim-easymotion'
     Plug 'godlygeek/tabular'
     Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
     Plug 'junegunn/fzf.vim'
-    Plug 'kana/vim-textobj-user' | Plug 'kana/vim-textobj-indent' " textobj for indented blocks, required by vim-sort-motion
     Plug 'majutsushi/tagbar', {'do': function('TagbarHook')}
     Plug 'mattn/emmet-vim', {'for': ['html', 'css', 'swig', 'php']} " zen mode
     Plug 'mhinz/vim-signify'
-    Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown', 'vimwiki']}
-    Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'vimwiki']}
-    Plug 'raimondi/delimitmate'
     Plug 'rking/ag.vim'
-    Plug 'terryma/vim-multiple-cursors'
-    Plug 'terryma/vim-smooth-scroll'
     Plug 'tpope/vim-fugitive' " git integration
     Plug 'vimwiki/vimwiki'
     Plug 'w0rp/ale' " linter
