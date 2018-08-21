@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2018-08-07T15:35:17+0800
+" Last Modified: 2018-08-21T15:17:56+0800
 " ================================
 scriptencoding utf-8
 
@@ -69,6 +69,7 @@ Plug 'sheerun/vim-polyglot'
 " Plug 'nathanaelkane/vim-indent-guides'
 Plug 'christoomey/vim-sort-motion' " gs-
 Plug 'cissoid/vim-formatters'
+Plug 'henrik/vim-indexed-search'
 Plug 'jistr/vim-nerdtree-tabs', {'on': ['NERDTreeTabsToggle']} " singleton nerdtree across tabs.
 Plug 'kana/vim-textobj-user' | Plug 'kana/vim-textobj-indent' " textobj for indented blocks, required by vim-sort-motion
 Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown', 'vimwiki']}
@@ -92,10 +93,12 @@ if s:enhanced
     " Plug 'junegunn/goyo.vim'
     " Plug 'junegunn/limelight.vim'
     " Plug 'sjl/gundo.vim', {'on': ['GundoToggle']}
+    Plug 'Shougo/echodoc.vim'
     Plug 'SirVer/ultisnips'
     Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python', 'rust'], 'do': function('YcmHook')}
     Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'cissoid/vim-templates'
+    Plug 'ctrlpvim/ctrlp.vim'
     Plug 'easymotion/vim-easymotion'
     Plug 'godlygeek/tabular'
     Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
@@ -306,6 +309,12 @@ if s:enhanced
     " disable this to make syntastic work correctly.
     let g:ycm_show_diagnostics_ui = 0
     let g:ycm_python_binary_path = 'python'
+endif
+" }}}
+
+" echodoc settings {{{
+if s:enhanced
+    let g:echodoc#enable_at_startup = 1
 endif
 " }}}
 " ================

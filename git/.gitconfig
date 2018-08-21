@@ -2,7 +2,7 @@
 # File Name: gitconfig
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2018-07-17T11:29:56+0800
+# Last Modified: 2018-08-21T10:36:23+0800
 # ================================
 
 [core]
@@ -50,16 +50,18 @@
                 fi;                                                                                                    \
             done;                                                                                                      \
         }; f"
-    backup-all = "!f() {                                       \
-            for folder in $(ls); do                            \
-                if [ -d $folder ] && [ -d $folder/.git ]; then \
-                    echo ====START $folder====;                \
-                    cd $folder;                                \
-                    git push --mirror backup;                  \
-                    cd ..;                                     \
-                    echo ====END $folder====;                  \
-                fi;                                            \
-            done;                                              \
+    backup-all = "!f() {                                                            \
+            for folder in $(ls); do                                                 \
+                if [ -d $folder ] && [ -d $folder/.git ]; then                      \
+                    cd $folder;                                                     \
+                    if [ \"$(git remote show | grep backup)\" == \"backup\" ]; then \
+                        echo ====START $folder====;                                 \
+                        git push --mirror backup;                                   \
+                        echo ====END $folder====;                                   \
+                    fi;                                                             \
+                    cd ..;                                                          \
+                fi;                                                                 \
+            done;                                                                   \
         }; f"
     rewrite-author = "!f() {                                                                            \
             AUTHOR=$1;                                                                                  \
