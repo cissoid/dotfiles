@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2018-08-21T15:17:56+0800
+" Last Modified: 2018-10-09T16:31:18+0800
 " ================================
 scriptencoding utf-8
 
@@ -347,7 +347,7 @@ set backspace=indent,eol,start
 " color setting {{{
 syntax enable
 " enable true color for terminal.
-" set termguicolors
+set termguicolors
 " colorful!
 " set background=dark
 colorscheme molokai

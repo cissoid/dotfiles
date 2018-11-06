@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2018-07-31T16:59:17+0800
+# Last Modified: 2018-11-06T10:56:07+0800
 # ================================
 
 # If not running interactively, don't do anything
@@ -57,6 +57,7 @@ function __set_custom_shopt() {
     shopt -s dirspell
     shopt -s cmdhist
     shopt -s globstar  # support for **
+    shopt -s histappend
 }
 
 function __set_environment_variables() {
