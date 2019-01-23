@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2018-10-09T16:31:18+0800
+" Last Modified: 2019-01-22T14:40:15+0800
 " ================================
 scriptencoding utf-8
 
@@ -186,7 +186,8 @@ let g:NERDTreeShowBookmarks = 1
 " }}}
 
 " polyglot settings {{{
-let g:polyglot_disabled = ['c', 'cpp', 'go', 'javascript', 'python']
+" let g:polyglot_disabled = ['c', 'cpp', 'go', 'python']
+let g:jsx_ext_required = 1
 " }}}
 
 " tagbar settings {{{

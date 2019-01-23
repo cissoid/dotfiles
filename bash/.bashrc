@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2018-11-06T10:56:07+0800
+# Last Modified: 2019-01-16T12:00:05+0800
 # ================================
 
 # If not running interactively, don't do anything
@@ -192,7 +192,7 @@ function __set_alias_ex() {
         LESS_TERMCAP_us=$(printf "\e[1;32m")        \
         man'
 
-    alias proxycall='all_proxy=http://127.0.0.1:1081'
+    alias proxycall='all_proxy=http://127.0.0.1:1081 http_proxy=http://127.0.0.1:1081 https_proxy=http://127.0.0.1:1081'
 
     alias curls='curl -w"                           \n\
     Connection                                      \n\
