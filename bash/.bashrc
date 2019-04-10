@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2019-01-16T12:00:05+0800
+# Last Modified: 2019-04-10T10:50:17+0800
 # ================================
 
 # If not running interactively, don't do anything
@@ -64,7 +64,7 @@ function __set_environment_variables() {
     export LC_ALL=en_US.UTF-8
     export LC_TYPES=en_US.UTF-8
     export LANG=en_US.UTF-8
-    export TERM=xterm-256color
+    # export TERM=screen-256color
     export PROMPT_DIRTRIM=3  # strip when pwd too long.
     export HISTSIZE=65535
     export HISTFILESIZE=65535
@@ -139,6 +139,7 @@ function __set_path() {
     export GOPATH=$HOME/env/golang  # go
     export CARGO_PATH=$HOME/.cargo/bin  # rust
     export PATH=$PATH:$HOME/bin:$GOPATH/bin:$COMPOSER_HOME/vendor/bin:$CARGO_PATH
+    export GOPROXY=https://goproxy.io
 }
 
 function __set_bash_completion() {
@@ -182,6 +183,8 @@ function __set_alias() {
 
 function __set_alias_ex() {
     alias goenv='GOPATH=$(pwd):$GOPATH '
+
+    [ ! "$(command -v bat)" == "" ] && alias cat="bat"
 
     alias man='LESS_TERMCAP_mb=$(printf "\e[1;31m") \
         LESS_TERMCAP_md=$(printf "\e[1;31m")        \

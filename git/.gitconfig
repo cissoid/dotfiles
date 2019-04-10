@@ -2,7 +2,7 @@
 # File Name: gitconfig
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2018-08-21T10:36:23+0800
+# Last Modified: 2019-04-10T15:59:15+0800
 # ================================
 
 [core]
@@ -13,7 +13,6 @@
     st = status
     co = checkout
     ci = commit
-    clone-github = "!f() { git clone https://github.com/$1 $2; }; f"
     config-user = "!f() { git config user.name $1; git config user.email $2; }; f"
     dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd $GIT_PREFIX; git diff --color $@ | diff-so-fancy | less -RFX; }; f"
     glog = log --all --graph --pretty='%C(auto)%h %d %s (%C(cyan)%an%Creset, %Cgreen%ad%Creset)'
