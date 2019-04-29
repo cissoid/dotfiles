@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2019-01-22T14:40:15+0800
+" Last Modified: 2019-04-15T10:33:56+0800
 " ================================
 scriptencoding utf-8
 
@@ -96,6 +96,11 @@ if s:enhanced
     Plug 'Shougo/echodoc.vim'
     Plug 'SirVer/ultisnips'
     Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python', 'rust'], 'do': function('YcmHook')}
+    " if has('nvim')
+    "     Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+    " else
+    "     Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python', 'rust'], 'do': function('YcmHook')}
+    " endif
     Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'cissoid/vim-templates'
     Plug 'ctrlpvim/ctrlp.vim'
@@ -350,10 +355,8 @@ syntax enable
 " enable true color for terminal.
 set termguicolors
 " colorful!
-" set background=dark
+set background=dark
 colorscheme molokai
-" let g:solarized_termcolors=256
-" colorscheme solarized
 " }}}
 
 " ui setting {{{
@@ -533,6 +536,13 @@ inoremap jk <Esc>
 
 if s:enhanced
     inoremap <Leader>yt :YcmCompleter GetType<CR>
+
+    " if has('nvim')
+    "     inoremap <silent><expr> <Leader>y<Space> coc#refresh()
+    "     inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
+    "     nnoremap <Leader>yd <Plug>(coc-definition)
+    "     nnoremap <Leader>yg <Plug>(coc-implementation)
+    " endif
 endif
 " }}}
 " ================
