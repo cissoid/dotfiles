@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2019-04-15T10:33:56+0800
+" Last Modified: 2019-05-13T16:37:11+0800
 " ================================
 scriptencoding utf-8
 
@@ -12,6 +12,7 @@ scriptencoding utf-8
 " If set, load some more excellent extensions, but maybe unusable in
 " production environment.
 let s:enhanced = 1
+let s:completer = 'ycm'  " coc or ycm
 " ================
 " }}} end custom environment variables.
 " ================
@@ -95,12 +96,6 @@ if s:enhanced
     " Plug 'sjl/gundo.vim', {'on': ['GundoToggle']}
     Plug 'Shougo/echodoc.vim'
     Plug 'SirVer/ultisnips'
-    Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python', 'rust'], 'do': function('YcmHook')}
-    " if has('nvim')
-    "     Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
-    " else
-    "     Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python', 'rust'], 'do': function('YcmHook')}
-    " endif
     Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'cissoid/vim-templates'
     Plug 'ctrlpvim/ctrlp.vim'
@@ -116,6 +111,12 @@ if s:enhanced
     Plug 'vimwiki/vimwiki'
     Plug 'w0rp/ale' " linter
     Plug 'wesQ3/vim-windowswap'
+
+    if s:completer == 'coc'
+        Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+    elseif s:completer == 'ycm'
+        Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python', 'rust'], 'do': function('YcmHook')}
+    endif
 endif
 " }}}
 call plug#end()
@@ -299,7 +300,7 @@ endif
 " }}}
 
 " ycm settings {{{
-if s:enhanced
+if s:enhanced && s:completer == 'ycm'
     let g:ycm_min_num_of_chars_for_completion = 1
     let g:ycm_complete_in_comments = 1
     let g:ycm_complete_in_strings = 1
@@ -315,6 +316,12 @@ if s:enhanced
     " disable this to make syntastic work correctly.
     let g:ycm_show_diagnostics_ui = 0
     let g:ycm_python_binary_path = 'python'
+endif
+" }}}
+
+" coc settings {{{
+if s:enhanced && s:completer == 'coc'
+    call coc#add_extension('coc-json', 'coc-tsserver', 'coc-html', 'coc-css', 'coc-rls', 'coc-python')
 endif
 " }}}
 
@@ -509,7 +516,6 @@ nnoremap gb :bnext<CR>
 nnoremap gB :bprevious<CR>
 nnoremap gP :set paste!<CR>
 
-nmap <Leader>fa <Plug>Reformat
 nnoremap <Leader>n :NERDTreeToggle<CR>
 noremap <silent> <C-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <C-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
@@ -525,9 +531,19 @@ if s:enhanced
     nnoremap <Leader>sw :call WindowSwap#EasyWindowSwap()<CR>
     nnoremap <Leader>t :TagbarToggle<CR>
     nnoremap <Leader>w<Space> :VimwikiToggleListItem<CR>
-    nnoremap <Leader>yd :YcmCompleter GetDoc<CR>
-    nnoremap <Leader>yg :YcmCompleter GoTo<CR>
-    nnoremap <Leader>yt :YcmCompleter GetType<CR>
+
+    if s:completer == 'coc'
+        nmap <Leader>fa <Plug>(coc-format)
+        nmap <Leader>gd <Plug>(coc-definition)
+        nmap <Leader>gi <Plug>(coc-implementation)
+        nmap <Leader>gr <Plug>(coc-references)
+    elseif s:completer == 'ycm'
+        nmap <Leader>fa <Plug>Reformat
+        nnoremap <Leader>yd :YcmCompleter GetDoc<CR>
+        nnoremap <Leader>yg :YcmCompleter GoTo<CR>
+        nnoremap <Leader>yt :YcmCompleter GetType<CR>
+    endif
+
 endif
 " }}}
 
@@ -535,14 +551,14 @@ endif
 inoremap jk <Esc>
 
 if s:enhanced
-    inoremap <Leader>yt :YcmCompleter GetType<CR>
-
-    " if has('nvim')
-    "     inoremap <silent><expr> <Leader>y<Space> coc#refresh()
-    "     inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
-    "     nnoremap <Leader>yd <Plug>(coc-definition)
-    "     nnoremap <Leader>yg <Plug>(coc-implementation)
-    " endif
+    if s:completer == 'coc'
+        inoremap <expr> <Leader>g<Space> coc#refresh()
+        inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+        inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+        inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
+    elseif s:completer == 'ycm'
+        inoremap <Leader>yt :YcmCompleter GetType<CR>
+    endif
 endif
 " }}}
 " ================

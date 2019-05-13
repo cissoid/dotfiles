@@ -1,0 +1,9 @@
+{
+    "suggest.enablePreview": true,
+    "suggest.minTriggerInputLength": 1,
+    "python.linting.enabled": false,
+    "pyls.plugins.pycodestyle.enabled": false,
+    "python.formatting.provider": "autopep8",
+    "python.formatting.autopep8Path": "autopep8",
+    "pyls.plugins.yapf.enabled": false
+}
