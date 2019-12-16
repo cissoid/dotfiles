@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2019-05-13T16:37:11+0800
+" Last Modified: 2019-12-16T16:58:32+0800
 " ================================
 scriptencoding utf-8
 
@@ -192,7 +192,8 @@ let g:NERDTreeShowBookmarks = 1
 " }}}
 
 " polyglot settings {{{
-" let g:polyglot_disabled = ['c', 'cpp', 'go', 'python']
+" ignore markdown, or vimwiki will not work properly.
+let g:polyglot_disabled = ['markdown']
 let g:jsx_ext_required = 1
 " }}}
 
