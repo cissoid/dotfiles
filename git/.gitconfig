@@ -2,13 +2,15 @@
 # File Name: gitconfig
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2019-04-29T17:06:33+0800
+# Last Modified: 2020-06-12T13:36:41+0800
 # ================================
 
 [core]
     editor = vim
     excludesFile = ~/.gitignore
     quotepath = false
+[pull]
+    rebase = false
 [alias]
     br = branch
     st = status

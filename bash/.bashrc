@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2019-04-10T10:50:17+0800
+# Last Modified: 2020-05-19T10:46:14+0800
 # ================================
 
 # If not running interactively, don't do anything
@@ -139,7 +139,7 @@ function __set_path() {
     export GOPATH=$HOME/env/golang  # go
     export CARGO_PATH=$HOME/.cargo/bin  # rust
     export PATH=$PATH:$HOME/bin:$GOPATH/bin:$COMPOSER_HOME/vendor/bin:$CARGO_PATH
-    export GOPROXY=https://goproxy.io
+    export GOPROXY=https://goproxy.cn,direct
 }
 
 function __set_bash_completion() {
@@ -186,14 +186,7 @@ function __set_alias_ex() {
 
     [ ! "$(command -v bat)" == "" ] && alias cat="bat"
 
-    alias man='LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-        LESS_TERMCAP_md=$(printf "\e[1;31m")        \
-        LESS_TERMCAP_me=$(printf "\e[0m")           \
-        LESS_TERMCAP_se=$(printf "\e[0m")           \
-        LESS_TERMCAP_so=$(printf "\e[1;44;33m")     \
-        LESS_TERMCAP_ue=$(printf "\e[0m")           \
-        LESS_TERMCAP_us=$(printf "\e[1;32m")        \
-        man'
+    alias man='LESS_TERMCAP_mb=$(printf "\e[1;31m") LESS_TERMCAP_md=$(printf "\e[1;31m") LESS_TERMCAP_me=$(printf "\e[0m") LESS_TERMCAP_se=$(printf "\e[0m") LESS_TERMCAP_so=$(printf "\e[1;44;33m") LESS_TERMCAP_ue=$(printf "\e[0m") LESS_TERMCAP_us=$(printf "\e[1;32m") man'
 
     alias proxycall='all_proxy=http://127.0.0.1:1081 http_proxy=http://127.0.0.1:1081 https_proxy=http://127.0.0.1:1081'
 

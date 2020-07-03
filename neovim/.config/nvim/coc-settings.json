@@ -1,9 +1,12 @@
 {
-    "suggest.enablePreview": true,
-    "suggest.minTriggerInputLength": 1,
-    "python.linting.enabled": false,
     "pyls.plugins.pycodestyle.enabled": false,
-    "python.formatting.provider": "autopep8",
-    "python.formatting.autopep8Path": "autopep8",
-    "pyls.plugins.yapf.enabled": false
+    "pyls.plugins.yapf.enabled": false,
+    "python.formatting.autopep8Args": [
+        "--max-line-length 120",
+        "--ignore E402"
+    ],
+    "python.jediEnabled": false,
+    "python.linting.enabled": false,
+    "suggest.enablePreview": true,
+    "suggest.minTriggerInputLength": 1
 }

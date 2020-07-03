@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2019-12-16T16:58:32+0800
+" Last Modified: 2020-04-22T13:37:40+0800
 " ================================
 scriptencoding utf-8
 
@@ -94,6 +94,7 @@ if s:enhanced
     " Plug 'junegunn/goyo.vim'
     " Plug 'junegunn/limelight.vim'
     " Plug 'sjl/gundo.vim', {'on': ['GundoToggle']}
+    Plug 'sjl/gundo.vim'
     Plug 'Shougo/echodoc.vim'
     Plug 'SirVer/ultisnips'
     Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -331,6 +332,14 @@ if s:enhanced
     let g:echodoc#enable_at_startup = 1
 endif
 " }}}
+
+" gundo settings {{{
+if s:enhanced
+    let g:gundo_prefer_python3 = 1
+endif
+" }}}
+
+
 " ================
 " }}} end plugin settings
 " ================
@@ -518,6 +527,7 @@ nnoremap gB :bprevious<CR>
 nnoremap gP :set paste!<CR>
 
 nnoremap <Leader>n :NERDTreeToggle<CR>
+nnoremap <Leader>u :GundoToggle<CR>
 noremap <silent> <C-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <C-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
 noremap <silent> <C-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>

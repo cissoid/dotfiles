@@ -1,0 +1,93 @@
+{
+    // editor
+    "editor.cursorBlinking": "smooth",
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": true,
+        "strings": true
+    },
+    "editor.rulers": [
+        80,
+        120
+    ],
+    "editor.smoothScrolling": true,
+    "editor.fontFamily": "Monaco, Consolas, 'Courier New', monospace",
+    "editor.fontSize": 15,
+    "editor.minimap.showSlider": "always",
+    "diffEditor.ignoreTrimWhitespace": false,
+    "files.autoGuessEncoding": true,
+    "workbench.enableExperiments": false,
+    "workbench.view.alwaysShowHeaderActions": true,
+    "terminal.integrated.fontSize": 15,
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false,
+    // vim
+    "vim.hlsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.insertModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "j",
+                "k"
+            ],
+            "after": [
+                "<ESC>"
+            ]
+        },
+        {
+            "before": [
+                "<Leader>",
+                "g",
+                "<Space>"
+            ],
+            "commands": [
+                "editor.action.triggerSuggest"
+            ]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<Leader>",
+                "f",
+                "a"
+            ],
+            "commands": [
+                "editor.action.format"
+            ]
+        },
+        {
+            "before": [
+                "<C-j>",
+            ],
+            "after": [
+                "j",
+                "z",
+                "z"
+            ]
+        },
+        {
+            "before": [
+                "<C-k>",
+            ],
+            "after": [
+                "k",
+                "z",
+                "z"
+            ]
+        },
+        {
+            "before": [
+                "<Leader>",
+                "g",
+                "d"
+            ],
+            "commands": [
+                "editor.action.previewDeclaration"
+            ]
+        }
+    ],
+    "breadcrumbs.enabled": false,
+    "editor.renderWhitespace": "all",
+    "editor.renderControlCharacters": true
+}
