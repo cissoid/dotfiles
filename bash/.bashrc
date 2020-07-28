@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2020-05-19T10:46:14+0800
+# Last Modified: 2020-07-27T17:27:23+0800
 # ================================
 
 # If not running interactively, don't do anything
@@ -155,7 +155,7 @@ function __set_bash_completion() {
     elif [ "$(uname)" == "Darwin" ]; then
         # OS X specific config.
         HOMEBREW_PREFIX=$(brew --prefix)
-        export PATH=$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH
+        export PATH=$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$HOMEBREW_PREFIX/opt/grep/libexec/gnubin:$PATH
         export MANPATH=$HOMEBREW_PREFIX/opt/coreutils/libexec/gnuman:$MANPATH
 
         if [ -r "$HOMEBREW_PREFIX/etc/bash_completion" ]; then

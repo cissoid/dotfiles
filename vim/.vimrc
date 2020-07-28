@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2020-04-22T13:37:40+0800
+" Last Modified: 2020-07-28T18:38:50+0800
 " ================================
 scriptencoding utf-8
 
@@ -75,7 +75,7 @@ Plug 'jistr/vim-nerdtree-tabs', {'on': ['NERDTreeTabsToggle']} " singleton nerdt
 Plug 'kana/vim-textobj-user' | Plug 'kana/vim-textobj-indent' " textobj for indented blocks, required by vim-sort-motion
 Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown', 'vimwiki']}
 Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'vimwiki']}
-Plug 'raimondi/delimitmate'
+" Plug 'raimondi/delimitmate'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeTabsToggle']}
 Plug 'terryma/vim-multiple-cursors'
@@ -94,12 +94,13 @@ if s:enhanced
     " Plug 'junegunn/goyo.vim'
     " Plug 'junegunn/limelight.vim'
     " Plug 'sjl/gundo.vim', {'on': ['GundoToggle']}
-    Plug 'sjl/gundo.vim'
     Plug 'Shougo/echodoc.vim'
     Plug 'SirVer/ultisnips'
     Plug 'Xuyuanp/nerdtree-git-plugin'
+    Plug 'bufbuild/vim-buf'
     Plug 'cissoid/vim-templates'
     Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'dense-analysis/ale' " linter
     Plug 'easymotion/vim-easymotion'
     Plug 'godlygeek/tabular'
     Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
@@ -108,9 +109,9 @@ if s:enhanced
     Plug 'mattn/emmet-vim', {'for': ['html', 'css', 'swig', 'php']} " zen mode
     Plug 'mhinz/vim-signify'
     Plug 'rking/ag.vim'
+    Plug 'sjl/gundo.vim'
     Plug 'tpope/vim-fugitive' " git integration
     Plug 'vimwiki/vimwiki'
-    Plug 'w0rp/ale' " linter
     Plug 'wesQ3/vim-windowswap'
 
     if s:completer == 'coc'
@@ -154,6 +155,9 @@ if s:enhanced
     " \     'python': ['flake8', 'pylint'],
     " \     'scss': ['scsslint']
     " \ }
+    let g:ale_linters = {
+    \   'proto': ['buf-check-lint'],
+    \ }
     let g:ale_c_clang_options = '-std=c11 -Wall -I. -I./src'
     let g:ale_c_gcc_options = '-std=c11 -Wall -I. -I./src'
     let g:ale_cpp_clang_options = '-std=c++14 -Wall -I. -I./src'
