@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2020-07-28T18:38:50+0800
+" Last Modified: 2020-09-01T10:06:24+0800
 " ================================
 scriptencoding utf-8
 
@@ -75,7 +75,7 @@ Plug 'jistr/vim-nerdtree-tabs', {'on': ['NERDTreeTabsToggle']} " singleton nerdt
 Plug 'kana/vim-textobj-user' | Plug 'kana/vim-textobj-indent' " textobj for indented blocks, required by vim-sort-motion
 Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown', 'vimwiki']}
 Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'vimwiki']}
-" Plug 'raimondi/delimitmate'
+Plug 'raimondi/delimitmate'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeTabsToggle']}
 Plug 'terryma/vim-multiple-cursors'
@@ -373,6 +373,7 @@ set backspace=indent,eol,start
 
 " color setting {{{
 syntax enable
+set synmaxcol=0
 " enable true color for terminal.
 set termguicolors
 " colorful!
