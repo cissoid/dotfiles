@@ -3,7 +3,7 @@
 # File Name: bashrc
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2020-07-27T17:27:23+0800
+# Last Modified: 2020-08-31T16:46:19+0800
 # ================================
 
 # If not running interactively, don't do anything
@@ -183,6 +183,7 @@ function __set_alias() {
 
 function __set_alias_ex() {
     alias goenv='GOPATH=$(pwd):$GOPATH '
+    alias pcd='cd $(pipenv --where)'
 
     [ ! "$(command -v bat)" == "" ] && alias cat="bat"
 

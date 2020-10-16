@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2020-09-01T10:06:24+0800
+" Last Modified: 2020-10-10T15:51:20+0800
 " ================================
 scriptencoding utf-8
 
@@ -495,6 +495,8 @@ endfunction
 command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
 
 command! SudoW :w !sudo tee % >/dev/null
+
+command! ISort %!isort -
 " ================
 " }}}
 " ================
