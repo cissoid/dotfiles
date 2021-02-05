@@ -1,0 +1,11 @@
+patch:
+  style:
+    color_scheme: clean_white
+    horizontal: true
+  app_options:
+    com.runningwithcrayons.Alfred:
+      ascii_mode: true
+    com.google.Chrome:
+      ascii_mode: true
+    com.postmanlabs.mac:
+      ascii_mode: true

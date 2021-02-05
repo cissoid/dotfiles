@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2020-10-10T15:51:20+0800
+" Last Modified: 2021-01-20T14:16:37+0800
 " ================================
 scriptencoding utf-8
 
@@ -198,7 +198,7 @@ let g:NERDTreeShowBookmarks = 1
 
 " polyglot settings {{{
 " ignore markdown, or vimwiki will not work properly.
-let g:polyglot_disabled = ['markdown']
+" let g:polyglot_disabled = ['markdown']
 let g:jsx_ext_required = 1
 " }}}
 
@@ -418,6 +418,8 @@ set scrolloff=10
 " invisible char when exec :list
 " set list
 set listchars=tab:¦\ ,eol:¬,trail:⋅,extends:»,precedes:«
+" enable mouse support
+set mouse=a
 " }}}
 
 " gui setting {{{
