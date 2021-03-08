@@ -2,6 +2,19 @@ patch:
   style:
     color_scheme: clean_white
     horizontal: true
+    inline_preedit: true
+  preset_color_schemes:
+    clean_white:
+      corner_radius: 5
+      font_face: PingFangSC
+      font_point: 16
+      label_font_point: 16
+      back_color: 0xFFFFFF
+      text_color: 0x424242
+      label_color: 0x424242
+      hilited_candidate_back_color: 0xFFF0E4
+      hilited_candidate_text_color: 0xEE6E00
+      hilited_candidate_label_color: 0xEE6E00
   app_options:
     com.runningwithcrayons.Alfred:
       ascii_mode: true

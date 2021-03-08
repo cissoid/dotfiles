@@ -2,7 +2,7 @@
 # File Name: zshrc
 # Author: cissoid
 # Created At: 2019-12-27T14:03:05+0800
-# Last Modified: 2019-12-30T15:12:58+0800
+# Last Modified: 2021-03-08T20:00:49+0800
 # ================================
 
 # If not running interactively, don't do anything {{{
@@ -12,23 +12,47 @@ case $- in
 esac
 # }}}
 
+# global zshrc {{{
+[ -r /etc/zshrc ] && source /etc/zshrc
+# }}}
+
 # Lines configured by zsh-newuser-install {{{
 HISTFILE=~/.histfile
 HISTSIZE=65535
 SAVEHIST=65535
 setopt appendhistory autocd nomatch
-bindkey -v
-# End of lines configured by zsh-newuser-install }}}
+# bindkey -v
+# }}}
 
-# The following lines were added by compinstall {{{
-zstyle :compinstall filename '/Users/wangxinhua/.zshrc'
+# completion {{{
+autoload -Uz compinit && compinit
+# }}}
 
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall }}}
+# antigen && plugins {{{
+source $HOME/.antigen/antigen.zsh
 
-# global zshrc {{{
-[ -r /etc/zshrc ] && source /etc/zshrc
+antigen use oh-my-zsh
+
+ZVM_VI_ESCAPE_BINDKEY='jk'
+ZVM_CURSOR_STYLE_ENABLED=false
+
+antigen bundles <<END
+    zsh-users/zsh-autosuggestions
+    zsh-users/zsh-completions
+    zsh-users/zsh-syntax-highlighting
+
+    jeffreytse/zsh-vi-mode
+END
+
+antigen apply
+# }}}
+
+# oh my zsh {{{
+ZSH=$HOME/.antigen/bundles/robbyrussell/oh-my-zsh
+ZSH_CUSTOM="$HOME/.zsh"
+ZSH_THEME="mystyle"
+ZSH_DISABLE_COMPFIX="true"
+source $ZSH/oh-my-zsh.sh
 # }}}
 
 # env {{{
@@ -36,15 +60,16 @@ export LC_ALL=en_US.UTF-8
 export LC_TYPES=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-export EDITOR=vim
-[[ ! "$(command -v nvim)" = "" ]] && export EDITOR=nvim
+# export EDITOR=vim
+# [[ ! "$(command -v nvim)" = "" ]] && export EDITOR=nvim
 
 export COMPOSER_HOME=$HOME/.composer  # PHP composer
-export GOPATH=$HOME/env/golang  # go
-export CARGO_PATH=$HOME/.cargo/bin  # rust
-export PATH=$PATH:$HOME/bin:$GOPATH/bin:$COMPOSER_HOME/vendor/bin:$CARGO_PATH
+path+=($HOME/bin)
+if [[ "$(uname)" == "Darwin" ]]; then
+    path=($(brew --prefix)/opt/coreutils/libexec/gnubin $path)
+    path=($(brew --prefix)/opt/grep/libexec/gnubin $path)
+fi
 
-export GOPROXY=https://goproxy.cn
 # }}}
 
 # alias {{{
@@ -65,14 +90,14 @@ alias goenv='GOPATH=$(pwd):$GOPATH '
 
 [[ ! "$(command -v bat)" = "" ]] && alias cat="bat"
 
-# alias man='LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-#     LESS_TERMCAP_md=$(printf "\e[1;31m")        \
-#     LESS_TERMCAP_me=$(printf "\e[0m")           \
-#     LESS_TERMCAP_se=$(printf "\e[0m")           \
-#     LESS_TERMCAP_so=$(printf "\e[1;44;33m")     \
-#     LESS_TERMCAP_ue=$(printf "\e[0m")           \
-#     LESS_TERMCAP_us=$(printf "\e[1;32m")        \
-#     man'
+alias man='LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+    LESS_TERMCAP_md=$(printf "\e[1;31m")        \
+    LESS_TERMCAP_me=$(printf "\e[0m")           \
+    LESS_TERMCAP_se=$(printf "\e[0m")           \
+    LESS_TERMCAP_so=$(printf "\e[1;44;33m")     \
+    LESS_TERMCAP_ue=$(printf "\e[0m")           \
+    LESS_TERMCAP_us=$(printf "\e[1;32m")        \
+    man'
 
 alias proxycall='all_proxy=http://127.0.0.1:1081 http_proxy=http://127.0.0.1:1081 https_proxy=http://127.0.0.1:1081'
 
@@ -104,25 +129,26 @@ alias calcavg='awk '\''{ sum+=$1; } END { print "COUNT:", NR, "AVG:", sum/NR; }'
 alias code_stats='wc -l **/*.* | awk '\''{ n=split($2,a,"."); counter[a[n]]+=$1; } END { for (ft in counter) print ft ":\t" counter[ft]; }'\'' | sort -nrk2'
 # }}}
 
-# oh my zsh {{{
-ZSH=$HOME/.oh-my-zsh
-ZSH_CUSTOM="$HOME/.zsh"
-ZSH_THEME="cissoid"
-source $ZSH/oh-my-zsh.sh
+# python {{{
+export PYENV_ROOT="$HOME/.pyenv"
+export PYTHON_CONFIGURE_OPTS="--enable-framework"
+if command -v pyenv 1>/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+    path=($PYENV_ROOT/bin $path)
+fi
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 # }}}
 
-# antigen && plugins {{{
-source /usr/local/share/antigen/antigen.zsh
+# go {{{
+export GOPATH=$HOME/env/golang
+path+=($GOPATH/bin)
+export GOPROXY=https://goproxy.cn
+# }}}
 
-# antigen use oh-my-zsh
-
-antigen bundle themes
-
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle zsh-users/zsh-completions
-antigen bundle zsh-users/zsh-syntax-highlighting
-
-antigen apply
+# rust {{{
+export CARGO_PATH=$HOME/.cargo/bin  # rust
+path+=($CARGO_PATH)
+[[ -r "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
 # }}}
 
 # local {{{
