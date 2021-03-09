@@ -1,12 +1,6 @@
 {
-    "pyls.plugins.pycodestyle.enabled": false,
-    "pyls.plugins.yapf.enabled": false,
-    "python.formatting.autopep8Args": [
-        "--max-line-length 120",
-        "--ignore E402"
-    ],
-    "python.jediEnabled": false,
     "python.linting.enabled": false,
+    "python.formatting.provider": "black",
     "suggest.enablePreview": true,
     "suggest.minTriggerInputLength": 1
 }

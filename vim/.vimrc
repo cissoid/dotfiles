@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2021-01-20T14:16:37+0800
+" Last Modified: 2021-03-09T10:52:36+0800
 " ================================
 scriptencoding utf-8
 
@@ -12,7 +12,7 @@ scriptencoding utf-8
 " If set, load some more excellent extensions, but maybe unusable in
 " production environment.
 let s:enhanced = 1
-let s:completer = 'ycm'  " coc or ycm
+let s:completer = 'coc'  " coc or ycm
 " ================
 " }}} end custom environment variables.
 " ================
@@ -327,7 +327,7 @@ endif
 
 " coc settings {{{
 if s:enhanced && s:completer == 'coc'
-    call coc#add_extension('coc-json', 'coc-tsserver', 'coc-html', 'coc-css', 'coc-rls', 'coc-python')
+    call coc#add_extension('coc-json', 'coc-tsserver', 'coc-html', 'coc-css', 'coc-rls', 'coc-pyright', 'coc-go')
 endif
 " }}}
 
@@ -551,14 +551,15 @@ if s:enhanced
     nnoremap <Leader>sw :call WindowSwap#EasyWindowSwap()<CR>
     nnoremap <Leader>t :TagbarToggle<CR>
     nnoremap <Leader>w<Space> :VimwikiToggleListItem<CR>
+    nmap <Leader>fa <Plug>Reformat
 
     if s:completer == 'coc'
-        nmap <Leader>fa <Plug>(coc-format)
-        nmap <Leader>gd <Plug>(coc-definition)
+        " nmap <Leader>fa <Plug>(coc-format)
+        nmap <Leader>yg <Plug>(coc-definition)
+        nmap <Leader>gy <Plug>(coc-type-definition)
         nmap <Leader>gi <Plug>(coc-implementation)
         nmap <Leader>gr <Plug>(coc-references)
     elseif s:completer == 'ycm'
-        nmap <Leader>fa <Plug>Reformat
         nnoremap <Leader>yd :YcmCompleter GetDoc<CR>
         nnoremap <Leader>yg :YcmCompleter GoTo<CR>
         nnoremap <Leader>yt :YcmCompleter GetType<CR>
@@ -572,7 +573,7 @@ inoremap jk <Esc>
 
 if s:enhanced
     if s:completer == 'coc'
-        inoremap <expr> <Leader>g<Space> coc#refresh()
+        inoremap <expr> <Leader>y<Space> coc#refresh()
         inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
         inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
         inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
