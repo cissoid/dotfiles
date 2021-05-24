@@ -2,7 +2,7 @@
 # File Name: zshrc
 # Author: cissoid
 # Created At: 2019-12-27T14:03:05+0800
-# Last Modified: 2021-03-10T19:18:28+0800
+# Last Modified: 2021-03-11T09:55:17+0800
 # ================================
 
 # If not running interactively, don't do anything {{{
@@ -26,6 +26,33 @@ setopt appendhistory autocd nomatch
 
 # completion {{{
 autoload -Uz compinit && compinit
+# }}}
+
+# antigen && plugins {{{
+source $HOME/.antigen/antigen.zsh
+
+antigen use oh-my-zsh
+
+ZVM_VI_ESCAPE_BINDKEY='jk'
+ZVM_CURSOR_STYLE_ENABLED=false
+
+antigen bundles <<END
+    zsh-users/zsh-autosuggestions
+    zsh-users/zsh-completions
+    zsh-users/zsh-syntax-highlighting
+
+    jeffreytse/zsh-vi-mode
+END
+
+antigen apply
+# }}}
+
+# oh my zsh {{{
+ZSH=$HOME/.antigen/bundles/robbyrussell/oh-my-zsh
+ZSH_CUSTOM="$HOME/.zsh"
+ZSH_THEME="mystyle"
+ZSH_DISABLE_COMPFIX="true"
+source $ZSH/oh-my-zsh.sh
 # }}}
 
 # env {{{
@@ -126,33 +153,6 @@ path+=($CARGO_PATH)
 
 # local {{{
 [ -r $HOME/.zshrc_local ] && source $HOME/.zshrc_local
-# }}}
-#
-# antigen && plugins {{{
-source $HOME/.antigen/antigen.zsh
-
-antigen use oh-my-zsh
-
-ZVM_VI_ESCAPE_BINDKEY='jk'
-ZVM_CURSOR_STYLE_ENABLED=false
-
-antigen bundles <<END
-    zsh-users/zsh-autosuggestions
-    zsh-users/zsh-completions
-    zsh-users/zsh-syntax-highlighting
-
-    jeffreytse/zsh-vi-mode
-END
-
-antigen apply
-# }}}
-
-# oh my zsh {{{
-ZSH=$HOME/.antigen/bundles/robbyrussell/oh-my-zsh
-ZSH_CUSTOM="$HOME/.zsh"
-ZSH_THEME="mystyle"
-ZSH_DISABLE_COMPFIX="true"
-source $ZSH/oh-my-zsh.sh
 # }}}
 
 # zsh-syntax-highlighting {{{

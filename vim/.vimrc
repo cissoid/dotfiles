@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2021-03-09T10:52:36+0800
+" Last Modified: 2021-03-15T11:42:32+0800
 " ================================
 scriptencoding utf-8
 
@@ -11,7 +11,7 @@ scriptencoding utf-8
 " ================
 " If set, load some more excellent extensions, but maybe unusable in
 " production environment.
-let s:enhanced = 1
+let s:enhanced = v:true
 let s:completer = 'coc'  " coc or ycm
 " ================
 " }}} end custom environment variables.
@@ -327,7 +327,18 @@ endif
 
 " coc settings {{{
 if s:enhanced && s:completer == 'coc'
-    call coc#add_extension('coc-json', 'coc-tsserver', 'coc-html', 'coc-css', 'coc-rls', 'coc-pyright', 'coc-go')
+    " common && file type support
+    call coc#add_extension('coc-json', 'coc-sql', 'coc-yaml', 'coc-xml', 'coc-snippets', 'coc-sh', 'coc-vimlsp', 'coc-cmake')
+    " programming language
+    call coc#add_extension('coc-tsserver', 'coc-html', 'coc-css', 'coc-rls', 'coc-pyright', 'coc-go', 'coc-phpactor', 'coc-clangd')
+
+    augroup cocgroup
+        autocmd!
+        " Highlight the symbol and its references when holding the cursor.
+        autocmd CursorHold * silent call CocActionAsync('highlight')
+        " Update signature help on jump placeholder.
+        autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    augroup end
 endif
 " }}}
 
@@ -370,6 +381,8 @@ set novisualbell
 set t_vb=
 " OSX seems don't have own backspace setting.
 set backspace=indent,eol,start
+" CursorHold interval
+set updatetime=200
 
 " color setting {{{
 syntax enable
@@ -379,6 +392,8 @@ set termguicolors
 " colorful!
 set background=dark
 colorscheme molokai
+" coc highlight
+highlight CocHighlightText gui=undercurl cterm=undercurl
 " }}}
 
 " ui setting {{{
@@ -554,6 +569,17 @@ if s:enhanced
     nmap <Leader>fa <Plug>Reformat
 
     if s:completer == 'coc'
+        function! s:show_documentation()
+            if (index(['vim','help'], &filetype) >= 0)
+                execute 'h '.expand('<cword>')
+            elseif (coc#rpc#ready())
+                call CocActionAsync('doHover')
+            else
+                execute '!' . &keywordprg . " " . expand('<cword>')
+            endif
+        endfunction
+        nnoremap <silent> K :call <SID>show_documentation()<CR>
+
         " nmap <Leader>fa <Plug>(coc-format)
         nmap <Leader>yg <Plug>(coc-definition)
         nmap <Leader>gy <Plug>(coc-type-definition)
@@ -572,8 +598,10 @@ endif
 inoremap jk <Esc>
 
 if s:enhanced
+
     if s:completer == 'coc'
         inoremap <expr> <Leader>y<Space> coc#refresh()
+        imap <expr> <Leader>ys CocActionAsync('showSignatureHelp')
         inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
         inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
         inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
@@ -625,6 +653,11 @@ augroup filetype_php
     if s:enhanced
         autocmd FileType php EmmetInstall
     endif
+augroup END
+
+augroup filetype_lua
+    autocmd!
+    autocmd FileType lua set noexpandtab
 augroup END
 
 " ================

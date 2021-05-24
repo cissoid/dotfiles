@@ -1,6 +1,9 @@
 {
     "python.linting.enabled": false,
     "python.formatting.provider": "black",
+    "pyright.disableDiagnostics": true,
+    // "diagnostic.displayByAle": true,
     "suggest.enablePreview": true,
-    "suggest.minTriggerInputLength": 1
+    "suggest.minTriggerInputLength": 1,
+    "suggest.echodocSupport": true
 }
