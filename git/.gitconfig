@@ -2,7 +2,7 @@
 # File Name: gitconfig
 # Author: cissoid
 # Created At: 2015-09-01T09:34:00+0800
-# Last Modified: 2020-06-12T13:36:41+0800
+# Last Modified: 2021-11-25T14:18:51+0800
 # ================================
 
 [core]
@@ -16,6 +16,8 @@
     st = status
     co = checkout
     ci = commit
+    pp = pull --prune
+    local-branch = "!git branch --format '%(refname:short) %(upstream)' | awk '{if (!$2) print $1;}'"
     config-user = "!f() { git config user.name $1; git config user.email $2; }; f"
     dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd $GIT_PREFIX; git diff --color $@ | diff-so-fancy | less -RFX; }; f"
     glog = log --all --graph --pretty='%C(auto)%h %d %s (%C(cyan)%an%Creset, %Cgreen%ad%Creset)'
@@ -136,5 +138,10 @@
     date = "format:%F %T"
 [user]
 	useConfigOnly = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
 
 # vim: filetype=gitconfig

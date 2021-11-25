@@ -2,7 +2,7 @@
 # File Name: zshrc
 # Author: cissoid
 # Created At: 2019-12-27T14:03:05+0800
-# Last Modified: 2021-03-11T09:55:17+0800
+# Last Modified: 2021-06-29T16:05:27+0800
 # ================================
 
 # If not running interactively, don't do anything {{{
@@ -134,7 +134,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PYTHON_CONFIGURE_OPTS="--enable-framework"
 if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv init -)"
-    path=($PYENV_ROOT/bin $path)
+    path=($PYENV_ROOT/shims $path)
 fi
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 # }}}

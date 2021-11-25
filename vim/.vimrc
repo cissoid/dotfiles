@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2021-03-15T11:42:32+0800
+" Last Modified: 2021-10-13T16:49:00+0800
 " ================================
 scriptencoding utf-8
 
@@ -105,6 +105,7 @@ if s:enhanced
     Plug 'godlygeek/tabular'
     Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
     Plug 'junegunn/fzf.vim'
+    Plug 'junegunn/gv.vim'
     Plug 'majutsushi/tagbar', {'do': function('TagbarHook')}
     Plug 'mattn/emmet-vim', {'for': ['html', 'css', 'swig', 'php']} " zen mode
     Plug 'mhinz/vim-signify'
@@ -330,7 +331,7 @@ if s:enhanced && s:completer == 'coc'
     " common && file type support
     call coc#add_extension('coc-json', 'coc-sql', 'coc-yaml', 'coc-xml', 'coc-snippets', 'coc-sh', 'coc-vimlsp', 'coc-cmake')
     " programming language
-    call coc#add_extension('coc-tsserver', 'coc-html', 'coc-css', 'coc-rls', 'coc-pyright', 'coc-go', 'coc-phpactor', 'coc-clangd')
+    call coc#add_extension('coc-tsserver', 'coc-html', 'coc-css', 'coc-rls', 'coc-pyright', 'coc-go', 'coc-phpactor', 'coc-clangd', 'coc-sumneko-lua')
 
     augroup cocgroup
         autocmd!
