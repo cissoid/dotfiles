@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2021-10-13T16:49:00+0800
+" Last Modified: 2022-03-08T18:32:52+0800
 " ================================
 scriptencoding utf-8
 
@@ -116,7 +116,7 @@ if s:enhanced
     Plug 'wesQ3/vim-windowswap'
 
     if s:completer == 'coc'
-        Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+        Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
     elseif s:completer == 'ycm'
         Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp', 'go', 'javascript', 'php', 'python', 'rust'], 'do': function('YcmHook')}
     endif
@@ -158,6 +158,7 @@ if s:enhanced
     " \ }
     let g:ale_linters = {
     \   'proto': ['buf-check-lint'],
+    \   'go': ['gofmt', 'govet', 'gobuild', 'staticcheck', 'golangci_lint'],
     \ }
     let g:ale_c_clang_options = '-std=c11 -Wall -I. -I./src'
     let g:ale_c_gcc_options = '-std=c11 -Wall -I. -I./src'
@@ -355,6 +356,11 @@ if s:enhanced
 endif
 " }}}
 
+" vim-formatters settings {{{
+let g:formatters_programs = {
+    \ 'lua': {'program': 'lua-format', 'args': '-c ~/.config/lua-format.cfg'},
+\ }
+" }}}
 
 " ================
 " }}} end plugin settings
