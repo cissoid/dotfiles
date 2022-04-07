@@ -2,7 +2,7 @@
 # File Name: zshrc
 # Author: cissoid
 # Created At: 2019-12-27T14:03:05+0800
-# Last Modified: 2021-06-29T16:05:27+0800
+# Last Modified: 2022-04-07T15:11:05+0800
 # ================================
 
 # If not running interactively, don't do anything {{{
@@ -86,7 +86,7 @@ alias rm='rm -i'
 alias tree1='tree -L 1'
 alias vi=vim
 
-alias goenv='GOPATH=$(pwd):$GOPATH '
+# alias goenv='GOPATH=$(pwd):$GOPATH '
 
 [[ ! "$(command -v bat)" = "" ]] && alias cat="bat"
 
@@ -130,19 +130,35 @@ alias code_stats='wc -l **/*.* | awk '\''{ n=split($2,a,"."); counter[a[n]]+=$1;
 # }}}
 
 # python {{{
+# pyenv
 export PYENV_ROOT="$HOME/.pyenv"
+if [ -x $PYENV_ROOT/bin/pyenv ]; then
+    path+=($PYENV_ROOT/bin)
+fi
+
 export PYTHON_CONFIGURE_OPTS="--enable-framework"
 if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv init -)"
     path=($PYENV_ROOT/shims $path)
 fi
+
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 # }}}
 
 # go {{{
+# goenv
+export GOENV_ROOT="$HOME/.goenv"
+if [ -x $GOENV_ROOT/bin/goenv ]; then
+    path+=($GOENV_ROOT/bin)
+fi
+
+if command -v goenv 1>/dev/null 2>&1; then
+    eval "$(goenv init -)"
+fi
+
 export GOPATH=$HOME/env/golang
 path+=($GOPATH/bin)
-export GOPROXY=https://goproxy.cn
+# export GOPROXY=https://goproxy.cn
 # }}}
 
 # rust {{{
