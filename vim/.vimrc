@@ -2,7 +2,7 @@
 " File Name: vimrc
 " Author: cissoid
 " Created At: 2015-07-09T13:42:00+0800
-" Last Modified: 2022-03-08T18:32:52+0800
+" Last Modified: 2022-06-30T14:40:21+0800
 " ================================
 scriptencoding utf-8
 
@@ -28,7 +28,7 @@ function! TagbarHook(info)
 endfunction
 
 function! AleHook(info)
-    !pip install -U cmakelint autopep8 flake8 proselint yamllint vim-vint
+    !pip install -U cmakelint autopep8 flake8 proselint yamllint mypy vim-vint
     !npm install -g csslint stylelint eslint sass-lint
     !gem install mdl sqlint
 
@@ -93,7 +93,6 @@ if s:enhanced
     " Plug 'amix/vim-zenroom2'
     " Plug 'junegunn/goyo.vim'
     " Plug 'junegunn/limelight.vim'
-    " Plug 'sjl/gundo.vim', {'on': ['GundoToggle']}
     Plug 'Shougo/echodoc.vim'
     Plug 'SirVer/ultisnips'
     Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -390,6 +389,8 @@ set t_vb=
 set backspace=indent,eol,start
 " CursorHold interval
 set updatetime=200
+" auto refresh when file changed outside
+set autoread
 
 " color setting {{{
 syntax enable
@@ -503,20 +504,20 @@ set foldnestmax=10
 " custom functions. {{{
 " ================
 " capture shell output and display in a window.
-function! s:ExecuteInShell(command)
-    let l:command = join(map(split(a:command), 'expand(v:val)'))
-    let l:winnr = bufwinnr('^' . l:command . '$')
-    silent! execute  l:winnr < 0 ? 'botright new ' . fnameescape(l:command) : l:winnr . 'wincmd w'
-    setlocal buftype=nowrite bufhidden=wipe nobuflisted noswapfile nowrap number
-    echo 'Execute ' . l:command . '...'
-    silent! execute 'silent %!'. l:command
-    silent! execute 'resize ' . max([line('$'), 5])
-    silent! redraw
-    silent! execute 'au BufUnload <buffer> execute bufwinnr(' . bufnr('#') . ') . ''wincmd w'''
-    " silent! execute 'nnoremap <silent> <buffer> <LocalLeader>r :call <SID>ExecuteInShell(''' . l:command . ''')<CR>'
-    echo 'Shell command ' . l:command . ' executed.'
-endfunction
-command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
+" function! s:ExecuteInShell(command)
+"     let l:command = join(map(split(a:command), 'expand(v:val)'))
+"     let l:winnr = bufwinnr('^' . l:command . '$')
+"     silent! execute  l:winnr < 0 ? 'botright new ' . fnameescape(l:command) : l:winnr . 'wincmd w'
+"     setlocal buftype=nowrite bufhidden=wipe nobuflisted noswapfile nowrap number
+"     echo 'Execute ' . l:command . '...'
+"     silent! execute 'silent %!'. l:command
+"     silent! execute 'resize ' . max([line('$'), 5])
+"     silent! redraw
+"     silent! execute 'au BufUnload <buffer> execute bufwinnr(' . bufnr('#') . ') . ''wincmd w'''
+"     " silent! execute 'nnoremap <silent> <buffer> <LocalLeader>r :call <SID>ExecuteInShell(''' . l:command . ''')<CR>'
+"     echo 'Shell command ' . l:command . ' executed.'
+" endfunction
+" command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
 
 command! SudoW :w !sudo tee % >/dev/null
 
