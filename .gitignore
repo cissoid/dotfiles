@@ -10,6 +10,10 @@ vim/.vim/.netrwhist
 vim/.vim/autoload/plug.vim.old
 vim/.vim/view/
 
+# neovim ignore
+neovim/.config/nvim/plugin
+neovim/.local/share/nvim/
+
 # idea ignore
 idea/.idea/port
 idea/.idea/port.lock
