@@ -152,7 +152,7 @@ require("packer").startup(
                 "lukas-reineke/indent-blankline.nvim",
                 config = function()
                     require("indent_blankline").setup()
-                end
+                end,
             },
             {
                 -- highlight current match
@@ -196,14 +196,24 @@ require("packer").startup(
                     require("lualine").setup({
                         options = {
                             icons_enabled = true,
-                            theme = "sonokai",
+                            theme = "auto",
                             component_separators = { left = "", right = "" },
                             section_separators = { left = "", right = "" },
                             always_divide_middle = true,
                             globalstatus = false,
                         },
                         sections = {
-                            lualine_a = { "mode" },
+                            lualine_a = {
+                                "mode",
+                                {
+                                    function()
+                                        if vim.o.paste then
+                                            return "PASTE"
+                                        end
+                                        return ""
+                                    end,
+                                },
+                            },
                             lualine_b = {
                                 "branch",
                                 "diff",
@@ -351,7 +361,7 @@ require("packer").startup(
                 after = { "telescope.nvim" },
                 config = function()
                     require("notify").setup({
-                        max_width = 80,
+                        -- max_width = 80,
                         timeout = 2000,
                         fps = 60,
                     })
@@ -459,7 +469,6 @@ require("packer").startup(
             },
             {
                 "simrat39/symbols-outline.nvim",
-                after = { "sonokai" },
                 setup = function()
                     vim.g.symbols_outline = {
                         width = 15, -- percentage
@@ -484,7 +493,8 @@ require("packer").startup(
                         }
                     })
 
-                    vim.keymap.set("n", "<Leader>ff", require("telescope.builtin").builtin, { silent = true })
+                    vim.keymap.set("n", "<Leader>ft", require("telescope.builtin").builtin, { silent = true })
+                    vim.keymap.set("n", "<Leader>ff", require("telescope.builtin").find_files, { silent = true })
                     vim.keymap.set("n", "<Leader>fr", require("telescope.builtin").resume, { silent = true })
                     vim.keymap.set("n", "<Leader>fi", require("telescope.builtin").lsp_incoming_calls,
                         { silent = true })
@@ -719,6 +729,21 @@ require("packer").startup(
                                 },
                             }
                         },
+                    })
+
+                    require("lspconfig").gopls.setup({
+                        on_attach = lsp_on_attach,
+                        flags = {
+                            debounce_text_changes = 150,
+                        },
+                        capabilities = cmp_capabilities,
+                        handlers = {
+                            ["textDocument/publishDiagnostics"] = vim.lsp.with(
+                                vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
+                            )
+                        },
+                        settins = {
+                        }
                     })
 
                     require("lspconfig").sumneko_lua.setup({
