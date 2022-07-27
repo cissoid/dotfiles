@@ -1,0 +1,73 @@
+# Use custom format
+format = """
+$status\\[($username@$hostname:)$directory\\]\
+(\\($git_branch( $git_commit)( $git_state)( $git_status)( $git_metrics)\\))\
+(\\($python\\))(\\($golang\\))
+$character """
+
+add_newline = true
+
+[status]
+format = "[(\\[$status\\])]($style)"
+style = "fg:bright-white bg:red bold"
+disabled = false
+
+[username]
+format = "[$user]($style)"
+style_user = "fg:green"
+show_always = true
+
+[hostname]
+format = "[$ssh_symbol$hostname]($style)"
+style = "fg:green"
+ssh_only = false
+ssh_symbol = ""
+trim_at = ""
+
+[directory]
+format="[$path]($style)[$read_only]($read_only_style)"
+style = "fg:blue"
+truncation_length = 5
+truncate_to_repo = false
+truncation_symbol = ".../"
+read_only = "[]"
+
+[git_branch]
+format = "[$symbol$branch(:$remote_branch)]($style)"
+style = "purple"
+symbol = ""
+only_attached = true
+
+[git_commit]
+format = "[$hash( $tag)]($style)"
+style = "purple"
+only_detached = true
+tag_disabled = false
+tag_symbol = ""
+
+[git_state]
+format = "[$state($progress_current/$progress_total)]($style)"
+style = "yellow"
+
+[git_status]
+format = "[$all_status$head_behind]($style)"
+style = "red"
+
+[git_metrics]
+format = "(([+$added]($added_style))([-$deleted]($deleted_style)))"
+disabled = false
+
+[python]
+format="[($symbol$virtualenv)]($style)"
+style = "none"
+symbol = "[ ](fg:yellow)"
+detect_extensions = []
+
+[golang]
+format = "[($symbol$version)]($style)"
+style="none"
+symbol = "[ ](fg:blue)"
+detect_extensions = []
+
+[character]
+format = "$symbol"
