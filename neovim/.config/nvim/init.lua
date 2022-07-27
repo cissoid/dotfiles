@@ -589,7 +589,7 @@ require("packer").startup(
 
                     cmp.setup({
                         mapping = cmp.mapping.preset.insert({
-                            ["<Leader>y<Space>"] = cmp.mapping.complete(),
+                            ["<Leader>g<Space>"] = cmp.mapping.complete(),
                             ["<C-d>"] = cmp.mapping.scroll_docs(-4),
                             ["<C-f>"] = cmp.mapping.scroll_docs(4),
                             ["<Tab>"] = cmp.mapping(function(fallback)

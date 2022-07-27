@@ -22,3 +22,9 @@ patch:
       ascii_mode: true
     com.postmanlabs.mac:
       ascii_mode: true
+    com.googlecode.iterm2:
+      ascii_mode: true
+    com.microsoft.VSCode:
+      ascii_mode: true
+    com.tencent.weterm:
+      ascii_mode: true
