@@ -18,10 +18,10 @@ style_user = "fg:green"
 show_always = true
 
 [hostname]
-format = "[$ssh_symbol$hostname]($style)"
+format = "[$hostname$ssh_symbol]($style)"
 style = "fg:green"
 ssh_only = false
-ssh_symbol = ""
+ssh_symbol = " "
 trim_at = ""
 
 [directory]
