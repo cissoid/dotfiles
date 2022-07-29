@@ -25,3 +25,7 @@ idea/.idea/options/*.xml
 !idea/.idea/options/laf.xml
 !idea/.idea/options/ui.lnf.xml
 !idea/.idea/options/vim_settings.xml
+
+# fish ignore
+fish/.config/fish/completions/*
+fish/.config/fish/functions/*
