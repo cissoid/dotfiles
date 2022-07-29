@@ -685,14 +685,15 @@ require("packer").startup(
                         vim.keymap.set("n", "<Leader>fa", vim.lsp.buf.formatting, { silent = true, buffer = bufnr })
                         vim.keymap.set("n", "K", vim.lsp.buf.hover, { silent = true, buffer = bufnr })
 
-                        -- vim.api.nvim_create_autocmd({ "CursorHold" }, {
-                        --     group = vim.api.nvim_create_augroup(string.format("lsp_autohold_buffer_%d", bufnr), {}),
-                        --     buffer = bufnr,
-                        --     desc = "lsp hover cursorhold",
-                        --     callback = function()
-                        --         vim.lsp.buf.hover({ focusable = false })
-                        --     end,
-                        -- })
+                        vim.api.nvim_create_autocmd({ "CursorHold" }, {
+                            group = vim.api.nvim_create_augroup(string.format("lsp_autohold_buffer_%d", bufnr), {}),
+                            buffer = bufnr,
+                            desc = "lsp hover cursorhold",
+                            callback = function()
+                                -- vim.lsp.buf.hover({ focusable = false })
+                                vim.diagnostic.open_float()
+                            end,
+                        })
 
                         require("illuminate").on_attach(client)
                         require("lsp_basics").make_lsp_commands(client, bufnr)

@@ -28,3 +28,5 @@ patch:
       ascii_mode: true
     com.tencent.weterm:
       ascii_mode: true
+    com.neovide.neovide:
+      ascii_mode: true

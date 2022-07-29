@@ -34,10 +34,14 @@ if status is-interactive
     alias proxycall="http_proxy=http://127.0.0.1:1081 https_proxy=http://127.0.0.1:1081 all_proxy=http://127.0.0.1:1081"
 
     # starship prompt
-    starship init fish | source
+    if type -q starship
+        starship init fish | source
+    end
 
     # asdf hook
-    source /usr/local/opt/asdf/libexec/asdf.fish
+    if type -q brew; and set -l asdf "$(brew --prefix)/opt/asdf/libexec/asdf.fish"; and type -q $asdf
+        source $asdf
+    end
 
     # fzf configuration
     if type -q fzf_configure_bindings
