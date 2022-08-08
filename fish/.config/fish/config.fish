@@ -8,10 +8,12 @@ if status is-interactive
         bind -M insert jk "if commandline -P; commandline -f cancel; else; set fish_bind_mode default; commandline -f backward-char force-repaint; end"
     end
 
+    # environment variables
     set -Ux LC_ALL en_US.UTF-8
     set -Ux LC_TYPES en_US.UTF-8
     set -Ux LANG en_US.UTF-8
 
+    # aliases
     if type -q exa
         alias ls="exa --group"
     end
@@ -19,6 +21,9 @@ if status is-interactive
     alias cp="cp -i"
     alias mv="mv -i"
     alias rm="rm -i"
+    if type -q trash
+        alias rm="trash -i"
+    end
     if type -q bat
         alias cat="bat"
     end
@@ -39,7 +44,7 @@ if status is-interactive
     end
 
     # asdf hook
-    if type -q brew; and set -l asdf "$(brew --prefix)/opt/asdf/libexec/asdf.fish"; and type -q $asdf
+    if type -q brew; and set -l asdf "$(brew --prefix)/opt/asdf/libexec/asdf.fish"; and test -e $asdf
         source $asdf
     end
 

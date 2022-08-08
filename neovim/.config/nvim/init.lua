@@ -83,6 +83,10 @@ do
 
     vim.keymap.set("i", "jk", "<ESC>")
     -- }}}
+
+    -- {{{ Base functions
+    -- vim.api.nvim_add_user_command("SudoW", ":w !sudo tee % >/dev/null")
+    -- }}}
 end
 -- }}}
 
@@ -667,10 +671,14 @@ require("packer").startup(
             },
             {
                 "neovim/nvim-lspconfig",
-                requires = { "williamboman/nvim-lsp-installer", "hrsh7th/cmp-nvim-lsp", "RRethy/vim-illuminate",
-                    "nanotee/nvim-lsp-basics" },
+                requires = {
+                    "williamboman/nvim-lsp-installer",
+                    "hrsh7th/cmp-nvim-lsp",
+                    "RRethy/vim-illuminate",
+                    "nanotee/nvim-lsp-basics"
+                },
+                -- after = { "nvim-lsp-installer", "cmp-nvim-lsp" },
                 config = function()
-                    -- first, install lsp server.
                     require("nvim-lsp-installer").setup({
                         ensure_installed = {
                             "pyright", "gopls", "clangd", "sumneko_lua",
@@ -680,8 +688,7 @@ require("packer").startup(
                     })
 
                     local function lsp_on_attach(client, bufnr)
-                        vim.keymap.set("n", "<Leader>g<Space>", vim.lsp.buf.definition,
-                            { silent = true, buffer = bufnr }) -- toggle fold
+                        vim.keymap.set("n", "<Leader>g<Space>", vim.lsp.buf.definition, { silent = true, buffer = bufnr }) -- toggle fold
                         vim.keymap.set("n", "<Leader>fa", vim.lsp.buf.formatting, { silent = true, buffer = bufnr })
                         vim.keymap.set("n", "K", vim.lsp.buf.hover, { silent = true, buffer = bufnr })
 
@@ -786,6 +793,36 @@ require("packer").startup(
                     })
 
                     require("lspconfig").html.setup({
+                        on_attach = lsp_on_attach,
+                        capabilities = cmp_capabilities,
+                        handlers = {
+                            ["textDocument/publishDiagnostics"] = vim.lsp.with(
+                                vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
+                            )
+                        },
+                    })
+
+                    require("lspconfig").sqls.setup({
+                        on_attach = lsp_on_attach,
+                        capabilities = cmp_capabilities,
+                        handlers = {
+                            ["textDocument/publishDiagnostics"] = vim.lsp.with(
+                                vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
+                            )
+                        },
+                    })
+
+                    require("lspconfig").marksman.setup({
+                        on_attach = lsp_on_attach,
+                        capabilities = cmp_capabilities,
+                        handlers = {
+                            ["textDocument/publishDiagnostics"] = vim.lsp.with(
+                                vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
+                            )
+                        },
+                    })
+
+                    require("lspconfig").grammarly.setup({
                         on_attach = lsp_on_attach,
                         capabilities = cmp_capabilities,
                         handlers = {
