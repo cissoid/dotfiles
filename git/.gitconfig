@@ -6,21 +6,44 @@
 # ================================
 
 [core]
-    editor = vim
+    editor = nvim
     excludesFile = ~/.gitignore
     quotepath = false
+    pager = delta
+
+[diff]
+    colorMoved = default
+    guitool = nvimdiff
+
+[grep]
+    lineNumber = true
+
+[interactive]
+    diffFilter = delta --color-only
+
+[log]
+    date = "format:%F %T"
+
+[merge]
+    conflictstyle = diff3
+    guitool = nvimdiff
+
 [pull]
     rebase = false
+
+[user]
+    useConfigOnly = true
+
 [alias]
     br = branch
     st = status
     co = checkout
-    ci = commit
+    cm = commit
     pp = pull --prune
-    local-branch = "!git branch --format '%(refname:short) %(upstream)' | awk '{if (!$2) print $1;}'"
-    config-user = "!f() { git config user.name $1; git config user.email $2; }; f"
-    dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd $GIT_PREFIX; git diff --color $@ | diff-so-fancy | less -RFX; }; f"
     glog = log --all --graph --pretty='%C(auto)%h %d %s (%C(cyan)%an%Creset, %Cgreen%ad%Creset)'
+    dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd $GIT_PREFIX; git diff --color $@ | diff-so-fancy | less -RFX; }; f"
+    config-user = "!f() { git config user.name $1; git config user.email $2; }; f"
+    local-branch = "!git branch --format '%(refname:short) %(upstream)' | awk '{if (!$2) print $1;}'"
     refresh-all = "!f() {                                                \
             for folder in $(ls); do                                      \
                 if [ -d $folder ] && [ -d $folder/.git ]; then           \
@@ -118,30 +141,28 @@
             echo \"# }}}\" >> $GITIGNORE;                                                                          \
         done;                                                                                                      \
     }; f $0 $*'"
-[color]
-    branch = auto
-    diff = auto
-    grep = auto
-    interactive = auto
-    pager = true
-    showBranch = auto
-    status = auto
-    ui = auto
-[color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
-[grep]
-    lineNumber = true
-[log]
-    date = "format:%F %T"
-[user]
-	useConfigOnly = true
+
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+
+[delta]
+    features = customized
+    navigate = true
+    keep-plus-minus-markers = false
+
+[delta "customized"]
+    dark = true
+    line-numbers = false
+    side-by-side = false
+    file-style = omit
+    hunk-header-style = syntax file line-number
+    ; minus-style = syntax "#3f0001" bold
+    ; minus-style = syntax "#400000" bold
+    zero-style = syntax dim
+    ; plus-style = syntax "#002800" bold
+    ; plus-style = syntax "#004000" bold
 
 # vim: filetype=gitconfig

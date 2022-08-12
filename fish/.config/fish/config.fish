@@ -26,15 +26,8 @@ if status is-interactive
     end
     if type -q bat
         alias cat="bat"
+        set -Ux MANPAGER "sh -c 'col -bx | bat -l man -p'"
     end
-    alias man='LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-        LESS_TERMCAP_md=$(printf "\e[1;31m")        \
-        LESS_TERMCAP_me=$(printf "\e[0m")           \
-        LESS_TERMCAP_se=$(printf "\e[0m")           \
-        LESS_TERMCAP_so=$(printf "\e[1;44;33m")     \
-        LESS_TERMCAP_ue=$(printf "\e[0m")           \
-        LESS_TERMCAP_us=$(printf "\e[1;32m")        \
-        /usr/bin/env man'
 
     alias proxycall="http_proxy=http://127.0.0.1:1081 https_proxy=http://127.0.0.1:1081 all_proxy=http://127.0.0.1:1081"
 

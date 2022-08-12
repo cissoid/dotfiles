@@ -492,7 +492,14 @@ require("packer").startup(
                 config = function()
                     require("telescope").setup({
                         defaults = {
+                            sorting_strategy = "ascending",
+                            layout_config = {
+                                horizontal = {
+                                    prompt_position = "top",
+                                }
+                            },
                             winblend = 10,
+                            results_title = false,
                             dynamic_preview_title = true,
                         }
                     })
@@ -667,26 +674,25 @@ require("packer").startup(
 
             -- {{{ ---------------- LSP ----------------
             {
-                "williamboman/nvim-lsp-installer",
+                "williamboman/mason.nvim",
+                config = function()
+                    require("mason").setup()
+                end
+            },
+            {
+                "williamboman/mason-lspconfig.nvim",
+                config = function()
+                    require("mason-lspconfig").setup()
+                end
             },
             {
                 "neovim/nvim-lspconfig",
                 requires = {
-                    "williamboman/nvim-lsp-installer",
                     "hrsh7th/cmp-nvim-lsp",
                     "RRethy/vim-illuminate",
                     "nanotee/nvim-lsp-basics"
                 },
-                -- after = { "nvim-lsp-installer", "cmp-nvim-lsp" },
                 config = function()
-                    require("nvim-lsp-installer").setup({
-                        ensure_installed = {
-                            "pyright", "gopls", "clangd", "sumneko_lua",
-                            "jsonls", "yamlls", "bashls", "vimls",
-                        },
-                        automatic_installation = true,
-                    })
-
                     local function lsp_on_attach(client, bufnr)
                         vim.keymap.set("n", "<Leader>g<Space>", vim.lsp.buf.definition, { silent = true, buffer = bufnr }) -- toggle fold
                         vim.keymap.set("n", "<Leader>fa", vim.lsp.buf.formatting, { silent = true, buffer = bufnr })
@@ -870,12 +876,12 @@ require("packer").startup(
                 config = function()
                     require("null-ls").setup({
                         sources = {
-                            require("null-ls").builtins.code_actions.gitsigns,
                             require("null-ls").builtins.code_actions.refactoring,
                             require("null-ls").builtins.code_actions.shellcheck,
                             -- python
                             require("null-ls").builtins.diagnostics.flake8,
                             require("null-ls").builtins.diagnostics.pylint,
+                            require("null-ls").builtins.diagnostics.vulture,
                             require("null-ls").builtins.formatting.isort,
                             require("null-ls").builtins.formatting.black.with({
                                 args = { "--line-length", "120", "--stdin-filename", "$FILENAME", "--quiet", "-" },
@@ -886,6 +892,10 @@ require("packer").startup(
                             require("null-ls").builtins.diagnostics.buf,
                             require("null-ls").builtins.diagnostics.protoc_gen_lint,
                             require("null-ls").builtins.diagnostics.protolint,
+                            -- sql
+                            require("null-ls").builtins.diagnostics.sqlfluff,
+                            -- fish
+                            require("null-ls").builtins.diagnostics.fish,
                         },
                     })
                 end
