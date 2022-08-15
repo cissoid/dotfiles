@@ -488,7 +488,10 @@ require("packer").startup(
             {
                 "nvim-telescope/telescope.nvim",
                 branch = "0.1.x",
-                requires = { "nvim-lua/plenary.nvim" },
+                requires = {
+                    "nvim-lua/plenary.nvim",
+                    "nvim-telescope/telescope-fzf-native.nvim",
+                },
                 config = function()
                     require("telescope").setup({
                         defaults = {
@@ -504,6 +507,8 @@ require("packer").startup(
                         }
                     })
 
+                    require("telescope").load_extension("fzf")
+
                     vim.keymap.set("n", "<Leader>ft", require("telescope.builtin").builtin, { silent = true })
                     vim.keymap.set("n", "<Leader>ff", require("telescope.builtin").find_files, { silent = true })
                     vim.keymap.set("n", "<Leader>fr", require("telescope.builtin").resume, { silent = true })
@@ -512,6 +517,10 @@ require("packer").startup(
                     vim.keymap.set("n", "<Leader>fo", require("telescope.builtin").lsp_outgoing_calls,
                         { silent = true })
                 end
+            },
+            {
+                "nvim-telescope/telescope-fzf-native.nvim",
+                run = "make"
             },
             {
                 "AckslD/nvim-neoclip.lua",
@@ -881,7 +890,9 @@ require("packer").startup(
                             -- python
                             require("null-ls").builtins.diagnostics.flake8,
                             require("null-ls").builtins.diagnostics.pylint,
-                            require("null-ls").builtins.diagnostics.vulture,
+                            require("null-ls").builtins.diagnostics.vulture.with({
+                                args = { "--min-confidence", "80", "$FILENAME" }
+                            }),
                             require("null-ls").builtins.formatting.isort,
                             require("null-ls").builtins.formatting.black.with({
                                 args = { "--line-length", "120", "--stdin-filename", "$FILENAME", "--quiet", "-" },
