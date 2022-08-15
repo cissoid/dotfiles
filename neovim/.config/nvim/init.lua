@@ -728,6 +728,7 @@ require("packer").startup(
                     -- global lsp diagnostic config
                     vim.diagnostic.config({
                         virtual_text = false,
+                        severity_sort = true,
                     })
 
                     require("lspconfig").pyright.setup({
