@@ -43,6 +43,7 @@ do
         ruler = true,
         scrolloff = 10,
         listchars = [[tab:¦\ ,eol:¬,trail:⋅,extends:»,precedes:«]],
+        fillchars = [[diff:╱]],
 
         pumblend = 20,
         winblend = 20,
@@ -141,6 +142,7 @@ require("packer").startup(
                             let s:configuration = sonokai#get_configuration()
                             let s:palette = sonokai#get_palette(s:configuration.style, s:configuration.colors_override)
                             call sonokai#highlight("CurrentWord", s:palette.none, s:palette.bg2, s:configuration.current_word)
+                            call sonokai#highlight("DiffDelete", s:palette.bg4, s:palette.bg0)
                         ]])
                 end,
             },
@@ -239,7 +241,12 @@ require("packer").startup(
                                     }
                                 },
                             },
-                            lualine_c = { "filename" },
+                            lualine_c = {
+                                {
+                                    "filename",
+                                    path = 1,
+                                },
+                            },
                             lualine_x = {
                                 "filetype",
                                 -- {
@@ -473,14 +480,11 @@ require("packer").startup(
             },
             {
                 "simrat39/symbols-outline.nvim",
-                setup = function()
-                    vim.g.symbols_outline = {
-                        width = 15, -- percentage
-                        symbol_blacklist = { "Variable", "Constant", "String", "Number", "Boolean" },
-                    }
-
-                end,
                 config = function()
+                    require("symbols-outline").setup({
+                        width = 15,
+                        symbol_blacklist = { "Variable", "Constant", "String", "Number", "Boolean" },
+                    })
                     vim.cmd("highlight! link FocusedSymbol BlueItalic")
                     vim.keymap.set("n", "<Leader>t", "<Cmd>SymbolsOutline<CR>", { silent = true })
                 end
@@ -553,10 +557,10 @@ require("packer").startup(
                 config = function()
                     require("nvim-treesitter.configs").setup({
                         ensure_installed = {
-                            "bash", "c", "cmake", "comment", "cpp", "css", "dockerfile", "erlang", "go",
-                            "gomod", "gowork", "help", "html", "http", "java", "javascript", "jsdoc", "json", "jsonc",
-                            "latex", "lua", "make", "markdown", "markdown_inline", "php", "phpdoc", "proto", "python",
-                            "regex", "rust", "scheme", "scss", "toml", "tsx", "typescript", "vim", "vue", "yaml",
+                            -- "bash", "c", "cmake", "comment", "cpp", "css", "dockerfile", "erlang", "go",
+                            -- "gomod", "gowork", "help", "html", "http", "java", "javascript", "jsdoc", "json", "jsonc",
+                            -- "latex", "lua", "make", "markdown", "markdown_inline", "php", "phpdoc", "proto", "python",
+                            -- "regex", "rust", "scheme", "scss", "toml", "tsx", "typescript", "vim", "vue", "yaml",
                         },
                         highlight = {
                             enable = true,
@@ -704,7 +708,8 @@ require("packer").startup(
                 config = function()
                     local function lsp_on_attach(client, bufnr)
                         vim.keymap.set("n", "<Leader>g<Space>", vim.lsp.buf.definition, { silent = true, buffer = bufnr }) -- toggle fold
-                        vim.keymap.set("n", "<Leader>fa", vim.lsp.buf.formatting, { silent = true, buffer = bufnr })
+                        vim.keymap.set("n", "<Leader>fa", function() vim.lsp.buf.format({ async = true }) end,
+                            { silent = true, buffer = bufnr })
                         vim.keymap.set("n", "K", vim.lsp.buf.hover, { silent = true, buffer = bufnr })
 
                         vim.api.nvim_create_autocmd({ "CursorHold" }, {
@@ -713,7 +718,17 @@ require("packer").startup(
                             desc = "lsp hover cursorhold",
                             callback = function()
                                 -- vim.lsp.buf.hover({ focusable = false })
-                                vim.diagnostic.open_float()
+                                vim.diagnostic.open_float({
+                                    severity_sort = true,
+                                    format = function(diag)
+                                        local msg = diag.source
+                                        if diag.code then
+                                            msg = msg .. "(" .. diag.code .. ")"
+                                        end
+                                        msg = msg .. ": " .. diag.message
+                                        return msg
+                                    end
+                                })
                             end,
                         })
 
@@ -848,6 +863,26 @@ require("packer").startup(
                         },
                     })
 
+                    require("lspconfig").yamlls.setup({
+                        on_attach = lsp_on_attach,
+                        capabilities = cmp_capabilities,
+                        handlers = {
+                            ["textDocument/publishDiagnostics"] = vim.lsp.with(
+                                vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
+                            )
+                        },
+                        settings = {
+                            yaml = {
+                                format = {
+                                    enable = true,
+                                },
+                                validate = true,
+                                hover = true,
+                                completion = true
+                            }
+                        }
+                    })
+
                 end,
             },
             {
@@ -889,11 +924,13 @@ require("packer").startup(
                             require("null-ls").builtins.code_actions.refactoring,
                             require("null-ls").builtins.code_actions.shellcheck,
                             -- python
-                            require("null-ls").builtins.diagnostics.flake8,
-                            require("null-ls").builtins.diagnostics.pylint,
-                            require("null-ls").builtins.diagnostics.vulture.with({
-                                args = { "--min-confidence", "80", "$FILENAME" }
+                            require("null-ls").builtins.diagnostics.flake8.with({
+                                args = {
+                                    "--config", "~/.config/flake8", "--format", "default", "--stdin-display-name",
+                                    "$FILENAME", "-"
+                                },
                             }),
+                            require("null-ls").builtins.diagnostics.pylint,
                             require("null-ls").builtins.formatting.isort,
                             require("null-ls").builtins.formatting.black.with({
                                 args = { "--line-length", "120", "--stdin-filename", "$FILENAME", "--quiet", "-" },
@@ -969,6 +1006,15 @@ require("packer").startup(
             {
                 "sindrets/diffview.nvim",
                 requires = { "nvim-lua/plenary.nvim" },
+                config = function()
+                    require("diffview").setup({
+                        view = {
+                            merge_tool = {
+                                layout = "diff4_mixed"
+                            }
+                        }
+                    })
+                end
             },
             -- }}}
 

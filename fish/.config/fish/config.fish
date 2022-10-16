@@ -14,6 +14,12 @@ if status is-interactive
     set -Ux LANG en_US.UTF-8
 
     # aliases
+
+    # grc aliases
+    if type -q brew; and test -e "$(brew --prefix)/etc/grc.fish"
+        source "$(brew --prefix)/etc/grc.fish"
+    end
+
     if type -q exa
         alias ls="exa --group"
     end
@@ -37,7 +43,7 @@ if status is-interactive
     end
 
     # asdf hook
-    if type -q brew; and set -l asdf "$(brew --prefix)/opt/asdf/libexec/asdf.fish"; and test -e $asdf
+    if not set -q ASDF_DIR; and type -q brew; and set -l asdf "$(brew --prefix)/opt/asdf/libexec/asdf.fish"; and test -e $asdf
         source $asdf
     end
 
