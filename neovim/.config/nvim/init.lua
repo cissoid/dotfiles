@@ -161,7 +161,7 @@ require("packer").startup(
                 end,
             },
             {
-                -- highlight current match
+                -- highlight current range match
                 "winston0410/range-highlight.nvim",
                 requires = { "winston0410/cmd-parser.nvim" },
                 config = function()
@@ -214,7 +214,7 @@ require("packer").startup(
                                 {
                                     function()
                                         if vim.o.paste then
-                                            return "PASTE"
+                                            return "[PASTE]"
                                         end
                                         return ""
                                     end,
@@ -402,13 +402,6 @@ require("packer").startup(
                 "numToStr/Comment.nvim",
                 config = function()
                     require("Comment").setup()
-
-                    vim.keymap.set(
-                        "n",
-                        "<Leader>c<Space>",
-                        "<Plug>(comment_toggle_current_linewise)",
-                        { silent = true }
-                    )
                 end
             },
             {
@@ -576,7 +569,7 @@ require("packer").startup(
                             }
                         },
                         indent = {
-                            enable = false,
+                            enable = true,
                         }
                     })
 
@@ -606,12 +599,29 @@ require("packer").startup(
                     { "hrsh7th/cmp-nvim-lsp-signature-help" },
                     { "hrsh7th/cmp-nvim-lsp-document-symbol" },
                     { "onsails/lspkind.nvim" },
+                    { "L3MON4D3/LuaSnip" },
+                    { "saadparwaiz1/cmp_luasnip" },
                 },
                 after = { "nvim-autopairs" },
                 config = function()
                     local cmp = require("cmp")
 
+                    local function has_words_before()
+                        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+                        return col ~= 0 and
+                            vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+                    end
+
                     cmp.setup({
+                        snippet = {
+                            expand = function(args)
+                                require("luasnip").lsp_expand(args.body)
+                            end
+                        },
+                        window = {
+                            completion = cmp.config.window.bordered(),
+                            documentation = cmp.config.window.bordered(),
+                        },
                         mapping = cmp.mapping.preset.insert({
                             ["<Leader>g<Space>"] = cmp.mapping.complete(),
                             ["<C-d>"] = cmp.mapping.scroll_docs(-4),
@@ -619,9 +629,19 @@ require("packer").startup(
                             ["<Tab>"] = cmp.mapping(function(fallback)
                                 if cmp.visible() then
                                     cmp.select_next_item()
-                                    -- cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true })
-                                    -- elseif require('luasnip').expand_or_jumpable() then
-                                    --   vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
+                                elseif require("luasnip").expand_or_jumpable() then
+                                    require("luasnip").expand_or_jump()
+                                elseif has_words_before() then
+                                    cmp.complete()
+                                else
+                                    fallback()
+                                end
+                            end, { "i", "s" }),
+                            ["<S-Tab>"] = cmp.mapping(function(fallback)
+                                if cmp.visible() then
+                                    cmp.select_prev_item()
+                                elseif require("luasnip").jumpable(-1) then
+                                    require("luasnip").jump(-1)
                                 else
                                     fallback()
                                 end
@@ -629,16 +649,31 @@ require("packer").startup(
                             ["<CR>"] = cmp.mapping.confirm({ select = true }),
                         }),
                         formatting = {
-                            format = require("lspkind").cmp_format({
-                                mode = "symbol",
-                                menu = {
-                                    buffer = "[Buffer]",
-                                    nvim_lsp = "[LSP]",
-                                }
-                            })
+                            format = function(entry, vim_item)
+                                if vim.tbl_contains({ "path" }, entry.source.name) then
+                                    local icon, hl_group = require("nvim-web-devicons").get_icons(entry:
+                                        get_completion_item().label)
+                                    if icon then
+                                        vim_item.kind = icon
+                                        vim_item.kind_hl_group = hl_group
+                                        return vim_item
+                                    end
+                                end
+                                return require("lspkind").cmp_format({
+                                    mode = "symbol",
+                                    menu = {
+                                        buffer = "[Buffer]",
+                                        nvim_lsp = "[LSP]",
+                                        luasnip = "[LuaSnip]",
+                                        nvim_lua = "[Lua]",
+                                        latex_symbols = "[Latex]",
+                                    },
+                                })(entry, vim_item)
+                            end,
                         },
                         sources = cmp.config.sources({
                             { name = "nvim_lsp" },
+                            { name = "luasnip" },
                             {
                                 name = "buffer",
                                 options = {
@@ -653,6 +688,12 @@ require("packer").startup(
                         experimental = {
                             ghost_text = true,
                         }
+                    })
+
+                    cmp.setup.filetype("gitcommit", {
+                        sources = cmp.config.sources({
+                            { name = 'cmp_git' },
+                        })
                     })
 
                     cmp.setup.cmdline(":", {
@@ -736,9 +777,7 @@ require("packer").startup(
                         require("lsp_basics").make_lsp_commands(client, bufnr)
                     end
 
-                    local cmp_capabilities = require("cmp_nvim_lsp").update_capabilities(
-                        vim.lsp.protocol.make_client_capabilities()
-                    )
+                    local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
                     -- global lsp diagnostic config
                     vim.diagnostic.config({
@@ -793,6 +832,9 @@ require("packer").startup(
                         capabilities = cmp_capabilities,
                         settings = {
                             Lua = {
+                                runtime = {
+                                    version = "LuaJIT",
+                                },
                                 completion = {
                                     callSnippet = "Replace",
                                     -- displayContext = 10,
@@ -963,14 +1005,6 @@ require("packer").startup(
                         },
                     })
                 end
-            },
-            {
-                "smjonas/inc-rename.nvim",
-                config = function()
-                    require("inc_rename").setup()
-                end,
-                disable = true,
-                -- cmd = "IncRename",
             },
             -- }}}
 
