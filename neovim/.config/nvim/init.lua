@@ -569,7 +569,7 @@ require("packer").startup(
                             }
                         },
                         indent = {
-                            enable = true,
+                            enable = false,
                         }
                     })
 
@@ -683,7 +683,7 @@ require("packer").startup(
                                 },
                             },
                             { name = "nvim_lsp_signature_help" },
-                            { name = "path" },
+                            -- { name = "path" },
                         }),
                         experimental = {
                             ghost_text = true,
@@ -700,7 +700,7 @@ require("packer").startup(
                         mapping = cmp.mapping.preset.cmdline(),
                         sources = {
                             { name = "cmdline" },
-                            { name = "path" },
+                            -- { name = "path" },
                         },
                     })
 
@@ -748,7 +748,8 @@ require("packer").startup(
                 },
                 config = function()
                     local function lsp_on_attach(client, bufnr)
-                        vim.keymap.set("n", "<Leader>g<Space>", vim.lsp.buf.definition, { silent = true, buffer = bufnr }) -- toggle fold
+                        vim.keymap.set("n", "<Leader>g<Space>", vim.lsp.buf.definition, { silent = true, buffer = bufnr })
+                        -- vim.keymap.set("n", "<Leader>gr", require("telescope").lsp_references, { silent = true, buffer = bufnr })
                         vim.keymap.set("n", "<Leader>fa", function() vim.lsp.buf.format({ async = true }) end,
                             { silent = true, buffer = bufnr })
                         vim.keymap.set("n", "K", vim.lsp.buf.hover, { silent = true, buffer = bufnr })
@@ -785,145 +786,132 @@ require("packer").startup(
                         severity_sort = true,
                     })
 
-                    require("lspconfig").pyright.setup({
-                        on_attach = lsp_on_attach,
-                        flags = {
-                            debounce_text_changes = 150,
-                        },
-                        capabilities = cmp_capabilities,
-                        handlers = {
-                            ["textDocument/publishDiagnostics"] = vim.lsp.with(
-                                vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
-                            )
-                        },
-                        settings = {
-                            pyright = {
-
+                    local function lsp_config(custom)
+                        local settings = {
+                            on_attach = lsp_on_attach,
+                            flags = {
+                                debounce_text_changes = 150,
                             },
-                            python = {
-                                analysis = {
-                                    diagnosticMode = "openFilesOnly",
-                                    typeCheckingMode = "off",
+                            capabilities = cmp_capabilities,
+                            handlers = {
+                                ["textDocument/publishDiagnostics"] = vim.lsp.with(
+                                    vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
+                                )
+                            },
+                        }
+                        for k, v in pairs(custom) do
+                            settings[k] = v
+                        end
+                        return settings
+                    end
+
+                    require("lspconfig").pyright.setup(
+                        lsp_config({
+                            settings = {
+                                pyright = {
+
+                                },
+                                python = {
+                                    analysis = {
+                                        diagnosticMode = "openFilesOnly",
+                                        typeCheckingMode = "off",
+                                    },
                                 },
                             }
-                        },
-                    })
+                        })
+                    )
 
-                    require("lspconfig").gopls.setup({
-                        on_attach = lsp_on_attach,
-                        flags = {
-                            debounce_text_changes = 150,
-                        },
-                        capabilities = cmp_capabilities,
-                        handlers = {
-                            ["textDocument/publishDiagnostics"] = vim.lsp.with(
-                                vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
-                            )
-                        },
-                        settins = {
-                        }
-                    })
+                    require("lspconfig").gopls.setup(
+                        lsp_config({
+                            settings = {
+                                gopls = {
+                                    gofumpt = true,
+                                    analyses = {
+                                        fieldalignment = true,
+                                        nilness = true,
+                                        shadow = true,
+                                        unusedparams = true,
+                                        unusedwrite = true,
+                                        useany = true,
+                                        unusedvariable = true,
+                                    },
+                                    staticcheck = true,
+                                }
+                            }
+                        })
+                    )
 
-                    require("lspconfig").sumneko_lua.setup({
-                        on_attach = lsp_on_attach,
-                        flags = {
-                            debounce_text_changes = 150,
-                        },
-                        capabilities = cmp_capabilities,
-                        settings = {
-                            Lua = {
-                                runtime = {
-                                    version = "LuaJIT",
-                                },
-                                completion = {
-                                    callSnippet = "Replace",
-                                    -- displayContext = 10,
-                                },
-                                format = {
-                                    defaultConfig = {
-                                        indent_style = "space",
-                                        quote_style = "double",
-                                        enable_check_codestyle = true,
-                                    }
-                                },
-                                diagnostics = {
-                                    disable = {},
-                                    globals = { "vim" },
-                                },
-                                workspace = {
-                                    -- library = vim.api.nvim_get_runtime_file("", true),
-                                },
-                                telemetry = {
-                                    enable = false,
+                    require("lspconfig").sumneko_lua.setup(
+                        lsp_config({
+                            settings = {
+                                Lua = {
+                                    runtime = {
+                                        version = "LuaJIT",
+                                    },
+                                    completion = {
+                                        callSnippet = "Replace",
+                                        -- displayContext = 10,
+                                    },
+                                    format = {
+                                        defaultConfig = {
+                                            indent_style = "space",
+                                            quote_style = "double",
+                                            enable_check_codestyle = true,
+                                        }
+                                    },
+                                    diagnostics = {
+                                        disable = {},
+                                        globals = { "vim" },
+                                    },
+                                    workspace = {
+                                        -- library = vim.api.nvim_get_runtime_file("", true),
+                                    },
+                                    telemetry = {
+                                        enable = false,
+                                    },
                                 },
                             },
-                        },
-                        handlers = {
-                            ["textDocument/publishDiagnostics"] = vim.lsp.with(
-                                vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
-                            )
-                        },
-                    })
+                        })
+                    )
 
-                    require("lspconfig").html.setup({
-                        on_attach = lsp_on_attach,
-                        capabilities = cmp_capabilities,
-                        handlers = {
-                            ["textDocument/publishDiagnostics"] = vim.lsp.with(
-                                vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
-                            )
-                        },
-                    })
+                    require("lspconfig").tsserver.setup(
+                        lsp_config({})
+                    )
 
-                    require("lspconfig").sqls.setup({
-                        on_attach = lsp_on_attach,
-                        capabilities = cmp_capabilities,
-                        handlers = {
-                            ["textDocument/publishDiagnostics"] = vim.lsp.with(
-                                vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
-                            )
-                        },
-                    })
+                    require("lspconfig").html.setup(
+                        lsp_config({})
+                    )
 
-                    require("lspconfig").marksman.setup({
-                        on_attach = lsp_on_attach,
-                        capabilities = cmp_capabilities,
-                        handlers = {
-                            ["textDocument/publishDiagnostics"] = vim.lsp.with(
-                                vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
-                            )
-                        },
-                    })
+                    require("lspconfig").sqls.setup(
+                        lsp_config({})
+                    )
 
-                    require("lspconfig").grammarly.setup({
-                        on_attach = lsp_on_attach,
-                        capabilities = cmp_capabilities,
-                        handlers = {
-                            ["textDocument/publishDiagnostics"] = vim.lsp.with(
-                                vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
-                            )
-                        },
-                    })
+                    require("lspconfig").marksman.setup(
+                        lsp_config({})
+                    )
 
-                    require("lspconfig").yamlls.setup({
-                        on_attach = lsp_on_attach,
-                        capabilities = cmp_capabilities,
-                        handlers = {
-                            ["textDocument/publishDiagnostics"] = vim.lsp.with(
-                                vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
-                            )
-                        },
-                        settings = {
-                            yaml = {
-                                format = {
-                                    enable = true,
-                                },
-                                validate = true,
-                                hover = true,
-                                completion = true
+                    require("lspconfig").grammarly.setup(
+                        lsp_config({})
+                    )
+
+                    require("lspconfig").yamlls.setup(
+                        lsp_config({
+                            settings = {
+                                yaml = {
+                                    format = {
+                                        enable = true,
+                                    },
+                                    validate = true,
+                                    hover = true,
+                                    completion = true
+                                }
                             }
-                        }
-                    })
+                        })
+                    )
+
+                    require("Lspconfig").jsonls.setup(
+                        lsp_config({})
+                    )
 
                 end,
             },
@@ -963,6 +951,7 @@ require("packer").startup(
                 config = function()
                     require("null-ls").setup({
                         sources = {
+                            -- common
                             require("null-ls").builtins.code_actions.refactoring,
                             require("null-ls").builtins.code_actions.shellcheck,
                             -- python
@@ -977,6 +966,12 @@ require("packer").startup(
                             require("null-ls").builtins.formatting.black.with({
                                 args = { "--line-length", "120", "--stdin-filename", "$FILENAME", "--quiet", "-" },
                             }),
+                            -- go
+                            require("null-ls").builtins.diagnostics.golangci_lint,
+                            require("null-ls").builtins.diagnostics.revive,
+                            require("null-ls").builtins.diagnostics.staticcheck,
+                            require("null-ls").builtins.formatting.gofumpt,
+                            require("null-ls").builtins.formatting.goimports,
                             -- lua
                             -- require("null-ls").builtins.formatting.stylua,
                             -- protobuf
@@ -985,6 +980,8 @@ require("packer").startup(
                             require("null-ls").builtins.diagnostics.protolint,
                             -- sql
                             require("null-ls").builtins.diagnostics.sqlfluff,
+                            -- json
+                            require("null-ls").builtins.formatting.prettier,
                             -- fish
                             require("null-ls").builtins.diagnostics.fish,
                         },
