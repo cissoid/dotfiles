@@ -11,27 +11,24 @@ do
         visualbell = false,
         -- backspace = "indent,eol,start", -- macOS seems don't have own backspace setting.
         autoread = true, -- auto refresh when file changed outside
-        mouse = "a", -- enable mouse support
+        mouse = "a",     -- enable mouse support
         completeopt = "menu,menuone,noselect",
         hidden = true,
-
         ---------------- COLOR ----------------
         synmaxcol = 0,
         termguicolors = true, -- enable true color for terminal.
-        background = "dark", -- tell vim we prefer dark background
-
+        background = "dark",  -- tell vim we prefer dark background
         ---------------- UI ----------------
         -- show filename and other infos in terminal title
         title = true,
         showtabline = 2, -- always show tab line
-        laststatus = 2, -- always show status line
+        laststatus = 2,  -- always show status line
         showmode = false,
         number = true,
         relativenumber = false,
         showcmd = true,
         cursorline = true,
         cursorcolumn = true,
-
         wildmenu = true,
         wildmode = "list:longest,full",
         wildignore = "*.o,*.swp,*.bak,*.pyc,*.zip",
@@ -44,14 +41,12 @@ do
         scrolloff = 10,
         listchars = [[tab:¦\ ,eol:¬,trail:⋅,extends:»,precedes:«]],
         fillchars = [[diff:╱]],
-
         pumblend = 20,
         winblend = 20,
-
         ---------------- SPACE / TAB ----------------
-        tabstop = 4, -- number of visual spaces for tab
-        softtabstop = 4, -- number of actual spaces for tab
-        shiftwidth = 4, -- make << or >> step 4 spaces.
+        tabstop = 4,      -- number of visual spaces for tab
+        softtabstop = 4,  -- number of actual spaces for tab
+        shiftwidth = 4,   -- make << or >> step 4 spaces.
         expandtab = true, -- convert tabe to space
         -- smarttab=true,
         autoindent = true,
@@ -61,11 +56,10 @@ do
         hlsearch = true,
         ignorecase = true,
         incsearch = true,
-
         ---------------- FOLD ----------------
         foldenable = true,
         foldmethod = "indent", -- fold based on indent level.
-        foldlevelstart = 10, -- initial fold level 10
+        foldlevelstart = 10,   -- initial fold level 10
         foldlevel = 99,
         foldnestmax = 10,
     }
@@ -157,7 +151,9 @@ require("packer").startup(
                 -- indent guide
                 "lukas-reineke/indent-blankline.nvim",
                 config = function()
-                    require("indent_blankline").setup()
+                    require("indent_blankline").setup({
+                        show_current_context = true,
+                    })
                 end,
             },
             {
@@ -333,7 +329,6 @@ require("packer").startup(
                         options = {
                             offsets = {
                                 {
-
                                     filetype = "NvimTree",
                                     text = "Explorer",
                                     -- highlight = "Directory",
@@ -425,23 +420,6 @@ require("packer").startup(
                     vim.keymap.set("n", "<Leader>w", require("nvim-window").pick, { silent = true })
                 end
             },
-            {
-                "toppair/reach.nvim",
-                requires = { "kyazdani42/nvim-web-devicons" },
-                config = function()
-                    require("reach").setup()
-
-                    local options = {
-                        show_current = true,
-                        modified_icon = "[+]",
-                    }
-                    local show_buffers = function()
-                        return require("reach").buffers(options)
-                    end
-
-                    vim.keymap.set("n", "<Leader>gb", show_buffers, { silent = true })
-                end
-            },
             -- }}}
 
             -- {{{ ---------------- Explorer / Outline / Telescope ----------------
@@ -498,7 +476,7 @@ require("packer").startup(
                                     prompt_position = "top",
                                 }
                             },
-                            winblend = 10,
+                            winblend = 0,
                             results_title = false,
                             dynamic_preview_title = true,
                         }
@@ -508,6 +486,8 @@ require("packer").startup(
 
                     vim.keymap.set("n", "<Leader>ft", require("telescope.builtin").builtin, { silent = true })
                     vim.keymap.set("n", "<Leader>ff", require("telescope.builtin").find_files, { silent = true })
+                    vim.keymap.set("n", "<Leader>fg", require("telescope.builtin").live_grep, { silent = true })
+                    vim.keymap.set("n", "<Leader>fb", require("telescope.builtin").buffers, { silent = true })
                     vim.keymap.set("n", "<Leader>fr", require("telescope.builtin").resume, { silent = true })
                     vim.keymap.set("n", "<Leader>fi", require("telescope.builtin").lsp_incoming_calls,
                         { silent = true })
@@ -575,7 +555,6 @@ require("packer").startup(
 
                     -- vim.opt["foldmethod"] = "expr"
                     -- vim.opt["foldexpr"] = "nvim_treesitter#foldexpr()"
-
                 end
             },
             {
@@ -652,7 +631,7 @@ require("packer").startup(
                             format = function(entry, vim_item)
                                 if vim.tbl_contains({ "path" }, entry.source.name) then
                                     local icon, hl_group = require("nvim-web-devicons").get_icons(entry:
-                                        get_completion_item().label)
+                                    get_completion_item().label)
                                     if icon then
                                         vim_item.kind = icon
                                         vim_item.kind_hl_group = hl_group
@@ -722,7 +701,10 @@ require("packer").startup(
                 "L3MON4D3/LuaSnip",
                 requires = {
                     "rafamadriz/friendly-snippets",
-                }
+                },
+                config = function()
+                    require("luasnip.loaders.from_vscode").lazy_load()
+                end
             },
             -- }}}
 
@@ -841,7 +823,7 @@ require("packer").startup(
                         })
                     )
 
-                    require("lspconfig").sumneko_lua.setup(
+                    require("lspconfig").lua_ls.setup(
                         lsp_config({
                             settings = {
                                 Lua = {
@@ -874,6 +856,10 @@ require("packer").startup(
                         })
                     )
 
+                    require("lspconfig").erlangls.setup(
+                        lsp_config({})
+                    )
+
                     require("lspconfig").tsserver.setup(
                         lsp_config({})
                     )
@@ -882,7 +868,7 @@ require("packer").startup(
                         lsp_config({})
                     )
 
-                    require("lspconfig").sqls.setup(
+                    require("lspconfig").sqlls.setup(
                         lsp_config({})
                     )
 
@@ -912,7 +898,6 @@ require("packer").startup(
                     require("Lspconfig").jsonls.setup(
                         lsp_config({})
                     )
-
                 end,
             },
             {
@@ -1007,11 +992,24 @@ require("packer").startup(
 
             -- {{{ ---------------- DAP ----------------
             {
-                "Pocco81/dap-buddy.nvim",
-                disable = true,
-            },
-            {
                 "mfussenegger/nvim-dap",
+                config = function()
+                    local dap = require("dap");
+
+                    dap.adapters.python = {
+                        type = "executable",
+                        command = "debugpy-adapter",
+                    }
+                    dap.configurations.python = {
+                        {
+                            type = "python",
+                            request = "launch",
+                            name = "Launch file",
+                            program = "${file}",
+                            pythonPath = function() return "python" end,
+                        }
+                    }
+                end
             },
             {
                 "rcarriga/nvim-dap-ui",
@@ -1068,7 +1066,6 @@ require("packer").startup(
             },
             -- }}}
         },
-
         -- config
         config = {
             display = {
@@ -1083,6 +1080,7 @@ require("packer").startup(
 do
     if vim.g.neovide ~= nil then
         vim.g.neovide_cursor_vfx_mode = "railgun"
+        vim.g.neovide_scroll_animation_Length = 0.1
 
         vim.opt.guifont = "Monaco Nerd Font:h14"
     end
