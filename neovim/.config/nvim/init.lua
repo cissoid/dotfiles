@@ -43,6 +43,7 @@ do
         fillchars = [[diff:╱]],
         pumblend = 20,
         winblend = 20,
+        splitkeep = "screen",
         ---------------- SPACE / TAB ----------------
         tabstop = 4,      -- number of visual spaces for tab
         softtabstop = 4,  -- number of actual spaces for tab
@@ -106,27 +107,13 @@ require("packer").startup(
 
             -- {{{ ---------------- UI ----------------
             {
-                -- replace builtin updatetime
-                "antoinemadec/FixCursorHold.nvim",
-                setup = function()
-                    vim.g.cursorhold_updatetime = 500
-                end
-            },
-            {
-                -- stabilize cursor position when quickfix open
-                "luukvbaal/stabilize.nvim",
-                config = function()
-                    require("stabilize").setup()
-                end
-            },
-            {
                 "sainnhe/sonokai",
                 setup = function()
                     vim.g.sonokai_enable_italic = 1
                     vim.g.sonokai_current_word = "underline"
                     vim.g.sonokai_diagnostic_text_highlight = 1
-                    vim.g.sonokai_disable_terminal_colors = 1
-                    vim.g.sonokai_better_performance = 1
+                    -- vim.g.sonokai_disable_terminal_colors = 1
+                    -- vim.g.sonokai_better_performance = 1
                 end,
                 config = function()
                     vim.cmd([[
@@ -165,36 +152,11 @@ require("packer").startup(
                 end
             },
             {
-                "kevinhwang91/nvim-hlslens",
-                config = function()
-                    require("hlslens").setup({
-                        nearest_only = true,
-                        nearest_float_when = "always",
-                    })
-
-                    vim.api.nvim_set_keymap('n', 'n',
-                        [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-                        { silent = true })
-                    vim.api.nvim_set_keymap('n', 'N',
-                        [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-                        { silent = true })
-                    vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], { silent = true })
-                    vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], { silent = true })
-                    vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]],
-                        { silent = true })
-                    vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]],
-                        { silent = true })
-                    vim.api.nvim_set_keymap('n', '<Leader>l', ':noh<CR>', { silent = true })
-                end,
-                disable = true,
-            },
-            {
                 -- statusline
                 "nvim-lualine/lualine.nvim",
                 requires = { "kyazdani42/nvim-web-devicons" },
                 after = { "sonokai" },
                 config = function()
-                    local utils = require("lualine.utils.utils")
                     require("lualine").setup({
                         options = {
                             icons_enabled = true,
@@ -219,23 +181,7 @@ require("packer").startup(
                             lualine_b = {
                                 "branch",
                                 "diff",
-                                {
-                                    "diagnostics",
-                                    diagnostics_color = {
-                                        error = {
-                                            fg = utils.extract_color_from_hllist("fg", { "RedSign" }, "#e32636"),
-                                        },
-                                        warn = {
-                                            fg = utils.extract_color_from_hllist("fg", { "YellowSign" }, "#ffa500"),
-                                        },
-                                        info = {
-                                            fg = utils.extract_color_from_hllist("fg", { "BlueSign" }, "#ffffff"),
-                                        },
-                                        hint = {
-                                            fg = utils.extract_color_from_hllist("fg", { "GreenSign" }, "#273faf"),
-                                        }
-                                    }
-                                },
+                                "diagnostics",
                             },
                             lualine_c = {
                                 {
@@ -316,6 +262,7 @@ require("packer").startup(
                             "nvim-tree",
                             "quickfix",
                             "symbols-outline",
+                            "trouble",
                         }
                     })
                 end
@@ -327,16 +274,17 @@ require("packer").startup(
                 config = function()
                     require("bufferline").setup({
                         options = {
+                            separator_style = "thick",
                             offsets = {
                                 {
                                     filetype = "NvimTree",
-                                    text = "Explorer",
+                                    text = "",
                                     -- highlight = "Directory",
                                     -- text_align = "left",
                                 },
                                 {
                                     filetype = "Outline",
-                                    text = "Outline",
+                                    text = "",
                                 }
                             }
                         }
@@ -430,17 +378,58 @@ require("packer").startup(
                     require("nvim-tree").setup({
                         hijack_cursor = true,
                         view = {
-                            mappings = {
-                                list = {
-                                    { key = "s", action = "vsplit" },
-                                    -- { key = 'l', action = "preview" },
-                                },
+                            float = {
+                                enable = false,
+                                open_win_config = function()
+                                    local HEIGHT_RATIO = 0.8
+                                    local WIDTH_RATIO = 0.5
+
+                                    local screen_w = vim.opt.columns:get()
+                                    local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
+                                    local window_w = screen_w * WIDTH_RATIO
+                                    local window_h = screen_h * HEIGHT_RATIO
+                                    local window_w_int = math.floor(window_w)
+                                    local window_h_int = math.floor(window_h)
+                                    local center_x = (screen_w - window_w) / 2
+                                    local center_y = ((vim.opt.lines:get() - window_h) / 2) - vim.opt.cmdheight:get()
+                                    return {
+                                        border = 'rounded',
+                                        relative = 'editor',
+                                        row = center_y,
+                                        col = center_x,
+                                        width = window_w_int,
+                                        height = window_h_int,
+                                    }
+                                end,
                             },
+                            -- width = function()
+                            --     local WIDTH_RATIO = 0.5
+                            --     return math.floor(vim.opt.columns:get() * WIDTH_RATIO)
+                            -- end
                         },
+                        renderer = {
+                            indent_markers = {
+                                enable = true,
+                            }
+                        },
+                        on_attach = function(bufnr)
+                            local api = require("nvim-tree.api")
+                            api.config.mappings.default_on_attach(bufnr)
+
+                            local function opts(desc)
+                                return {
+                                    desc = "nvim-tree: " .. desc,
+                                    buffer = bufnr,
+                                    noremap = true,
+                                    silent = true,
+                                    nowait = true
+                                }
+                            end
+                            vim.keymap.set("n", "s", api.node.open.vertical, opts("Open: Vertical Split"))
+                        end,
                     })
 
                     vim.keymap.set("n", "<Leader>n", function()
-                        -- handle [No Name] buffer
                         if vim.api.nvim_buf_get_name(0) == "" then
                             vim.cmd("NvimTreeFindFileToggle")
                         else
@@ -459,6 +448,22 @@ require("packer").startup(
                     vim.cmd("highlight! link FocusedSymbol BlueItalic")
                     vim.keymap.set("n", "<Leader>t", "<Cmd>SymbolsOutline<CR>", { silent = true })
                 end
+            },
+            {
+                "glepnir/lspsaga.nvim",
+                requires = {
+                    "nvim-tree/nvim-web-devicons",
+                    "nvim-treesitter/nvim-treesitter",
+                },
+                opt = true,
+                event = "LspAttach",
+                config = function()
+                    require("lspsaga").setup({
+                        symbol_in_winbar = {
+                            enable = false
+                        }
+                    })
+                end,
             },
             {
                 "nvim-telescope/telescope.nvim",
@@ -710,6 +715,16 @@ require("packer").startup(
 
             -- {{{ ---------------- LSP ----------------
             {
+                "neovim/nvim-lspconfig",
+                config = function()
+                    -- global lsp diagnostic config
+                    vim.diagnostic.config({
+                        virtual_text = false,
+                        severity_sort = true,
+                    })
+                end
+            },
+            {
                 "williamboman/mason.nvim",
                 config = function()
                     require("mason").setup()
@@ -717,18 +732,19 @@ require("packer").startup(
             },
             {
                 "williamboman/mason-lspconfig.nvim",
-                config = function()
-                    require("mason-lspconfig").setup()
-                end
-            },
-            {
-                "neovim/nvim-lspconfig",
                 requires = {
+                    "neovim/nvim-lspconfig",
+                    "williamboman/mason.nvim",
                     "hrsh7th/cmp-nvim-lsp",
                     "RRethy/vim-illuminate",
-                    "nanotee/nvim-lsp-basics"
+                    "nanotee/nvim-lsp-basics",
+                },
+                after = {
+                    "mason.nvim",
                 },
                 config = function()
+                    require("mason-lspconfig").setup()
+
                     local function lsp_on_attach(client, bufnr)
                         vim.keymap.set("n", "<Leader>g<Space>", vim.lsp.buf.definition, { silent = true, buffer = bufnr })
                         -- vim.keymap.set("n", "<Leader>gr", require("telescope").lsp_references, { silent = true, buffer = bufnr })
@@ -762,12 +778,6 @@ require("packer").startup(
 
                     local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-                    -- global lsp diagnostic config
-                    vim.diagnostic.config({
-                        virtual_text = false,
-                        severity_sort = true,
-                    })
-
                     local function lsp_config(custom)
                         local settings = {
                             on_attach = lsp_on_attach,
@@ -787,118 +797,100 @@ require("packer").startup(
                         return settings
                     end
 
-                    require("lspconfig").pyright.setup(
-                        lsp_config({
-                            settings = {
-                                pyright = {
+                    require("mason-lspconfig").setup_handlers({
+                        function(server_name)
+                            require("lspconfig")[server_name].setup(lsp_config({}))
+                        end,
+                        pyright = function()
+                            require("lspconfig").pyright.setup(
+                                lsp_config({
+                                    settings = {
+                                        pyright = {
 
-                                },
-                                python = {
-                                    analysis = {
-                                        diagnosticMode = "openFilesOnly",
-                                        typeCheckingMode = "off",
-                                    },
-                                },
-                            }
-                        })
-                    )
-
-                    require("lspconfig").gopls.setup(
-                        lsp_config({
-                            settings = {
-                                gopls = {
-                                    gofumpt = true,
-                                    analyses = {
-                                        fieldalignment = true,
-                                        nilness = true,
-                                        shadow = true,
-                                        unusedparams = true,
-                                        unusedwrite = true,
-                                        useany = true,
-                                        unusedvariable = true,
-                                    },
-                                    staticcheck = true,
-                                }
-                            }
-                        })
-                    )
-
-                    require("lspconfig").lua_ls.setup(
-                        lsp_config({
-                            settings = {
-                                Lua = {
-                                    runtime = {
-                                        version = "LuaJIT",
-                                    },
-                                    completion = {
-                                        callSnippet = "Replace",
-                                        -- displayContext = 10,
-                                    },
-                                    format = {
-                                        defaultConfig = {
-                                            indent_style = "space",
-                                            quote_style = "double",
-                                            enable_check_codestyle = true,
+                                        },
+                                        python = {
+                                            analysis = {
+                                                diagnosticMode = "openFilesOnly",
+                                                typeCheckingMode = "off",
+                                            },
+                                        },
+                                    }
+                                })
+                            )
+                        end,
+                        gopls = function()
+                            require("lspconfig").gopls.setup(
+                                lsp_config({
+                                    settings = {
+                                        gopls = {
+                                            gofumpt = true,
+                                            analyses = {
+                                                fieldalignment = true,
+                                                nilness = true,
+                                                shadow = true,
+                                                unusedparams = true,
+                                                unusedwrite = true,
+                                                useany = true,
+                                                unusedvariable = true,
+                                            },
+                                            staticcheck = true,
                                         }
+                                    }
+                                })
+                            )
+                        end,
+                        lua_ls = function()
+                            require("lspconfig").lua_ls.setup(
+                                lsp_config({
+                                    settings = {
+                                        Lua = {
+                                            runtime = {
+                                                version = "LuaJIT",
+                                            },
+                                            completion = {
+                                                callSnippet = "Replace",
+                                                -- displayContext = 10,
+                                            },
+                                            format = {
+                                                defaultConfig = {
+                                                    indent_style = "space",
+                                                    quote_style = "double",
+                                                    enable_check_codestyle = true,
+                                                }
+                                            },
+                                            diagnostics = {
+                                                disable = {},
+                                                globals = { "vim" },
+                                            },
+                                            workspace = {
+                                                -- library = vim.api.nvim_get_runtime_file("", true),
+                                            },
+                                            telemetry = {
+                                                enable = false,
+                                            },
+                                        },
                                     },
-                                    diagnostics = {
-                                        disable = {},
-                                        globals = { "vim" },
-                                    },
-                                    workspace = {
-                                        -- library = vim.api.nvim_get_runtime_file("", true),
-                                    },
-                                    telemetry = {
-                                        enable = false,
-                                    },
-                                },
-                            },
-                        })
-                    )
-
-                    require("lspconfig").erlangls.setup(
-                        lsp_config({})
-                    )
-
-                    require("lspconfig").tsserver.setup(
-                        lsp_config({})
-                    )
-
-                    require("lspconfig").html.setup(
-                        lsp_config({})
-                    )
-
-                    require("lspconfig").sqlls.setup(
-                        lsp_config({})
-                    )
-
-                    require("lspconfig").marksman.setup(
-                        lsp_config({})
-                    )
-
-                    require("lspconfig").grammarly.setup(
-                        lsp_config({})
-                    )
-
-                    require("lspconfig").yamlls.setup(
-                        lsp_config({
-                            settings = {
-                                yaml = {
-                                    format = {
-                                        enable = true,
-                                    },
-                                    validate = true,
-                                    hover = true,
-                                    completion = true
-                                }
-                            }
-                        })
-                    )
-
-                    require("Lspconfig").jsonls.setup(
-                        lsp_config({})
-                    )
-                end,
+                                })
+                            )
+                        end,
+                        yamlls = function()
+                            require("lspconfig").yamlls.setup(
+                                lsp_config({
+                                    settings = {
+                                        yaml = {
+                                            format = {
+                                                enable = true,
+                                            },
+                                            validate = true,
+                                            hover = true,
+                                            completion = true
+                                        }
+                                    }
+                                })
+                            )
+                        end
+                    })
+                end
             },
             {
                 -- lsp progress bar
@@ -979,7 +971,6 @@ require("packer").startup(
             },
             {
                 "kosayoda/nvim-lightbulb",
-                requires = { "antoinemadec/FixCursorHold.nvim" },
                 config = function()
                     require("nvim-lightbulb").setup({
                         autocmd = {
@@ -1025,6 +1016,15 @@ require("packer").startup(
             -- {{{ ---------------- Git ----------------
             {
                 "tpope/vim-fugitive",
+            },
+            {
+                "TimUntersberger/neogit",
+                requires = {
+                    "nvim-lua/plenary.nvim"
+                },
+                config = function()
+                    require("neogit").setup()
+                end
             },
             {
                 "lewis6991/gitsigns.nvim",
@@ -1079,10 +1079,16 @@ require("packer").startup(
 -- Neovide GUI {{{
 do
     if vim.g.neovide ~= nil then
-        vim.g.neovide_cursor_vfx_mode = "railgun"
-        vim.g.neovide_scroll_animation_Length = 0.1
-
         vim.opt.guifont = "Monaco Nerd Font:h14"
+        vim.g.neovide_no_idle = true
+        -- vim.g.neovide_cursor_vfx_mode = "railgun"
+        -- vim.g.neovide_scroll_animation_Length = 0.1
+
+        vim.g.neovide_input_use_logo = 1
+        vim.api.nvim_set_keymap("", "<D-v>", "+p<CR>", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap("!", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap("t", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap("v", "<D-v>", "<C-R>+", { noremap = true, silent = true })
     end
 end
 -- }}}
