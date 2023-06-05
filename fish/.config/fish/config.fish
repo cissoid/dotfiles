@@ -9,9 +9,13 @@ if status is-interactive
     end
 
     # environment variables
-    set -Ux LC_ALL en_US.UTF-8
-    set -Ux LC_TYPES en_US.UTF-8
-    set -Ux LANG en_US.UTF-8
+    set -gx LC_ALL en_US.UTF-8
+    set -gx LC_TYPES en_US.UTF-8
+    set -gx LANG en_US.UTF-8
+    if type -q nvim
+        set -gx EDITOR nvim
+    end
+    fish_add_path -P $HOME/.local/bin
 
     # aliases
 
@@ -32,7 +36,7 @@ if status is-interactive
     end
     if type -q bat
         alias cat="bat"
-        set -Ux MANPAGER "sh -c 'col -bx | bat -l man -p'"
+        set -gx MANPAGER "sh -c 'col -bx | bat -l man -p'"
     end
 
     alias proxycall="http_proxy=http://127.0.0.1:1081 https_proxy=http://127.0.0.1:1081 all_proxy=http://127.0.0.1:1081"
@@ -51,4 +55,11 @@ if status is-interactive
     if type -q fzf_configure_bindings
         fzf_configure_bindings --directory=\cf --git_log=\\g --processes=\\p
     end
+
+    # neovide environment
+    if type -q neovide
+        # set -gx NEOVIDE_FRAME buttonless
+        # set -gx NEOVIDE_MULTIGRID 0
+    end
 end
+

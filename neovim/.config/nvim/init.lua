@@ -585,12 +585,16 @@ require("packer").startup(
                     { "onsails/lspkind.nvim" },
                     { "L3MON4D3/LuaSnip" },
                     { "saadparwaiz1/cmp_luasnip" },
+                    -- { "zbirenbaum/copilot-cmp" },
                 },
                 after = { "nvim-autopairs" },
                 config = function()
                     local cmp = require("cmp")
 
                     local function has_words_before()
+                        if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
+                            return false
+                        end
                         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
                         return col ~= 0 and
                             vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
@@ -651,11 +655,14 @@ require("packer").startup(
                                         luasnip = "[LuaSnip]",
                                         nvim_lua = "[Lua]",
                                         latex_symbols = "[Latex]",
+                                        copilot = "[Copilot]",
                                     },
+                                    symbol_map = { Copilot = "" },
                                 })(entry, vim_item)
                             end,
                         },
                         sources = cmp.config.sources({
+                            -- { name = "copilot" },
                             { name = "nvim_lsp" },
                             { name = "luasnip" },
                             {
@@ -696,11 +703,47 @@ require("packer").startup(
                         },
                     })
 
+                    cmp.event:on("menu_opened", function()
+                        vim.b.copilot_suggestion_hidden = true
+                    end)
+                    cmp.event:on("menu_closed", function()
+                        vim.b.copilot_suggestion_hidden = false
+                    end)
                     cmp.event:on(
                         "confirm_done",
                         require("nvim-autopairs.completion.cmp").on_confirm_done()
                     )
                 end
+            },
+            {
+                "zbirenbaum/copilot.lua",
+                disable=True,
+                cmd = "Copilot",
+                event = "InsertEnter",
+                config = function()
+                    require("copilot").setup({
+                        suggestion = {
+                            enabled = true,
+                            auto_trigger = true,
+                            keymap = {
+                                accept = "<Leader><Tab>",
+                                next = "<Leader>]",
+                                prev = "<Leader>[",
+                                dismiss = "<Leader><Space>",
+                            }
+                        },
+                        panel = { enabled = true }
+                    })
+                end
+            },
+            {
+                "zbirenbaum/copilot-cmp",
+                disable=true,
+                after = { "copilot.lua" },
+                config = function()
+                    vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
+                    require("copilot_cmp").setup()
+                end,
             },
             {
                 "L3MON4D3/LuaSnip",
@@ -776,21 +819,22 @@ require("packer").startup(
                         require("lsp_basics").make_lsp_commands(client, bufnr)
                     end
 
-                    local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-                    local function lsp_config(custom)
+                    local function lsp_config(custom, override_encoding)
                         local settings = {
                             on_attach = lsp_on_attach,
                             flags = {
                                 debounce_text_changes = 150,
                             },
-                            capabilities = cmp_capabilities,
+                            capabilities = require("cmp_nvim_lsp").default_capabilities(),
                             handlers = {
                                 ["textDocument/publishDiagnostics"] = vim.lsp.with(
                                     vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
                                 )
                             },
                         }
+                        if override_encoding ~= nil then
+                            settings.capabilities.offsetEncoding = { "utf-16" }
+                        end
                         for k, v in pairs(custom) do
                             settings[k] = v
                         end
@@ -800,6 +844,9 @@ require("packer").startup(
                     require("mason-lspconfig").setup_handlers({
                         function(server_name)
                             require("lspconfig")[server_name].setup(lsp_config({}))
+                        end,
+                        clangd = function()
+                            require("lspconfig").clangd.setup(lsp_config({}, true))
                         end,
                         pyright = function()
                             require("lspconfig").pyright.setup(
@@ -927,6 +974,9 @@ require("packer").startup(
                 "jose-elias-alvarez/null-ls.nvim",
                 config = function()
                     require("null-ls").setup({
+                        on_init = function(new_client, _)
+                            new_client.offset_encoding = 'utf-16'
+                        end,
                         sources = {
                             -- common
                             require("null-ls").builtins.code_actions.refactoring,
