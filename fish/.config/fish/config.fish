@@ -56,6 +56,11 @@ if status is-interactive
         fzf_configure_bindings --directory=\cf --git_log=\\g --processes=\\p
     end
 
+    # zoxide
+    if type -q zoxide
+        zoxide init fish | source
+    end
+
     # neovide environment
     if type -q neovide
         # set -gx NEOVIDE_FRAME buttonless
