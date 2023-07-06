@@ -46,6 +46,11 @@ if status is-interactive
         starship init fish | source
     end
 
+    # direnv
+    if type -q direnv
+        direnv hook fish | source
+    end
+
     # asdf hook
     if not set -q ASDF_DIR; and type -q brew; and set -l asdf "$(brew --prefix)/opt/asdf/libexec/asdf.fish"; and test -e $asdf
         source $asdf
