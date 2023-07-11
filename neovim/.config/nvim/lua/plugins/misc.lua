@@ -1,15 +1,5 @@
 return {
     {
-        "akinsho/toggleterm.nvim",
-        keys = {
-            { "<C-t>", "<Cmd>ToggleTerm<CR>", mode = { "n", "t" }, silent = true, desc = "ToggleTerm" },
-        },
-        opts = {
-            direction = "float",
-        }
-    },
-
-    {
         "danymat/neogen",
         version = "*",
         dependencies = {
@@ -24,6 +14,25 @@ return {
         ft = "markdown",
         cmd = "Glow",
         config = true,
+    },
+
+    {
+        "toppair/peek.nvim",
+        enabled = false,
+        build = "deno task --quiet build:fast",
+        cmd = "PeekToggle",
+        config = function()
+            require("peek").setup({})
+
+            vim.api.nvim_create_user_command("PeekToggle", function()
+                local peek = require("peek")
+                if peek.is_open() then
+                    peek.close()
+                else
+                    peek.open()
+                end
+            end, {})
+        end,
     },
 
     {
@@ -44,15 +53,6 @@ return {
             normal_hl = "Normal",
             hint_hl = "Bold",
             border = "single"
-        },
-    },
-
-    {
-        "jinh0/eyeliner.nvim",
-        event = "VeryLazy",
-        opts = {
-            highlight_on_key = true,
-            dim = true,
         },
     },
 }

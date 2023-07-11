@@ -198,29 +198,6 @@ return {
     },
 
     {
-        "folke/trouble.nvim", -- better diagnostics list
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        keys = {
-            {
-                "<Leader>ss",
-                function()
-                    vim.cmd("TroubleToggle")
-                    vim.cmd("cclose")
-                    vim.cmd("lclose")
-                end,
-                silent = true,
-                desc = "trouble toggle",
-            },
-        },
-        opts = {
-
-            mode = "document_diagnostics",
-            auto_close = true,
-            auto_preview = false,
-        },
-    },
-
-    {
         "jose-elias-alvarez/null-ls.nvim",
         event = "VeryLazy",
         config = function()

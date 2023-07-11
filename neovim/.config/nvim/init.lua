@@ -36,7 +36,7 @@ do
         wildmenu = true,
         wildmode = "list:longest,full",
         wildignore = "*.o,*.swp,*.bak,*.pyc,*.zip",
-        lazyredraw = true,
+        lazyredraw = false,
         -- ttyfast = true,
         showmatch = true,
         textwidth = 0,
@@ -91,7 +91,6 @@ end
 -- }}}
 
 -- {{{ Plugins
--- {{{ lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
@@ -104,7 +103,6 @@ if not vim.loop.fs_stat(lazypath) then
     })
 end
 vim.opt.rtp:prepend(lazypath)
--- }}}
 
 require("lazy").setup(
     {
@@ -124,6 +122,9 @@ require("lazy").setup(
         },
         install = {
             colorscheme = { "sonokai" }
+        },
+        change_detection = {
+            enabled = false,
         },
         performance = {
             cache = {

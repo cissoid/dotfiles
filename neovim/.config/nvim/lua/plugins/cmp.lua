@@ -11,15 +11,19 @@ return {
             { "hrsh7th/cmp-nvim-lsp-signature-help" },
             { "hrsh7th/cmp-nvim-lsp-document-symbol" },
             {
-                "L3MON4D3/LuaSnip",
+                "saadparwaiz1/cmp_luasnip",
                 dependencies = {
-                    "rafamadriz/friendly-snippets",
+                    {
+                        "L3MON4D3/LuaSnip",
+                        dependencies = {
+                            "rafamadriz/friendly-snippets",
+                        },
+                        config = function()
+                            require("luasnip.loaders.from_vscode").lazy_load()
+                        end,
+                    },
                 },
-                config = function()
-                    require("luasnip.loaders.from_vscode").lazy_load()
-                end,
             },
-            { "saadparwaiz1/cmp_luasnip" },
             { "onsails/lspkind.nvim" },
             -- { "zbirenbaum/copilot-cmp" },
             -- { "windwp/nvim-autopairs" },
@@ -145,10 +149,7 @@ return {
             cmp.event:on("menu_closed", function()
                 vim.b.copilot_suggestion_hidden = false
             end)
-            cmp.event:on(
-                "confirm_done",
-                require("nvim-autopairs.completion.cmp").on_confirm_done()
-            )
+            cmp.event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done())
         end
     },
 

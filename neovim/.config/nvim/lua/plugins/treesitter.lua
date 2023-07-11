@@ -6,12 +6,8 @@ return {
             require("nvim-treesitter.install").update({ with_sync = true })
         end,
         opts = {
-            ensure_installed = {
-                -- "bash", "c", "cmake", "comment", "cpp", "css", "dockerfile", "erlang", "go",
-                -- "gomod", "gowork", "help", "html", "http", "java", "javascript", "jsdoc", "json", "jsonc",
-                -- "latex", "lua", "make", "markdown", "markdown_inline", "php", "phpdoc", "proto", "python",
-                -- "regex", "rust", "scheme", "scss", "toml", "tsx", "typescript", "vim", "vue", "yaml",
-            },
+            ensure_installed = {},
+            auto_install = true,
             highlight = {
                 enable = true,
                 -- additional_vim_regex_highlighting = true,
