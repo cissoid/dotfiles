@@ -35,6 +35,7 @@ if status is-interactive
         alias rm="trash -i"
     end
     if type -q bat
+        set -gx BAT_THEME "Monokai Extended"
         alias cat="bat"
         set -gx MANPAGER "sh -c 'col -bx | bat -l man -p'"
     end
