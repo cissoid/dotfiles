@@ -87,6 +87,12 @@ do
     -- {{{ Base functions
     -- vim.api.nvim_add_user_command("SudoW", ":w !sudo tee % >/dev/null")
     -- }}}
+
+    --- {{{ AutoCmd
+    vim.api.nvim_create_augroup("RememberFold", {})
+    vim.api.nvim_create_autocmd("BufWinLeave", { group = "RememberFold", pattern = "*.*", command = "mkview" })
+    vim.api.nvim_create_autocmd("BufWinEnter", { group = "RememberFold", pattern = "*.*", command = "silent! loadview" })
+    --}}}
 end
 -- }}}
 

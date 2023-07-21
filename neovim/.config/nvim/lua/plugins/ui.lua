@@ -394,6 +394,7 @@ return {
             highlight = {
                 keyword = "wide",
                 after = "",
+                pattern = ".*<(KEYWORDS)\\s*(:|\\()",
             },
         },
     },

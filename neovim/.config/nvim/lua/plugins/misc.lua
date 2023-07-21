@@ -44,7 +44,7 @@ return {
     },
 
     {
-        "https://gitlab.com/yorickpeterse/nvim-window.git", -- quick window jump
+        "yorickpeterse/nvim-window", -- quick window jump
         keys = {
             { "<Leader>w", function() require("nvim-window").pick() end, silent = true, desc = "quick window jump" },
         },
@@ -54,5 +54,11 @@ return {
             hint_hl = "Bold",
             border = "single"
         },
+    },
+
+    {
+        "sindrets/winshift.nvim",
+        cmd = "WinShift",
+        opts = {},
     },
 }
