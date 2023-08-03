@@ -20,7 +20,7 @@ if status is-interactive
     # aliases
 
     # grc aliases
-    if type -q brew; and test -e "$(brew --prefix)/etc/grc.fish"
+    if type -q brew && test -e "$(brew --prefix)/etc/grc.fish"
         source "$(brew --prefix)/etc/grc.fish"
     end
 
@@ -53,7 +53,7 @@ if status is-interactive
     end
 
     # asdf hook
-    if not set -q ASDF_DIR; and type -q brew; and set -l asdf "$(brew --prefix)/opt/asdf/libexec/asdf.fish"; and test -e $asdf
+    if not set -q ASDF_DIR && type -q brew && set -l asdf "$(brew --prefix)/opt/asdf/libexec/asdf.fish" && test -e $asdf
         source $asdf
     end
 
@@ -65,6 +65,16 @@ if status is-interactive
     # zoxide
     if type -q zoxide
         zoxide init fish | source
+    end
+
+    if type -q pdm
+        function pdm --inherit-variable pdm --wraps pdm
+            if isatty 1 && test "$(count $argv)" -eq 1 && test "$argv[1]" = "shell"
+                fish -C "eval $(pdm venv activate)"
+            else
+                eval command pdm $argv
+            end
+        end
     end
 
     # neovide environment
