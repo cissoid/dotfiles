@@ -29,8 +29,6 @@ return {
         },
         event = { "BufReadPre", "BufNewFile" },
         config = function()
-            require("mason-lspconfig").setup()
-
             local function lsp_on_attach(client, bufnr)
                 vim.keymap.set("n", "<Leader>g<Space>", vim.lsp.buf.definition, { silent = true, buffer = bufnr })
                 -- vim.keymap.set("n", "<Leader>gr", require("telescope").lsp_references, { silent = true, buffer = bufnr })
@@ -84,101 +82,109 @@ return {
                 return settings
             end
 
-            require("mason-lspconfig").setup_handlers({
-                function(server_name)
-                    require("lspconfig")[server_name].setup(lsp_config({}))
-                end,
-                clangd = function()
-                    require("lspconfig").clangd.setup(lsp_config({}, true))
-                end,
-                pyright = function()
-                    require("lspconfig").pyright.setup(
-                        lsp_config({
-                            settings = {
-                                pyright = {
+            require("mason-lspconfig").setup({
+                automatic_installation = true,
+                handlers = {
+                    function(server_name)
+                        require("lspconfig")[server_name].setup(lsp_config({}))
+                    end,
 
-                                },
-                                python = {
-                                    analysis = {
-                                        diagnosticMode = "openFilesOnly",
-                                        typeCheckingMode = "off",
+                    clangd = function()
+                        require("lspconfig").clangd.setup(lsp_config({}, true))
+                    end,
+
+                    pyright = function()
+                        require("lspconfig").pyright.setup(
+                            lsp_config({
+                                settings = {
+                                    pyright = {
+
                                     },
-                                },
-                            }
-                        })
-                    )
-                end,
-                gopls = function()
-                    require("lspconfig").gopls.setup(
-                        lsp_config({
-                            settings = {
-                                gopls = {
-                                    gofumpt = true,
-                                    analyses = {
-                                        fieldalignment = true,
-                                        nilness = true,
-                                        shadow = true,
-                                        unusedparams = true,
-                                        unusedwrite = true,
-                                        useany = true,
-                                        unusedvariable = true,
+                                    python = {
+                                        analysis = {
+                                            diagnosticMode = "openFilesOnly",
+                                            typeCheckingMode = "off",
+                                        },
                                     },
-                                    staticcheck = true,
                                 }
-                            }
-                        })
-                    )
-                end,
-                lua_ls = function()
-                    require("lspconfig").lua_ls.setup(
-                        lsp_config({
-                            settings = {
-                                Lua = {
-                                    runtime = {
-                                        version = "LuaJIT",
-                                    },
-                                    completion = {
-                                        callSnippet = "Replace",
-                                        -- displayContext = 10,
-                                    },
-                                    format = {
-                                        defaultConfig = {
-                                            indent_style = "space",
-                                            quote_style = "double",
-                                            enable_check_codestyle = true,
-                                        }
-                                    },
-                                    diagnostics = {
-                                        disable = {},
-                                        globals = { "vim" },
-                                    },
-                                    workspace = {
-                                        -- library = vim.api.nvim_get_runtime_file("", true),
-                                    },
-                                    telemetry = {
-                                        enable = false,
+                            })
+                        )
+                    end,
+
+                    gopls = function()
+                        require("lspconfig").gopls.setup(
+                            lsp_config({
+                                settings = {
+                                    gopls = {
+                                        gofumpt = true,
+                                        analyses = {
+                                            fieldalignment = true,
+                                            nilness = true,
+                                            shadow = true,
+                                            unusedparams = true,
+                                            unusedwrite = true,
+                                            useany = true,
+                                            unusedvariable = true,
+                                        },
+                                        staticcheck = true,
+                                    }
+                                }
+                            })
+                        )
+                    end,
+
+                    lua_ls = function()
+                        require("lspconfig").lua_ls.setup(
+                            lsp_config({
+                                settings = {
+                                    Lua = {
+                                        runtime = {
+                                            version = "LuaJIT",
+                                        },
+                                        completion = {
+                                            callSnippet = "Replace",
+                                            -- displayContext = 10,
+                                        },
+                                        format = {
+                                            defaultConfig = {
+                                                indent_style = "space",
+                                                quote_style = "double",
+                                                enable_check_codestyle = true,
+                                            }
+                                        },
+                                        diagnostics = {
+                                            disable = {},
+                                            globals = { "vim" },
+                                        },
+                                        workspace = {
+                                            -- library = vim.api.nvim_get_runtime_file("", true),
+                                        },
+                                        telemetry = {
+                                            enable = false,
+                                        },
                                     },
                                 },
-                            },
-                        })
-                    )
-                end,
-                yamlls = function()
-                    require("lspconfig").yamlls.setup(
-                        lsp_config({
-                            settings = {
-                                yaml = {
-                                    format = {
-                                        enable = true,
-                                    },
-                                    validate = true,
-                                    hover = true,
-                                    completion = true
+                            })
+                        )
+                    end,
+
+                    yamlls = function()
+                        require("lspconfig").yamlls.setup(
+                            lsp_config({
+                                settings = {
+                                    yaml = {
+                                        format = {
+                                            enable = true,
+                                        },
+                                        validate = true,
+                                        hover = true,
+                                        completion = true
+                                    }
                                 }
-                            }
-                        })
-                    )
-                end
+                            })
+                        )
+                    end,
+                },
             })
         end
     },
@@ -201,47 +207,61 @@ return {
         "jose-elias-alvarez/null-ls.nvim",
         event = "VeryLazy",
         config = function()
-            require("null-ls").setup({
+            local null_ls = require("null-ls")
+            null_ls.setup({
                 on_init = function(new_client, _)
                     new_client.offset_encoding = 'utf-16'
                 end,
                 sources = {
                     -- common
-                    require("null-ls").builtins.code_actions.refactoring,
-                    require("null-ls").builtins.code_actions.shellcheck,
+                    null_ls.builtins.code_actions.cspell,
+                    null_ls.builtins.code_actions.refactoring,
+                    null_ls.builtins.code_actions.shellcheck,
                     -- python
-                    require("null-ls").builtins.diagnostics.flake8.with({
-                        args = {
-                            "--config", "~/.config/flake8", "--format", "default", "--stdin-display-name",
-                            "$FILENAME", "-"
-                        },
+                    null_ls.builtins.diagnostics.ruff.with({
+                        extra_args = { "--config", "~/.config/ruff.toml" },
                     }),
-                    require("null-ls").builtins.diagnostics.pylint,
-                    require("null-ls").builtins.formatting.isort,
-                    require("null-ls").builtins.formatting.black.with({
-                        args = { "--line-length", "120", "--stdin-filename", "$FILENAME", "--quiet", "-" },
+                    null_ls.builtins.diagnostics.flake8.with({
+                        extra_args = { "--config", "~/.config/flake8" },
+                    }),
+                    null_ls.builtins.diagnostics.pylint,
+                    null_ls.builtins.formatting.isort,
+                    null_ls.builtins.formatting.black.with({
+                        extra_args = { "--line-length", "120" },
                     }),
                     -- go
-                    require("null-ls").builtins.diagnostics.golangci_lint,
-                    require("null-ls").builtins.diagnostics.revive,
-                    require("null-ls").builtins.diagnostics.staticcheck,
-                    require("null-ls").builtins.formatting.gofumpt,
-                    require("null-ls").builtins.formatting.goimports,
+                    null_ls.builtins.diagnostics.golangci_lint,
+                    null_ls.builtins.diagnostics.revive,
+                    null_ls.builtins.diagnostics.staticcheck,
+                    null_ls.builtins.formatting.gofumpt,
+                    null_ls.builtins.formatting.goimports,
                     -- lua
-                    -- require("null-ls").builtins.formatting.stylua,
+                    -- null_ls.builtins.formatting.stylua,
                     -- protobuf
-                    require("null-ls").builtins.diagnostics.buf,
-                    require("null-ls").builtins.diagnostics.protoc_gen_lint,
-                    require("null-ls").builtins.diagnostics.protolint,
+                    null_ls.builtins.diagnostics.buf,
+                    null_ls.builtins.diagnostics.protoc_gen_lint,
+                    null_ls.builtins.diagnostics.protolint,
                     -- sql
-                    require("null-ls").builtins.diagnostics.sqlfluff,
+                    null_ls.builtins.diagnostics.sqlfluff,
                     -- json
-                    require("null-ls").builtins.formatting.prettier,
+                    null_ls.builtins.formatting.prettier,
                     -- fish
-                    require("null-ls").builtins.diagnostics.fish,
+                    null_ls.builtins.diagnostics.fish,
                 },
             })
         end,
+    },
+
+    {
+        "jay-babu/mason-null-ls.nvim",
+        event = "VeryLazy",
+        dependencies = {
+            { "williamboman/mason.nvim" },
+            { "jose-elias-alvarez/null-ls.nvim" },
+        },
+        opts = {
+            automatic_installation = true,
+        },
     },
 
     {

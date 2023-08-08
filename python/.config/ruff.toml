@@ -1,0 +1,15 @@
+select = [
+    "F",     # pyflakes
+    "PL",    # pylint
+    "W",     # pycodestyle
+    "E",     # pycodestyle
+    "C90",   # mccabe
+    "UP",    # pyupgrade
+    "ASYNC", # flake8-async
+    "B",     # flake8-bugbear
+    "A",     # flake8-builtins
+    "C4",    # flake8-comprehensions
+    "SIM",   # flake8-simplify
+]
+
+line-length = 120

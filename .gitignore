@@ -1,31 +1,59 @@
-# Sublime Text ignore
-sublime/Package Control.cache
-sublime/Package Control.last-run
-sublime/Package Control.*bundle
-sublime/TabsExtra
+# vim: foldmethod=marker foldlevel=0
 
-# vim ignore
-vim/bundle
-vim/.vim/.netrwhist
-vim/.vim/autoload/plug.vim.old
-vim/.vim/view/
+# Global/macOS {{{
 
-# neovim ignore
-neovim/.config/nvim/plugin
-neovim/.local/share/nvim/
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
 
-# idea ignore
-idea/.idea/port
-idea/.idea/port.lock
-idea/.idea/*.key
-idea/.idea/options/*.xml
-!idea/.idea/options/editor.codeinsight.xml
-!idea/.idea/options/editor.xml
-!idea/.idea/options/keymap.xml
-!idea/.idea/options/laf.xml
-!idea/.idea/options/ui.lnf.xml
-!idea/.idea/options/vim_settings.xml
+# Icon must end with two \r
+Icon
 
-# fish ignore
-fish/.config/fish/completions/*
-fish/.config/fish/functions/*
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# }}}
+
+# Global/Linux {{{
+
+*~
+
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
+
+# }}}
+
+# fish {{{
+fish/.config/fish/completions
+fish/.config/fish/functions
+# }}}
+
+# neovim {{{
+neovim/.config/nvim/lazy-lock.json
+# }}}
