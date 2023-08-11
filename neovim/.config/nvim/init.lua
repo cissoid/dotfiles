@@ -145,15 +145,33 @@ require("lazy").setup(
 do
     if vim.g.neovide ~= nil then
         vim.opt.guifont = "Monaco Nerd Font:h14"
-        vim.g.neovide_no_idle = true
-        -- vim.g.neovide_cursor_vfx_mode = "railgun"
-        -- vim.g.neovide_scroll_animation_Length = 0.1
+        vim.g.neovide_remember_window_size = true
+        vim.g.neovide_input_macos_alt_is_meta = true
 
         vim.g.neovide_input_use_logo = 1
         vim.api.nvim_set_keymap("", "<D-v>", "+p<CR>", { noremap = true, silent = true })
         vim.api.nvim_set_keymap("!", "<D-v>", "<C-R>+", { noremap = true, silent = true })
         vim.api.nvim_set_keymap("t", "<D-v>", "<C-R>+", { noremap = true, silent = true })
         vim.api.nvim_set_keymap("v", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+
+        -- local function set_ime(args)
+        --     if args.event:match("Enter$") then
+        --         vim.g.neovide_input_ime = true
+        --     else
+        --         vim.g.neovide_input_ime = false
+        --     end
+        -- end
+        -- local ime_input = vim.api.nvim_create_augroup("ime_input", { clear = true })
+        -- vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave" }, {
+        --     group = ime_input,
+        --     pattern = "*",
+        --     callback = set_ime
+        -- })
+        -- vim.api.nvim_create_autocmd({ "CmdlineEnter", "CmdlineLeave" }, {
+        --     group = ime_input,
+        --     pattern = "[:/\\?]",
+        --     callback = set_ime
+        -- })
     end
 end
 -- }}}

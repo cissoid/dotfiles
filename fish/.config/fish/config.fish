@@ -78,9 +78,9 @@ if status is-interactive
     end
 
     # neovide environment
-    if type -q neovide
+    # if type -q neovide
         # set -gx NEOVIDE_FRAME buttonless
         # set -gx NEOVIDE_MULTIGRID 0
-    end
+    # end
 end
 

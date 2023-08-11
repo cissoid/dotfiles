@@ -427,6 +427,7 @@ return {
 
     {
         "karb94/neoscroll.nvim",
+        enabled = function() return vim.g.neovide == nil end,
         event = "VeryLazy",
         config = true,
     },
