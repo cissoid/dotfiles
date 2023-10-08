@@ -127,6 +127,15 @@ return {
                                             unusedvariable = true,
                                         },
                                         staticcheck = true,
+                                        hints = {
+                                            assignVariableTypes = true,
+                                            compositeLiteralFields = true,
+                                            compositeLiteralTypes = true,
+                                            constantValues = true,
+                                            functionTypeParameters = true,
+                                            parameterNames = true,
+                                            rangeVariableTypes = true,
+                                        },
                                     }
                                 }
                             })
@@ -192,6 +201,7 @@ return {
     {
         -- lsp progress bar
         "j-hui/fidget.nvim",
+        enabled = false,
         event = "VeryLazy",
         branch = "legacy",
         config = function()
@@ -252,30 +262,34 @@ return {
         end,
     },
 
-    {
-        "jay-babu/mason-null-ls.nvim",
-        event = "VeryLazy",
-        dependencies = {
-            { "williamboman/mason.nvim" },
-            { "jose-elias-alvarez/null-ls.nvim" },
-        },
-        opts = {
-            automatic_installation = true,
-        },
-    },
-
-    {
-        "weilbith/nvim-code-action-menu",
-        cmd = "CodeActionMenu",
-        config = true,
-    },
+    -- {
+    --     "jay-babu/mason-null-ls.nvim",
+    --     event = "VeryLazy",
+    --     dependencies = {
+    --         { "williamboman/mason.nvim" },
+    --         { "jose-elias-alvarez/null-ls.nvim" },
+    --     },
+    --     opts = {
+    --         automatic_installation = false,
+    --     },
+    -- },
 
     {
         "kosayoda/nvim-lightbulb",
+        enabled = false,
         event = "LspAttach",
         opts = {
+            finder = {
+                layout = "normal",
+            },
+            callhierarchy = {
+                layout = "normal",
+            },
+            sign = {
+                enabled = true,
+            },
             autocmd = {
-                enable = true,
+                enabled = true,
             },
         },
     },
@@ -288,7 +302,9 @@ return {
         },
         event = "LspAttach",
         opts = {
-
+            lightbulb = {
+                enable = false,
+            },
             symbol_in_winbar = {
                 enable = false
             }

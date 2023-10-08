@@ -33,7 +33,7 @@ return {
 
     {
         "folke/flash.nvim",
-        event = "VeryLazy",
+        -- event = "VeryLazy",
         keys = {
             { "s",     function() require("flash").jump() end,   mode = { "n", "x", "o" } },
             -- { "S",     function() require("flash").treesitter() end, mode = { "n", "x", "o" } },
@@ -42,13 +42,16 @@ return {
             { "<C-s>", function() require("flash").toggle() end, mode = { "c" } },
         },
         opts = {
+            label = {
+                style = "overlay",
+            },
             modes = {
                 search = {
                     enabled = false,
                 },
                 char = {
                     jump_labels = true,
-                }
+                },
             },
         },
     },

@@ -12,4 +12,8 @@ select = [
     "SIM",   # flake8-simplify
 ]
 
+extend-ignore = [
+    "SIM108",
+]
+
 line-length = 120

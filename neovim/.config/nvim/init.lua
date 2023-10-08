@@ -10,7 +10,7 @@ do
         compatible = false,
         encoding = "utf-8",
         fileencodings = "ucs-bom,utf-8,utf-16,gbk,default,latin1",
-        -- updatetime = 200, -- CursorHold delay
+        updatetime = 1000, -- CursorHold delay
         errorbells = false, -- ignore error bells
         visualbell = false,
         -- backspace = "indent,eol,start", -- macOS seems don't have own backspace setting.
@@ -18,6 +18,8 @@ do
         mouse = "a",     -- enable mouse support
         completeopt = "menu,menuone,noselect",
         hidden = true,
+        clipboard = { "unnamedplus" },
+        shortmess="filnxtToOCFmrsc",
         ---------------- COLOR ----------------
         synmaxcol = 0,
         termguicolors = true, -- enable true color for terminal.
@@ -136,6 +138,10 @@ require("lazy").setup(
             cache = {
                 enabled = true,
             },
+            rtp = {
+                disabled_plugins = {
+                }
+            },
         },
     }
 )
@@ -144,34 +150,19 @@ require("lazy").setup(
 -- Neovide GUI {{{
 do
     if vim.g.neovide ~= nil then
-        vim.opt.guifont = "Monaco Nerd Font:h14"
+        vim.opt.guifont = "Monaco,Symbols Nerd Font Mono:h14"
         vim.g.neovide_remember_window_size = true
         vim.g.neovide_input_macos_alt_is_meta = true
 
         vim.g.neovide_input_use_logo = 1
+        vim.api.nvim_set_keymap("", "<D-c>", "+y<CR>", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap("!", "<D-c>", "+y<CR>", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap("v", "<D-c>", "+y<CR>", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap("t", "<D-c>", "+y<CR>", { noremap = true, silent = true })
         vim.api.nvim_set_keymap("", "<D-v>", "+p<CR>", { noremap = true, silent = true })
         vim.api.nvim_set_keymap("!", "<D-v>", "<C-R>+", { noremap = true, silent = true })
         vim.api.nvim_set_keymap("t", "<D-v>", "<C-R>+", { noremap = true, silent = true })
         vim.api.nvim_set_keymap("v", "<D-v>", "<C-R>+", { noremap = true, silent = true })
-
-        -- local function set_ime(args)
-        --     if args.event:match("Enter$") then
-        --         vim.g.neovide_input_ime = true
-        --     else
-        --         vim.g.neovide_input_ime = false
-        --     end
-        -- end
-        -- local ime_input = vim.api.nvim_create_augroup("ime_input", { clear = true })
-        -- vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave" }, {
-        --     group = ime_input,
-        --     pattern = "*",
-        --     callback = set_ime
-        -- })
-        -- vim.api.nvim_create_autocmd({ "CmdlineEnter", "CmdlineLeave" }, {
-        --     group = ime_input,
-        --     pattern = "[:/\\?]",
-        --     callback = set_ime
-        -- })
     end
 end
 -- }}}

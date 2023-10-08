@@ -6,7 +6,13 @@
 " ================================
 scriptencoding utf-8
 
-set surround
+set showmode
+
+" Plugins
+Plug 'easymotion/vim-easymotion'
+Plug 'preservim/nerdtree'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
 
 nnoremap <silent> <expr> j (v:count == 0 ? 'gj': 'j')
 nnoremap <silent> <expr> k (v:count == 0 ? 'gk': 'k')
@@ -17,9 +23,9 @@ nnoremap <S-k> <C-u>
 nnoremap <C-j> j<C-e>
 nnoremap <C-k> k<C-y>
 
-nnoremap <Leader>fa :action ReformatCode<CR>
-nnoremap <Leader>t :action FileStructurePopup<CR>
-nnoremap <Leader>n :action ActivateProjectToolWindow<CR>
+nmap <Leader>fa <Action>(ReformatCode)
+nmap <Leader>t <Action>(FileStructurePopup)
+nmap <Leader>n :NERDTree<CR>
 
 inoremap jk <Esc>
 inoremap <C-j> :action Down<CR>

@@ -1,7 +1,7 @@
 return {
     {
         "hrsh7th/nvim-cmp",
-        event = "VeryLazy",
+        event = { "InsertEnter", "CmdlineEnter" },
         dependencies = {
             { "hrsh7th/cmp-nvim-lsp" },
             { "hrsh7th/cmp-buffer" },
@@ -31,16 +31,9 @@ return {
         config = function()
             local cmp = require("cmp")
 
-            local function has_words_before()
-                if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
-                    return false
-                end
-                local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-                return col ~= 0 and
-                    vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-            end
 
             cmp.setup({
+                preselect = cmp.PreselectMode.None,
                 snippet = {
                     expand = function(args)
                         require("luasnip").lsp_expand(args.body)
@@ -55,6 +48,15 @@ return {
                     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-f>"] = cmp.mapping.scroll_docs(4),
                     ["<Tab>"] = cmp.mapping(function(fallback)
+                        local function has_words_before()
+                            if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
+                                return false
+                            end
+                            local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+                            return col ~= 0 and
+                                vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+                        end
+
                         if cmp.visible() then
                             cmp.select_next_item()
                         elseif require("luasnip").expand_or_jumpable() then

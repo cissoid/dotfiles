@@ -34,7 +34,8 @@ return {
                 component_separators = { left = "", right = "" },
                 section_separators = { left = "", right = "" },
                 always_divide_middle = true,
-                globalstatus = false,
+                globalstatus = true,
+                ignore_focus = { "NvimTree", "Outline", "Trouble" },
             },
             sections = {
                 lualine_a = {
@@ -61,6 +62,15 @@ return {
                     },
                 },
                 lualine_x = {
+                    {
+                        function()
+                            local reg = vim.fn.reg_recording()
+                            if reg ~= "" then
+                                return "[@" .. reg .. "]"
+                            end
+                            return ""
+                        end,
+                    },
                     "filetype",
                     {
                         -- treesitter
@@ -74,45 +84,26 @@ return {
                         color = function()
                             local utils = require("lualine.utils.utils")
                             return {
-                                fg = utils.extract_color_from_hllist('fg', { "GreenSign" }, "")
+                                fg = utils.extract_color_from_hllist('fg', { "Green" }, "")
                             }
                         end,
                     },
                     {
-                        function(msg)
-                            msg = msg or "LS Inactive"
+                        function()
                             local buf_clients = vim.lsp.buf_get_clients()
-                            if next(buf_clients) == nil then
-                                -- TODO: clean up this if statement
-                                if type(msg) == "boolean" or #msg == 0 then
-                                    return "LS Inactive"
-                                end
-                                return msg
-                            end
-                            local buf_ft = vim.bo.filetype
-                            local buf_client_names = {}
-
-                            -- add client
                             for _, client in pairs(buf_clients) do
                                 if client.name ~= "null-ls" then
-                                    table.insert(buf_client_names, client.name)
+                                    return ""
                                 end
                             end
-
-                            -- add formatter
-                            -- local formatters = require "lvim.lsp.null-ls.formatters"
-                            -- local supported_formatters = formatters.list_registered(buf_ft)
-                            -- vim.list_extend(buf_client_names, supported_formatters)
-
-                            -- add linter
-                            -- local linters = require "lvim.lsp.null-ls.linters"
-                            -- local supported_linters = linters.list_registered(buf_ft)
-                            -- vim.list_extend(buf_client_names, supported_linters)
-
-                            local unique_client_names = vim.fn.uniq(buf_client_names)
-                            return "[" .. table.concat(unique_client_names, ", ") .. "]"
+                            return ""
                         end,
-                        color = { gui = "bold" },
+                        color = function()
+                            local utils = require("lualine.utils.utils")
+                            return {
+                                fg = utils.extract_color_from_hllist('fg', { "BlueSign" }, "")
+                            }
+                        end,
                     },
                 },
                 lualine_y = { "encoding", "fileformat" },
@@ -140,6 +131,7 @@ return {
                 "quickfix",
                 "symbols-outline",
                 "trouble",
+                "aerial",
             }
         },
     },
@@ -221,7 +213,7 @@ return {
             },
             renderer = {
                 indent_markers = {
-                    enable = true,
+                    -- enable = true,
                 }
             },
             on_attach = function(bufnr)
@@ -244,6 +236,7 @@ return {
 
     {
         "simrat39/symbols-outline.nvim",
+        enabled = false,
         event = "LspAttach",
         keys = { { "<Leader>t", "<Cmd>SymbolsOutline<CR>", silent = true, desc = "symbols outline toggle" } },
         opts = {
@@ -254,6 +247,35 @@ return {
             require("symbols-outline").setup(opts)
             vim.cmd("highlight! link FocusedSymbol BlueItalic")
         end
+    },
+
+    {
+        "stevearc/aerial.nvim",
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-tree/nvim-web-devicons",
+        },
+        keys = {
+            { "<Leader>t", "<Cmd>AerialToggle!<CR>", silent = true, desc = "symbols outline toggle" },
+        },
+        opts = {
+            layout = {
+                width = 0.15,
+                default_direction = "right",
+                placement = "edge",
+                attach_mode = "global",
+            },
+            nav = {
+                preview = true,
+            },
+            treesitter = {
+                experimental_selection_range = true,
+            },
+        },
+        config = function(_, opts)
+            require("aerial").setup(opts)
+            vim.cmd("highlight! link AerialLine BlueItalic")
+        end,
     },
 
     {
@@ -322,7 +344,6 @@ return {
 
     {
         "folke/noice.nvim",
-        enabled = false,
         dependencies = {
             { "MunifTanjim/nui.nvim" },
             { "rcarriga/nvim-notify" },
@@ -331,55 +352,86 @@ return {
         opts = {
             cmdline = {
                 view = "cmdline",
+                format = {
+                    search_down = { icon = "/" },
+                    search_up = { icon = "%" },
+                },
             },
             messages = {
-                enabled = false,
-                view_search = false,
+                -- enabled = false,
+                -- view_search = false,
             },
             popupmenu = {
                 enabled = false,
-            },
-            notify = {
-                enabled = false,
+                backend = "cmp",
             },
             lsp = {
                 progress = {
-                    enabled = false,
+                    enabled = true,
+                    format = {
+                        { "{spinner} ",              hl_group = "NoiceLspProgressSpinner" },
+                        { "{data.progress.title} ",  hl_group = "NoiceLspProgressTitle" },
+                        { "{data.progress.client} ", hl_group = "NoiceLspProgressClient" },
+                    },
                 },
                 override = {
                     ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
                     ["vim.lsp.util.stylize_markdown"] = true,
                     ["cmp.entry.get_documentation"] = true,
                 },
+                hover = {
+                    enabled = true,
+                },
                 signature = {
                     enabled = false,
                 },
                 message = {
-                    enabled = false,
+                    enabled = true,
                 }
-            },
-            health = {
-                checker = false,
             },
             presets = {
                 bottom_search = true,
+                lsp_doc_border = true,
                 -- command_palette = true,
                 long_message_to_split = true,
                 -- inc_rename = false,
-                lsp_doc_border = true,
+                -- cmdline_output_to_split = true,
             },
             routes = {
                 {
                     filter = {
-                        event = "msg_show",
-                        kind = "",
-                        find = "written",
+                        any = {
+                            {
+                                event = "msg_show",
+                                kind = "",
+                                find = "written",
+                            },
+                            {
+                                event = "lsp",
+                                kind = "progress",
+                                find = "code_action",
+                            },
+                            {
+                                -- recording
+                                event = "msg_showmode",
+                            },
+                            {
+                                event = "msg_show",
+                                kind = "emsg",
+                                find = "Pattern not found",
+                            },
+                            {
+                                event = "msg_show",
+                                kind = "emsg",
+                                find = "No fold found",
+                            }
+                        }
                     },
                     opts = {
-                        skip = true
-                    }
-                }
-            }
+                        skip = true,
+                    },
+                },
+            },
         },
     },
 
@@ -434,8 +486,15 @@ return {
 
     {
         "lukas-reineke/indent-blankline.nvim",
+        main = "ibl",
         event = "VeryLazy",
-        opts = { show_current_context = true },
+        opts = function()
+            local opt = {}
+            if vim.g.neovide ~= nil then
+                opt.indent = { char = "┊" }
+            end
+            return opt
+        end,
     },
 
     {

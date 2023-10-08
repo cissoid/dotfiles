@@ -1,12 +1,26 @@
 if status is-interactive
     # vi + emacs hybrid mode
     function fish_user_key_bindings
-        for mode in default insert visual
-            fish_default_key_bindings -M $mode
-        end
-        fish_vi_key_bindings --no-erase
+        fish_hybrid_key_bindings
         bind -M insert jk "if commandline -P; commandline -f cancel; else; set fish_bind_mode default; commandline -f backward-char force-repaint; end"
     end
+
+    # add homebrew bin
+    begin
+        set -l system "$(uname -s)"
+        set -l arch "$(uname -m)"
+        if test "$system" = "Darwin"
+            if test "$arch" = "arm64"
+                fish_add_path --prepend /opt/homebrew/bin
+            end
+        else if test "$system" = "Linux"
+            fish_add_path --prepend /home/linuxbrew/.linuxbrew/bin
+        end
+    end
+    if test -e "$(brew --prefix)/opt/coreutils/libexec/gnubin"
+        fish_add_path --prepend "$(brew --prefix)/opt/coreutils/libexec/gnubin"
+    end
+    fish_add_path --prepend $HOME/.local/bin
 
     # environment variables
     set -gx LC_ALL en_US.UTF-8
@@ -15,7 +29,6 @@ if status is-interactive
     if type -q nvim
         set -gx EDITOR nvim
     end
-    fish_add_path -P $HOME/.local/bin
 
     # aliases
 
