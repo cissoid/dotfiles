@@ -36,7 +36,7 @@ patch:
     inline_preedit: true # 单行显示，false双行显示
     label_color: 0x999999 # 预选栏编号颜色
     candidate_format: "%c\u2005%@" # 用 1/6 em 空格 U+2005 来控制编号 %c 和候选词 %@ 前后的空间。
-    font_face: "PingFangSC" # 候选词编号字体
+    font_face: "PingFang SC,HanaMinA,HanaMinB" # 候选词编号字体
     font_point: 17 # 候选文字大小
     label_font_point: 13 # 候选编号大小
     corner_radius: 5 # 候选条圆角
@@ -63,7 +63,7 @@ patch:
     inline_preedit: true # 单行显示，false双行显示
     label_color: 0x999999 # 预选栏编号颜色
     candidate_format: "%c\u2005%@" # 用 1/6 em 空格 U+2005 来控制编号 %c 和候选词 %@ 前后的空间。
-    font_face: "PingFangSC" # 候选词编号字体
+    font_face: "PingFang SC,HanaMinA,HanaMinB" # 候选词编号字体
     font_point: 17 # 候选文字大小
     label_font_point: 13 # 候选编号大小
     corner_radius: 5 # 候选条圆角
