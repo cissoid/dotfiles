@@ -17,3 +17,6 @@ extend-ignore = [
 ]
 
 line-length = 120
+
+[pylint]
+max-statements = 120
