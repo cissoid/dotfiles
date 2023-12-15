@@ -84,8 +84,8 @@ load-plugins=
     pylint.extensions.broad_try_clause,
     pylint.extensions.docparams,
     pylint.extensions.mccabe,
-    pylint.extensions.emptystring,
-    pylint.extensions.comparetozero,
+    # pylint.extensions.emptystring,
+    # pylint.extensions.comparetozero,
     pylint.extensions.confusing_elif,
     pylint.extensions.for_any_all,
     pylint.extensions.redefined_loop_name,
@@ -182,6 +182,7 @@ disable=raw-checker-failed,
         missing-function-docstring,
         useless-object-inheritance,
         too-many-arguments,
+        while-used,
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
