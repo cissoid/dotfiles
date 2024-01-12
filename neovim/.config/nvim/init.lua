@@ -21,7 +21,7 @@ do
         clipboard = { "unnamedplus" },
         shortmess="filnxtToOCFmrsc",
         ---------------- COLOR ----------------
-        synmaxcol = 0,
+        -- synmaxcol = 0,
         termguicolors = true, -- enable true color for terminal.
         background = "dark",  -- tell vim we prefer dark background
         ---------------- UI ----------------
