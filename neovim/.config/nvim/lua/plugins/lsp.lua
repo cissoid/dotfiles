@@ -224,9 +224,8 @@ return {
                 end,
                 sources = {
                     -- common
-                    null_ls.builtins.code_actions.cspell,
+                    -- null_ls.builtins.code_actions.cspell,
                     null_ls.builtins.code_actions.refactoring,
-                    null_ls.builtins.code_actions.shellcheck,
                     -- python
                     null_ls.builtins.diagnostics.ruff.with({
                         extra_args = { "--config", "~/.config/ruff.toml" },
@@ -249,10 +248,11 @@ return {
                     -- null_ls.builtins.formatting.stylua,
                     -- protobuf
                     null_ls.builtins.diagnostics.buf,
-                    null_ls.builtins.diagnostics.protoc_gen_lint,
                     null_ls.builtins.diagnostics.protolint,
                     -- sql
-                    null_ls.builtins.diagnostics.sqlfluff,
+                    -- null_ls.builtins.diagnostics.sqlfluff.with({ extra_args = { "--dialect", "mysql" } }),
+                    -- null_ls.builtins.formatting.sql_formatter,
+                    null_ls.builtins.formatting.sqlfmt,
                     -- json
                     null_ls.builtins.formatting.prettier,
                     -- fish
