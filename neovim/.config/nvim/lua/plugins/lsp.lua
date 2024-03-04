@@ -111,6 +111,18 @@ return {
                         )
                     end,
 
+                    ruff_lsp = function()
+                        require("lspconfig").ruff_lsp.setup(
+                            lsp_config({
+                                init_options = {
+                                    settings = {
+                                        args = { "--config", vim.fn.expand("~/.config/ruff.toml") }
+                                    }
+                                }
+                            })
+                        )
+                    end,
+
                     gopls = function()
                         require("lspconfig").gopls.setup(
                             lsp_config({
@@ -215,6 +227,9 @@ return {
 
     {
         "nvimtools/none-ls.nvim",
+        dependencies = {
+            "nvimtools/none-ls-extras.nvim",
+        },
         event = "VeryLazy",
         config = function()
             local null_ls = require("null-ls")
@@ -227,10 +242,13 @@ return {
                     -- null_ls.builtins.code_actions.cspell,
                     null_ls.builtins.code_actions.refactoring,
                     -- python
-                    null_ls.builtins.diagnostics.ruff.with({
-                        extra_args = { "--config", "~/.config/ruff.toml" },
-                    }),
-                    null_ls.builtins.diagnostics.flake8.with({
+                    -- null_ls.builtins.diagnostics.ruff.with({
+                    --     extra_args = { "--config", "~/.config/ruff.toml" },
+                    -- }),
+                    -- null_ls.builtins.diagnostics.flake8.with({
+                    --     extra_args = { "--config", "~/.config/flake8" },
+                    -- }),
+                    require("none-ls.diagnostics.flake8").with({
                         extra_args = { "--config", "~/.config/flake8" },
                     }),
                     null_ls.builtins.diagnostics.pylint,
