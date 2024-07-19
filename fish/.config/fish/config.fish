@@ -37,8 +37,8 @@ if status is-interactive
         source "$(brew --prefix)/etc/grc.fish"
     end
 
-    if type -q exa
-        alias ls="exa --group"
+    if type -q eza
+        alias ls="eza --group"
     end
     alias ll="ls -l"
     alias cp="cp -i"
