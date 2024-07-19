@@ -1,3 +1,6 @@
-multigrid = true
-idle = false
+fork = true
+# multigrid = true
+# idle = false
 frame = "buttonless"
+maximized = true
+vsync = false

@@ -30,6 +30,16 @@ return {
         event = { "BufReadPre", "BufNewFile" },
         config = function()
             local function lsp_on_attach(client, bufnr)
+                if client.name == "ruff_lsp" then
+                    client.server_capabilities.documentFormattingProvider = false
+                    client.server_capabilities.documentRangeFormattingProvider = false
+                    client.server_capabilities.hoverProvider = false
+                end
+                if client.name == "sqls" then
+                    client.server_capabilities.documentFormattingProvider = false
+                    client.server_capabilities.documentRangeFormattingProvider = false
+                end
+
                 vim.keymap.set("n", "<Leader>g<Space>", vim.lsp.buf.definition, { silent = true, buffer = bufnr })
                 -- vim.keymap.set("n", "<Leader>gr", require("telescope").lsp_references, { silent = true, buffer = bufnr })
                 vim.keymap.set("n", "<Leader>fa", function() vim.lsp.buf.format({ async = true }) end,
@@ -90,7 +100,7 @@ return {
                     end,
 
                     clangd = function()
-                        require("lspconfig").clangd.setup(lsp_config({}, true))
+                        require("lspconfig").clangd.setup(lsp_config({ filetypes = { "c", "cpp" } }, true))
                     end,
 
                     pyright = function()
@@ -265,12 +275,13 @@ return {
                     -- lua
                     -- null_ls.builtins.formatting.stylua,
                     -- protobuf
+                    null_ls.builtins.formatting.buf,
                     null_ls.builtins.diagnostics.buf,
                     null_ls.builtins.diagnostics.protolint,
                     -- sql
-                    -- null_ls.builtins.diagnostics.sqlfluff.with({ extra_args = { "--dialect", "mysql" } }),
-                    -- null_ls.builtins.formatting.sql_formatter,
-                    null_ls.builtins.formatting.sqlfmt,
+                    null_ls.builtins.formatting.sqlfluff,
+                    null_ls.builtins.diagnostics.sqlfluff,
+                    -- null_ls.builtins.formatting.sqlfmt,
                     -- json
                     null_ls.builtins.formatting.prettier,
                     -- fish

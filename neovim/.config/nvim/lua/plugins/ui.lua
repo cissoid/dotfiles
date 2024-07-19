@@ -144,16 +144,9 @@ return {
             options = {
                 -- separator_style = "thick",
                 offsets = {
-                    {
-                        filetype = "NvimTree",
-                        text = "",
-                        -- highlight = "Directory",
-                        -- text_align = "left",
-                    },
-                    {
-                        filetype = "Outline",
-                        text = "",
-                    }
+                    { filetype = "NvimTree", text = "" },
+                    { filetype = "Outline",  text = "" },
+                    { filetype = "aerial",   text = "" },
                 }
             }
         },
@@ -235,21 +228,6 @@ return {
     },
 
     {
-        "simrat39/symbols-outline.nvim",
-        enabled = false,
-        event = "LspAttach",
-        keys = { { "<Leader>t", "<Cmd>SymbolsOutline<CR>", silent = true, desc = "symbols outline toggle" } },
-        opts = {
-            width = 15,
-            symbol_blacklist = { "Variable", "Constant", "String", "Number", "Boolean" },
-        },
-        config = function(_, opts)
-            require("symbols-outline").setup(opts)
-            vim.cmd("highlight! link FocusedSymbol BlueItalic")
-        end
-    },
-
-    {
         "stevearc/aerial.nvim",
         dependencies = {
             "nvim-treesitter/nvim-treesitter",
@@ -296,7 +274,7 @@ return {
                                 return
                             end
                             local current_file = vim.api.nvim_buf_get_name(0)
-                            vim.cmd("TroubleToggle todo cwd=" .. current_file)
+                            vim.cmd("Trouble todo toggle cwd=" .. current_file)
                             vim.cmd("cclose")
                             vim.cmd("lclose")
                         end,
@@ -311,7 +289,7 @@ return {
             {
                 "<Leader>ss",
                 function()
-                    vim.cmd("TroubleToggle document_diagnostics")
+                    vim.cmd("Trouble diagnostics toggle filter.buf=0")
                     vim.cmd("cclose")
                     vim.cmd("lclose")
                 end,
@@ -452,22 +430,6 @@ return {
     },
 
     {
-        "folke/zen-mode.nvim",
-        dependencies = {
-            {
-                "folke/twilight.nvim",
-                opts = {},
-            },
-        },
-        cmd = "ZenMode",
-        opts = {
-            window = {
-                width = 150,
-            }
-        },
-    },
-
-    {
         "akinsho/toggleterm.nvim",
         keys = {
             { "<C-t>", "<Cmd>ToggleTerm<CR>", mode = { "n", "t" }, silent = true, desc = "ToggleTerm" },
@@ -504,7 +466,6 @@ return {
         -- event = { "BufReadPost", "BufNewFile" },
         config = true,
     },
-
 
     {
         "stevearc/dressing.nvim",

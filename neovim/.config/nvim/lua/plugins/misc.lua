@@ -6,7 +6,12 @@ return {
             "nvim-treesitter/nvim-treesitter",
         },
         cmd = "Neogen",
-        config = true,
+        opts = {
+            ---
+            languages = {
+                python = { template = { annotation_convention = "reST" } }
+            }
+        },
     },
 
     {
@@ -14,25 +19,6 @@ return {
         ft = "markdown",
         cmd = "Glow",
         config = true,
-    },
-
-    {
-        "toppair/peek.nvim",
-        enabled = false,
-        build = "deno task --quiet build:fast",
-        cmd = "PeekToggle",
-        config = function()
-            require("peek").setup({})
-
-            vim.api.nvim_create_user_command("PeekToggle", function()
-                local peek = require("peek")
-                if peek.is_open() then
-                    peek.close()
-                else
-                    peek.open()
-                end
-            end, {})
-        end,
     },
 
     {

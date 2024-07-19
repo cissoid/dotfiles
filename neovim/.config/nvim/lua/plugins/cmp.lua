@@ -31,7 +31,6 @@ return {
         config = function()
             local cmp = require("cmp")
 
-
             cmp.setup({
                 preselect = cmp.PreselectMode.None,
                 snippet = {
@@ -79,6 +78,7 @@ return {
                     ["<CR>"] = cmp.mapping.confirm({ select = true }),
                 }),
                 formatting = {
+                    fields = { cmp.ItemField.Kind, cmp.ItemField.Abbr, cmp.ItemField.Menu },
                     format = function(entry, vim_item)
                         if vim.tbl_contains({ "path" }, entry.source.name) then
                             local icon, hl_group = require("nvim-web-devicons").get_icons(entry:
@@ -91,15 +91,15 @@ return {
                         end
                         return require("lspkind").cmp_format({
                             mode = "symbol",
+                            symbol_map = { Copilot = "" },
                             menu = {
-                                buffer = "[Buffer]",
+                                buffer = "[Buf]",
                                 nvim_lsp = "[LSP]",
-                                luasnip = "[LuaSnip]",
+                                luasnip = "[Snip]",
                                 nvim_lua = "[Lua]",
-                                latex_symbols = "[Latex]",
+                                latex_symbols = "[LaTeX]",
                                 copilot = "[Copilot]",
                             },
-                            symbol_map = { Copilot = "" },
                         })(entry, vim_item)
                     end,
                 },
@@ -109,14 +109,15 @@ return {
                     { name = "luasnip" },
                     {
                         name = "buffer",
-                        options = {
+                        option = {
                             get_bufnrs = function()
                                 return vim.api.nvim_list_bufs()
                             end
                         },
                     },
                     { name = "nvim_lsp_signature_help" },
-                    -- { name = "path" },
+                    { name = "path" },
+                    { name = "nvim_lua" },
                 }),
                 experimental = {
                     ghost_text = true,
@@ -127,7 +128,7 @@ return {
                 mapping = cmp.mapping.preset.cmdline(),
                 sources = {
                     { name = "cmdline" },
-                    -- { name = "path" },
+                    { name = "path" },
                 },
             })
 

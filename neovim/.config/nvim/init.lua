@@ -10,7 +10,7 @@ do
         compatible = false,
         encoding = "utf-8",
         fileencodings = "ucs-bom,utf-8,utf-16,gbk,default,latin1",
-        updatetime = 1000, -- CursorHold delay
+        updatetime = 1000,  -- CursorHold delay
         errorbells = false, -- ignore error bells
         visualbell = false,
         -- backspace = "indent,eol,start", -- macOS seems don't have own backspace setting.
@@ -19,7 +19,7 @@ do
         completeopt = "menu,menuone,noselect",
         hidden = true,
         clipboard = { "unnamedplus" },
-        shortmess="filnxtToOCFmrsc",
+        shortmess = "filnxtToOCFmrsc",
         ---------------- COLOR ----------------
         -- synmaxcol = 0,
         termguicolors = true, -- enable true color for terminal.
@@ -90,11 +90,11 @@ do
     -- vim.api.nvim_add_user_command("SudoW", ":w !sudo tee % >/dev/null")
     -- }}}
 
-    --- {{{ AutoCmd
-    vim.api.nvim_create_augroup("RememberFold", {})
-    vim.api.nvim_create_autocmd("BufWinLeave", { group = "RememberFold", pattern = "*.*", command = "mkview" })
-    vim.api.nvim_create_autocmd("BufWinEnter", { group = "RememberFold", pattern = "*.*", command = "silent! loadview" })
-    --}}}
+    -- {{{ AutoCmd
+    -- vim.api.nvim_create_augroup("AutoView", {})
+    -- vim.api.nvim_create_autocmd("BufWinLeave", { group = "AutoView", pattern = "*.*", command = "mkview!" })
+    -- vim.api.nvim_create_autocmd("BufWinEnter", { group = "AutoView", pattern = "*.*", command = "silent! loadview" })
+    -- }}}
 end
 -- }}}
 
@@ -147,24 +147,6 @@ require("lazy").setup(
 )
 -- }}}
 
--- Neovide GUI {{{
-do
-    if vim.g.neovide ~= nil then
-        vim.opt.guifont = "Monaco,Symbols Nerd Font Mono:h14"
-        vim.g.neovide_remember_window_size = true
-        vim.g.neovide_input_macos_alt_is_meta = true
-
-        vim.g.neovide_input_use_logo = 1
-        vim.api.nvim_set_keymap("", "<D-c>", "+y<CR>", { noremap = true, silent = true })
-        vim.api.nvim_set_keymap("!", "<D-c>", "+y<CR>", { noremap = true, silent = true })
-        vim.api.nvim_set_keymap("v", "<D-c>", "+y<CR>", { noremap = true, silent = true })
-        vim.api.nvim_set_keymap("t", "<D-c>", "+y<CR>", { noremap = true, silent = true })
-        vim.api.nvim_set_keymap("", "<D-v>", "+p<CR>", { noremap = true, silent = true })
-        vim.api.nvim_set_keymap("!", "<D-v>", "<C-R>+", { noremap = true, silent = true })
-        vim.api.nvim_set_keymap("t", "<D-v>", "<C-R>+", { noremap = true, silent = true })
-        vim.api.nvim_set_keymap("v", "<D-v>", "<C-R>+", { noremap = true, silent = true })
-    end
-end
--- }}}
+require("editor.neovide")
 
 -- vim: foldmethod=marker foldlevel=0
