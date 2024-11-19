@@ -43,7 +43,7 @@ return {
                     documentation = cmp.config.window.bordered(),
                 },
                 mapping = cmp.mapping.preset.insert({
-                    ["<Leader>g<Space>"] = cmp.mapping.complete(),
+                    [(vim.g.mapleader or "\\") .. "g<Space>"] = cmp.mapping.complete(),
                     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-f>"] = cmp.mapping.scroll_docs(4),
                     ["<Tab>"] = cmp.mapping(function(fallback)
