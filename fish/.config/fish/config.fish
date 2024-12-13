@@ -73,9 +73,9 @@ if status is-interactive
     end
 
     # mise
-    if not set -q MISE_SHELL && type -q mise
-        mise activate fish | source
-    end
+    # if not set -q MISE_SHELL type -q mise
+    #     mise activate fish | source
+    # end
 
     # fzf configuration
     if type -q fzf_configure_bindings
