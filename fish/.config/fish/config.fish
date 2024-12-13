@@ -5,8 +5,10 @@ if status is-interactive
         bind -M insert jk "if commandline -P; commandline -f cancel; else; set fish_bind_mode default; commandline -f backward-char force-repaint; end"
     end
 
-    # add homebrew bin
-    begin
+    # PATH
+    if not set -q FISH_PATH_LOADED
+        set -gx FISH_PATH_LOADED 1
+
         set -l system "$(uname -s)"
         set -l arch "$(uname -m)"
         if test "$system" = "Darwin"
@@ -16,11 +18,11 @@ if status is-interactive
         else if test "$system" = "Linux"
             fish_add_path --prepend /home/linuxbrew/.linuxbrew/bin
         end
+        if test -e "$(brew --prefix)/opt/coreutils/libexec/gnubin"
+            fish_add_path --prepend "$(brew --prefix)/opt/coreutils/libexec/gnubin"
+        end
+        fish_add_path --prepend $HOME/.local/bin
     end
-    if test -e "$(brew --prefix)/opt/coreutils/libexec/gnubin"
-        fish_add_path --prepend "$(brew --prefix)/opt/coreutils/libexec/gnubin"
-    end
-    fish_add_path --prepend $HOME/.local/bin
 
     # environment variables
     set -gx LC_ALL en_US.UTF-8
@@ -68,6 +70,11 @@ if status is-interactive
     # asdf hook
     if not set -q ASDF_DIR && type -q brew && set -l asdf "$(brew --prefix)/opt/asdf/libexec/asdf.fish" && test -e $asdf
         source $asdf
+    end
+
+    # mise
+    if not set -q MISE_SHELL && type -q mise
+        mise activate fish | source
     end
 
     # fzf configuration
