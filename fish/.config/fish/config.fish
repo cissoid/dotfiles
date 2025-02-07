@@ -71,6 +71,9 @@ if status is-interactive
     if not set -q ASDF_DIR && type -q brew && set -l asdf "$(brew --prefix)/opt/asdf/libexec/asdf.fish" && test -e $asdf
         source $asdf
     end
+    if not contains "$HOME/.asdf/shims" $PATH
+        set -gx --prepend PATH "$HOME/.asdf/shims"
+    end
 
     # mise
     # if not set -q MISE_SHELL type -q mise
