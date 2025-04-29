@@ -1,6 +1,6 @@
 fork = true
-# multigrid = true
 # idle = false
 frame = "buttonless"
 maximized = true
-vsync = false
+# vsync = false
+srgb = true

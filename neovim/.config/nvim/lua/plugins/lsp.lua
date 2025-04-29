@@ -30,7 +30,7 @@ return {
         event = { "BufReadPre", "BufNewFile" },
         config = function()
             local function lsp_on_attach(client, bufnr)
-                if client.name == "ruff_lsp" then
+                if client.name == "ruff-lsp" then
                     client.server_capabilities.documentFormattingProvider = false
                     client.server_capabilities.documentRangeFormattingProvider = false
                     client.server_capabilities.hoverProvider = false
@@ -121,17 +121,17 @@ return {
                         )
                     end,
 
-                    ruff_lsp = function()
-                        require("lspconfig").ruff_lsp.setup(
-                            lsp_config({
-                                init_options = {
-                                    settings = {
-                                        args = { "--config", vim.fn.expand("~/.config/ruff.toml") }
-                                    }
-                                }
-                            })
-                        )
-                    end,
+                    -- ["ruff_lsp"] = function()
+                    --     require("lspconfig").ruff_lsp.setup(
+                    --         lsp_config({
+                    --             init_options = {
+                    --                 settings = {
+                    --                     args = { "--config", vim.fn.expand("~/.config/ruff.toml") }
+                    --                 }
+                    --             }
+                    --         })
+                    --     )
+                    -- end,
 
                     gopls = function()
                         require("lspconfig").gopls.setup(
