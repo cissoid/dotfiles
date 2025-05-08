@@ -121,6 +121,20 @@ return {
                         )
                     end,
 
+                    basedpyright = function()
+                        require("lspconfig").basedpyright.setup({
+                            lsp_config({
+                                settings = {
+                                    basedpyright = {
+                                        analysis = {
+                                            diagnosticMode = "openFilesOnly"
+                                        }
+                                    }
+                                }
+                            })
+                        })
+                    end,
+
                     -- ["ruff_lsp"] = function()
                     --     require("lspconfig").ruff_lsp.setup(
                     --         lsp_config({
