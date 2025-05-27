@@ -1,8 +1,164 @@
 return {
     {
         "neovim/nvim-lspconfig",
-        event = "VeryLazy",
+        event = { "BufReadPre", "BufNewFile" },
+        dependencies = {
+            "williamboman/mason.nvim",
+            "hrsh7th/cmp-nvim-lsp",
+            "RRethy/vim-illuminate",
+            "nanotee/nvim-lsp-basics",
+        },
         config = function()
+            local function lsp_on_attach(client, bufnr)
+                if client.name == "ruff-lsp" then
+                    client.server_capabilities.documentFormattingProvider = false
+                    client.server_capabilities.documentRangeFormattingProvider = false
+                    client.server_capabilities.hoverProvider = false
+                end
+                if client.name == "sqls" then
+                    client.server_capabilities.documentFormattingProvider = false
+                    client.server_capabilities.documentRangeFormattingProvider = false
+                end
+
+                vim.keymap.set("n", "<Leader>g<Space>", vim.lsp.buf.definition, { silent = true, buffer = bufnr })
+                -- vim.keymap.set("n", "<Leader>gr", require("telescope").lsp_references, { silent = true, buffer = bufnr })
+                vim.keymap.set("n", "<Leader>fa", function() vim.lsp.buf.format({ async = true }) end,
+                    { silent = true, buffer = bufnr })
+                vim.keymap.set("n", "K", vim.lsp.buf.hover, { silent = true, buffer = bufnr })
+
+                vim.api.nvim_create_autocmd({ "CursorHold" }, {
+                    group = vim.api.nvim_create_augroup(string.format("lsp_autohold_buffer_%d", bufnr), {}),
+                    buffer = bufnr,
+                    desc = "lsp hover cursorhold",
+                    callback = function()
+                        -- vim.lsp.buf.hover({ focusable = false })
+                        vim.diagnostic.open_float({
+                            severity_sort = true,
+                            format = function(diag)
+                                local msg = diag.source
+                                if diag.code then
+                                    msg = msg .. "(" .. diag.code .. ")"
+                                end
+                                msg = msg .. ": " .. diag.message
+                                return msg
+                            end
+                        })
+                    end,
+                })
+
+                require("illuminate").on_attach(client)
+                require("lsp_basics").make_lsp_commands(client, bufnr)
+            end
+
+            local function lsp_config(custom, override_encoding)
+                local settings = {
+                    on_attach = lsp_on_attach,
+                    flags = {
+                        debounce_text_changes = 150,
+                    },
+                    capabilities = require("cmp_nvim_lsp").default_capabilities(),
+                    handlers = {
+                        ["textDocument/publishDiagnostics"] = vim.lsp.with(
+                            vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
+                        )
+                    },
+                }
+                if override_encoding ~= nil then
+                    settings.capabilities.offsetEncoding = { "utf-16" }
+                end
+                for k, v in pairs(custom) do
+                    settings[k] = v
+                end
+                return settings
+            end
+
+
+            vim.lsp.config("*", lsp_config({}))
+            vim.lsp.config.clangd = lsp_config({ filetypes = { "c", "cpp" } }, true)
+            vim.lsp.config.pyright = lsp_config({
+                settings = {
+                    pyright = {
+
+                    },
+                    python = {
+                        analysis = {
+                            diagnosticMode = "openFilesOnly",
+                            typeCheckingMode = "off",
+                        },
+                    },
+                }
+            })
+            vim.lsp.config.gopls = lsp_config({
+                settings = {
+                    gopls = {
+                        gofumpt = true,
+                        analyses = {
+                            fieldalignment = true,
+                            nilness = true,
+                            shadow = true,
+                            unusedparams = true,
+                            unusedwrite = true,
+                            useany = true,
+                            unusedvariable = true,
+                        },
+                        staticcheck = true,
+                        hints = {
+                            assignVariableTypes = true,
+                            compositeLiteralFields = true,
+                            compositeLiteralTypes = true,
+                            constantValues = true,
+                            functionTypeParameters = true,
+                            parameterNames = true,
+                            rangeVariableTypes = true,
+                        },
+                    }
+                }
+            })
+            vim.lsp.config.lua_ls = lsp_config({
+                settings = {
+                    Lua = {
+                        runtime = {
+                            version = "LuaJIT",
+                        },
+                        completion = {
+                            callSnippet = "Replace",
+                            -- displayContext = 10,
+                        },
+                        format = {
+                            defaultConfig = {
+                                indent_style = "space",
+                                quote_style = "double",
+                                enable_check_codestyle = true,
+                            }
+                        },
+                        diagnostics = {
+                            disable = {},
+                            globals = { "vim" },
+                        },
+                        workspace = {
+                            -- library = vim.api.nvim_get_runtime_file("", true),
+                        },
+                        telemetry = {
+                            enable = false,
+                        },
+                    },
+                },
+            })
+            vim.lsp.config.yamlls = lsp_config({
+                settings = {
+                    yaml = {
+                        format = {
+                            enable = true,
+                        },
+                        validate = true,
+                        hover = true,
+                        completion = true
+                    }
+                }
+            })
+
+            vim.lsp.enable({ "lua_ls", "pyright", "marksman" })
+
             -- global lsp diagnostic config
             vim.diagnostic.config({
                 virtual_text = false,
@@ -20,6 +176,7 @@ return {
 
     {
         "williamboman/mason-lspconfig.nvim",
+        enabled = false,
         dependencies = {
             "neovim/nvim-lspconfig",
             "williamboman/mason.nvim",
@@ -93,7 +250,7 @@ return {
             end
 
             require("mason-lspconfig").setup({
-                automatic_installation = true,
+                -- automatic_installation = true,
                 handlers = {
                     function(server_name)
                         require("lspconfig")[server_name].setup(lsp_config({}))
@@ -305,17 +462,6 @@ return {
         end,
     },
 
-    -- {
-    --     "jay-babu/mason-null-ls.nvim",
-    --     event = "VeryLazy",
-    --     dependencies = {
-    --         { "williamboman/mason.nvim" },
-    --         { "jose-elias-alvarez/null-ls.nvim" },
-    --     },
-    --     opts = {
-    --         automatic_installation = false,
-    --     },
-    -- },
 
     {
         "kosayoda/nvim-lightbulb",
