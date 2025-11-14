@@ -120,6 +120,7 @@ require("lazy").setup(
         { import = "plugins.telescope" },
         { import = "plugins.lsp" },
         { import = "plugins.cmp" },
+        { import = "plugins.ai" },
         { import = "plugins.git" },
         { import = "plugins.dap" },
         { import = "plugins.misc" },

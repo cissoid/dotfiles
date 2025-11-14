@@ -157,7 +157,7 @@ return {
                 }
             })
 
-            vim.lsp.enable({ "lua_ls", "pyright", "marksman" })
+            vim.lsp.enable({ "lua_ls", "pyright", "marksman", "gopls", "sqls", "json-lsp", "taplo"})
 
             -- global lsp diagnostic config
             vim.diagnostic.config({
@@ -495,8 +495,8 @@ return {
                 enable = false,
             },
             symbol_in_winbar = {
-                enable = false
-            }
+                enable = false,
+            },
         },
     },
 }

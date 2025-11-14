@@ -6,6 +6,7 @@ return {
 
     {
         "TimUntersberger/neogit",
+        enable=false,
         dependencies = {
             "nvim-lua/plenary.nvim"
         },
